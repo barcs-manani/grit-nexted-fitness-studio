@@ -11,8 +11,8 @@ body,
 }
 
 html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 16px;
+  scroll-behavior: smooth;
+  scroll-padding-top: 16px;
 }
 
 @theme {
@@ -38,6 +38,7 @@ html {
 }
 
 @layer base {
+
   /* Reset */
   *,
   *::before,
@@ -77,5 +78,17 @@ html {
     outline: 3px solid var(--blue);
     outline-offset: 3px;
     border-radius: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      transition: none !important;
+    }
   }
 }

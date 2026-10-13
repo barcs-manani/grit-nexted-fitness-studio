@@ -5,7 +5,7 @@ export const Hero = () => {
     return (
         <div id="hero" className="relative w-full min-h-[88vh] max-h-190 flex justify-center hero-cntr">
             <div className="w-full max-w-(--max-w) pt-7 px-(--gutter) pb-[clamp(48px, 8vw, 88px)]">
-                <nav id="hero-nav" className="w-full flex justify-between items-center gap-4">
+                <nav id="hero-nav" className="w-full flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <span className="grid col-span-2 gap-0.5 items-end">
                         <span id="logo" className="font-display font-bold text-white text-[44px] tracking-[0.06em] leading-none">GR<span className="text-(--ice)">I</span>T</span>
                         <span id="logo-text" className="max-w-[8ch] text-white capitalize leading-1 mb-0.5">Fitness Studio</span>

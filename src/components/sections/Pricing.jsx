@@ -4,7 +4,7 @@ export const Pricing = () => {
             <h2>Membership Pricing</h2>
             <p className="max-w-[62ch] text-[18px] text-(--ink-soft)">Our membership tiers are structured to ensure you get the most value for trusting us to guide you to your
                 dream physique</p>
-            <div className="w-full grid grid-cols-3 gap-6 mt-3 items-stretch membership-cards">
+            <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mt-3 items-stretch membership-cards">
                 <div className="card">
                     <h3 className="card-title">Kids (Under 17)</h3>
                     <div className="divider"></div>
