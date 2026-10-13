@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap");
 
 @theme {
   --ink: #0d1422;
@@ -34,4 +35,20 @@ body {
     background: var(--bg);
     color: var(--ink);
     -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-display);
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+}
+
+img {
+    max-width: 100%;
+}
+
+a:focus-visible {
+    outline: 3px solid var(--blue);
+    outline-offset: 3px;
+    border-radius: 6px;
 }
