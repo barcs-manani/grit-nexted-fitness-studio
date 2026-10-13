@@ -1,10 +1,10 @@
 export const Pricing = () => {
     return (
-        <div id="member-tiers" class="container member-tiers-cntr">
+        <div id="member-tiers" className="w-full flex flex-col items-start gap-4 mt-(--section-gap) max-w-(--max-w) px-(--gutter) member-tiers-cntr">
             <h2>Membership Pricing</h2>
-            <p>Our membership tiers are structured to ensure you get the most value for trusting us to guide you to your
+            <p className="max-w-[62ch] text-[18px] text-(--ink-soft)">Our membership tiers are structured to ensure you get the most value for trusting us to guide you to your
                 dream physique</p>
-            <div class="cards-cntr membership-cards">
+            <div class="w-full grid membership-cards">
                 <div class="card">
                     <h3 class="card-title">Kids (Under 17)</h3>
                     <div class="divider"></div>

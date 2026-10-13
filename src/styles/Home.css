@@ -43,3 +43,33 @@
 .hero-content h1 span {
     color: var(--ice);
 }
+
+/* ---------- Sections ---------- */
+.card {
+    border-radius: var(--card-radius);
+}
+
+.schedule-cards .card {
+    padding: 18px 22px;
+    background: var(--bg-secondary);
+    border-left: 4px solid var(--blue);
+    border-radius: 4px var(--card-radius) var(--card-radius) 4px;
+}
+
+.schedule-cards .card-title {
+    margin-bottom: 8px;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--violet);
+}
+
+.schedule-cards .card-content {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+}
+
+.schedule-cards .card-content li {
+    font-weight: 500;
+}
