@@ -3,7 +3,7 @@ import "../styles/Home.css"
 
 export const Footer = () => {
     return (
-        <div id="footer" className="w-full mt-(--section-gap) flex justify-center pt-14 pb-7 px-(--gutter) bg-(--ink) text-white opacity-75">
+        <div id="footer" className="w-full mt-(--section-gap) flex justify-center pt-14 pb-7 px-(--gutter) bg-(--ink) text-white opacity-85">
             <div className="w-full max-w-(--max-w) flex flex-col gap-10">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
                     <div className="footer-about-us">

@@ -1,3 +1,4 @@
+import { GritLogo } from "../assets/icons/GritLogo";
 import { H1 } from "../data/H1";
 import { HeroNav } from "../data/Navigation";
 import "../styles/Home.css"
@@ -8,10 +9,7 @@ export const Hero = () => {
         <div id="hero" className="relative w-full min-h-[88vh] max-h-190 flex justify-center hero-cntr">
             <div className="w-full max-w-(--max-w) pt-7 px-(--gutter) pb-12 sm:pb-[8vw] xl:pb-22 flex flex-col justify-between">
                 <nav id="hero-nav" className="w-full flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <span className="grid grid-cols-2 gap-0.5 items-end">
-                        <span id="logo" className="font-display font-bold text-white text-[44px] tracking-[0.06em] leading-none">GR<span className="text-(--ice)">I</span>T</span>
-                        <span id="logo-text" className="max-w-[8ch] text-white capitalize leading-5 mb-0.5">Fitness Studio</span>
-                    </span>
+                    <GritLogo />
                     <ul className="flex gap-4 sm:gap-[3vw] xl:gap-9 list-none hero-nav-menu">
                         {HeroNav.map((nv) => (
                             <li>
