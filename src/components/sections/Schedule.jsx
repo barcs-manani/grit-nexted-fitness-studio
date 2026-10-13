@@ -1,4 +1,5 @@
 import { scheduleImg } from "../../assets/images/images";
+import { ScheduleData } from "../../data/Schedule";
 
 export const Schedule = () => {
     return (
@@ -10,27 +11,16 @@ export const Schedule = () => {
                         Our training times are customized to fit your 9-to-5 work schedule, with weekends designated for intense-level training
                     </p>
                     <div className="w-full flex flex-col gap-3.5 schedule-cards">
-                        <div className="card">
-                            <h3 className="card-title">Weekdays</h3>
-                            <ul className="card-content">
-                                <li>6:00 AM to 8:00 AM</li>
-                                <li>5:00 PM to 7:00 PM</li>
-                            </ul>
-                        </div>
-                        <div className="card">
-                            <h3 className="card-title">Weekends & Public Holidays</h3>
-                            <ul className="card-content">
-                                <li>6:00 AM to 8:00 AM</li>
-                                <li>10:00 AM to 12:00 PM</li>
-                                <li>3:00 AM to 7:00 PM</li>
-                            </ul>
-                        </div>
-                        <div className="card">
-                            <h3 className="card-title">Custom</h3>
-                            <ul className="card-content">
-                                <li>Get a personalized schedule just for you</li>
-                            </ul>
-                        </div>
+                        {ScheduleData.map((s) => (
+                            <div className="card">
+                                <h3 className="card-title">{s.period}</h3>
+                                <ul className="card-content">
+                                    {s.times.map((t) => (
+                                        <li>{t}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
                     </div>
                 </div>
                 <div className="col-span-2">
