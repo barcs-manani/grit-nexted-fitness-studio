@@ -1,0 +1,45 @@
+/* ---------- Hero ---------- */
+.hero-cntr {
+    background-image:
+        linear-gradient(100deg, rgba(13, 20, 34, 0.88) 0%, rgba(13, 20, 34, 0.55) 55%, rgba(13, 20, 34, 0.25) 100%),
+        url(../assets/images/hero-img-01.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.hero-nav-menu a {
+    position: relative;
+    padding: 6px 0;
+    color: rgba(255, 255, 255, 0.88);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.hero-nav-menu a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--ice);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+}
+
+.hero-nav-menu a:hover,
+.hero-nav-menu a:focus-visible {
+    color: #fff;
+}
+
+.hero-nav-menu a:hover::after,
+.hero-nav-menu a:focus-visible::after {
+    transform: scaleX(1);
+}
+
+.hero-content h1 span {
+    color: var(--ice);
+}

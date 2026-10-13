@@ -7,13 +7,13 @@ import { Trainers } from "./components/sections/Trainers"
 function App() {
   return (
     <>
-    <Hero/>
-    <main>
-      <Schedule />
-      <Trainers />
-      <Pricing />
-    </main>
-    <Footer />
+      <Hero />
+      <main>
+        <Schedule />
+        <Trainers />
+        <Pricing />
+      </main>
+      <Footer />
     </>
   )
 }
