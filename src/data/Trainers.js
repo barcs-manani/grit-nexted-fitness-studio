@@ -1,4 +1,4 @@
-import { trainerFour, trainerOne, trainerThree, trainerTwo } from "../assets/images/images";
+import { trainerTwo, trainerFour, trainerOne, trainerThree } from "../assets/images";
 
 const TrainersData = [
     {

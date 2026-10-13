@@ -1,4 +1,4 @@
-import { scheduleImg } from "../../assets/images/images";
+import { scheduleImg } from "../../assets/images";
 import { ScheduleData } from "../../data/Schedule";
 import "../../styles/Home.css"
 
