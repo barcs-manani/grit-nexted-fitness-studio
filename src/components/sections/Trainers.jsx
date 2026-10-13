@@ -1,4 +1,4 @@
-import { trainerFour, trainerOne, trainerThree, trainerTwo } from "../../assets/images/images";
+import { TrainersData } from "../../data/Trainers";
 
 export const Trainers = () => {
     return (
@@ -9,42 +9,17 @@ export const Trainers = () => {
                     that
                     you can put as much effort as you can, to be the best you that you can be</p>
                 <div class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5.5 trainer-cards">
-                    <div class="card">
-                        <div class="card-img">
-                            <img class="trainer-img" alt="trainer image" src={trainerOne} />
+                    {TrainersData.map((t) => (
+                        <div class="card">
+                            <div class="card-img">
+                                <img class="trainer-img" alt="trainer image" src={t.img} />
+                            </div>
+                            <div class="card-content">
+                                <span class="trainer-name">{t.name}</span>
+                                <span class="trainer-field">{t.fields.join(", ")}</span>
+                            </div>
                         </div>
-                        <div class="card-content">
-                            <span class="trainer-name">James Peck</span>
-                            <span class="trainer-field">Calisthenics Trainer</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-img">
-                            <img class="trainer-img" alt="trainer image" src={trainerTwo} />
-                        </div>
-                        <div class="card-content">
-                            <span class="trainer-name">Winnie Bend</span>
-                            <span class="trainer-field">Strength and Endurance Coach</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-img">
-                            <img class="trainer-img" alt="trainer image" src={trainerThree} />
-                        </div>
-                        <div class="card-content">
-                            <span class="trainer-name">John Strong</span>
-                            <span class="trainer-field">Boxing Coach</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-img">
-                            <img class="trainer-img" alt="trainer image" src={trainerFour} />
-                        </div>
-                        <div class="card-content">
-                            <span class="trainer-name">Andrew Fit</span>
-                            <span class="trainer-field">Dance & Yoga Instructor</span>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
         </div>
