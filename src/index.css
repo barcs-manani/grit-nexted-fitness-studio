@@ -10,6 +10,11 @@ body,
   min-height: 100%;
 }
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 16px;
+}
+
 @theme {
   --ink: #0d1422;
   --ink-soft: #3b4658;
