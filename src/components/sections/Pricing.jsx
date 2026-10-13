@@ -3,7 +3,8 @@ import "../../styles/Home.css"
 
 export const Pricing = () => {
     return (
-        <div id="member-tiers" className="w-full flex flex-col items-start gap-4 mt-(--section-gap) max-w-(--max-w) px-(--gutter)">
+        <div id="member-tiers" className="w-full flex justify-center mt-(--section-gap)">
+        <div className="w-full flex flex-col items-start gap-4 max-w-(--max-w) px-(--gutter)">
             <h2 className="font-bold text-[34px] sm:text-[5vw] xl:text-12 text-(--ink)">Membership Pricing</h2>
             <p className="max-w-[62ch] text-[18px] text-(--ink-soft)">Our membership tiers are structured to ensure you get the most value for trusting us to guide you to your
                 dream physique</p>
@@ -25,6 +26,7 @@ export const Pricing = () => {
                     </div>
                 ))}
             </div>
+        </div>
         </div>
     );
 }
