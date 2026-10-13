@@ -1,27 +1,34 @@
+import { H1 } from "../data/H1";
+import { HeroNav } from "../data/Navigation";
 import "../styles/Home.css"
 
 
 export const Hero = () => {
     return (
         <div id="hero" className="relative w-full min-h-[88vh] max-h-190 flex justify-center hero-cntr">
-            <div className="w-full max-w-(--max-w) pt-7 px-(--gutter) pb-[clamp(48px, 8vw, 88px)]">
+            <div className="w-full max-w-(--max-w) pt-7 px-(--gutter) pb-12 sm:pb-[8vw] xl:pb-22 flex flex-col justify-between">
                 <nav id="hero-nav" className="w-full flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <span className="grid col-span-2 gap-0.5 items-end">
+                    <span className="grid grid-cols-2 gap-0.5 items-end">
                         <span id="logo" className="font-display font-bold text-white text-[44px] tracking-[0.06em] leading-none">GR<span className="text-(--ice)">I</span>T</span>
-                        <span id="logo-text" className="max-w-[8ch] text-white capitalize leading-1 mb-0.5">Fitness Studio</span>
+                        <span id="logo-text" className="max-w-[8ch] text-white capitalize leading-5 mb-0.5">Fitness Studio</span>
                     </span>
-                    <ul className="flex gap-[clamp(16px, 3vw, 36px)] list-none hero-nav-menu">
-                        <li><a href="#hero">Home</a></li>
-                        <li><a href="#schedule">Schedule</a></li>
-                        <li><a href="#trainers">Trainers</a></li>
-                        <li><a href="#member-tiers">Pricing</a></li>
+                    <ul className="flex gap-4 sm:gap-[3vw] xl:gap-9 list-none hero-nav-menu">
+                        {HeroNav.map((nv) => (
+                            <li>
+                                <a href={nv.link} className="relative py-1.5 text-white opacity-85 font-semibold no-underline transition-colors delay-200 ease-in-out">
+                                    {nv.text}
+                                </a>
+                            </li>
+                        ))}
                     </ul>
                 </nav>
                 <div className="flex flex-col items-start gap-5 max-w-180 hero-content">
-                    <h1 className="text-white font-bold text-[clamp(44px, 9vw, 92px)] uppercase leading-[0.98]">
-                        <span>G</span>reatness <span>R</span>equires <span>I</span>nternal <span>T</span>oughness
-                        </h1>
-                    <p className="text-[clamp(18px, 2.6vw, 24px)] font-medium max-w-[34ch] text-white opacity-85">Build Strength, Grow Endurance and Enjoy Longevity</p>
+                    <h1 className="text-white font-bold text-[44px] sm:text-[9vw] xl:text-[92px] uppercase leading-[0.98]">
+                        {H1.map((txt) => (
+                            <span><span className="text-(--ice)">{txt.first}</span>{txt.rest} </span>
+                        ))}
+                    </h1>
+                    <p className="text-[18px] sm:text-[2.6vw] xl:text-[24px] font-medium max-w-[34ch] text-white opacity-85">Build Strength, Grow Endurance and Enjoy Longevity</p>
                     <a id="hero-btn" href="#schedule" className="inline-block p-(--btn-padding) bg-(--blue) text-white font-semibold rounded-(--btn-radius) no-underline delay-200 ease-in-out hover:bg-(--blue-dark) hover:-translate-y-0.5  transition-colors">Get Started</a>
                 </div>
             </div>

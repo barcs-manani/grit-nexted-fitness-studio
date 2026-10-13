@@ -1,4 +1,5 @@
 import { TrainersData } from "../../data/Trainers";
+import "../../styles/Home.css"
 
 export const Trainers = () => {
     return (

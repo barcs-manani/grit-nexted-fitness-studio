@@ -1,5 +1,6 @@
 import { scheduleImg } from "../../assets/images/images";
 import { ScheduleData } from "../../data/Schedule";
+import "../../styles/Home.css"
 
 export const Schedule = () => {
     return (

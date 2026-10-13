@@ -1,4 +1,5 @@
 import { Branches, Contacts } from "../data/FooterData";
+import "../styles/Home.css"
 
 export const Footer = () => {
     return (
@@ -7,7 +8,7 @@ export const Footer = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
                     <div className="footer-about-us">
                         <h2 className="mb-3.5 text-[30px] text-white">About GRIT</h2>
-                        <p>From the lorem to the ipsum, how do I describe an awesome fitness website. Just super KOOOOL!</p>
+                        <p>At GRIT we focus on making you the best version of yourself both physically and mentally.</p>
                     </div>
                     <div className="footer-branches">
                         <h2 className="mb-3.5 text-[30px] text-white">Where to Find Us</h2>

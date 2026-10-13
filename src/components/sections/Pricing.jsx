@@ -1,4 +1,5 @@
 import { MembershipPlans } from "../../data/Memberships";
+import "../../styles/Home.css"
 
 export const Pricing = () => {
     return (

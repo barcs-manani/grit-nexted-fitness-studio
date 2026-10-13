@@ -8,15 +8,6 @@
     background-size: cover;
 }
 
-.hero-nav-menu a {
-    position: relative;
-    padding: 6px 0;
-    color: rgba(255, 255, 255, 0.88);
-    font-weight: 500;
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
 .hero-nav-menu a::after {
     content: "";
     position: absolute;
@@ -38,10 +29,6 @@
 .hero-nav-menu a:hover::after,
 .hero-nav-menu a:focus-visible::after {
     transform: scaleX(1);
-}
-
-.hero-content h1 span {
-    color: var(--ice);
 }
 
 /* ---------- Sections ---------- */
