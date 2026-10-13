@@ -1,2 +1,7 @@
-# grit-reactive-fitness-studio
-Mayerfeld practicum assignment - a fitness studio continued from previous landing page. Now made with react, vite and tailwind
+## Grit Reactive Fitness Studio
+Mayerfeld Practicum Team 2 assignment upgraded to use React JS framework with vite server library
+
+# Tech Stack
+- React JS
+- Tailwind CSS
+- Vite
