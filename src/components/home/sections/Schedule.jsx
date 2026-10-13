@@ -1,5 +1,5 @@
-import { scheduleImg } from "../../assets/images";
-import { ScheduleData } from "../../data/Schedule";
+import { scheduleImg } from "../../../assets/images";
+import { ScheduleData } from "../../../data/Schedule";
 import "../../styles/Home.css"
 
 export const Schedule = () => {

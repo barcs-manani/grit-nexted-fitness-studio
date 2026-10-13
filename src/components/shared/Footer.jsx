@@ -1,4 +1,4 @@
-import { Branches, Contacts } from "../data/FooterData";
+import { Branches, Contacts } from "../../data/FooterData";
 import "../styles/Home.css"
 
 export const Footer = () => {

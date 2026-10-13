@@ -1,6 +1,6 @@
-import { GritLogo } from "./brand/GritLogo";
-import { H1 } from "../data/H1";
-import { HeroNav } from "../data/Navigation";
+import { GritLogo } from "../shared/brand/GritLogo";
+import { H1 } from "../../data/H1";
+import { HeroNav } from "../../data/Navigation";
 import "../styles/Home.css"
 
 

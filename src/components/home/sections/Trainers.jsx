@@ -1,4 +1,4 @@
-import { TrainersData } from "../../data/Trainers";
+import { TrainersData } from "../../../data/Trainers";
 import "../../styles/Home.css"
 
 export const Trainers = () => {
