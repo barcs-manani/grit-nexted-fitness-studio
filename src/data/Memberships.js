@@ -17,7 +17,8 @@ const MembershipPlans = [
             "Group schedules",
             "Free amenities exclusive of pool access"
         ],
-        price: 10
+        price: 10,
+        recommended: true
     },
     {
         type: "Special",

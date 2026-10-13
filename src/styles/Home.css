@@ -32,76 +32,9 @@
 }
 
 /* ---------- Sections ---------- */
-.card {
-    border-radius: var(--card-radius);
-}
-
-.membership-cards .card {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 28px 26px;
-    background: #fff;
-    border: 1px solid var(--line);
-    transition: border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.membership-cards .card:hover {
-    border-color: var(--blue);
-    box-shadow: 0 0 0 1px var(--blue);
-}
-
-/* Adult is the middle, most common plan: give it a stronger frame */
-.membership-cards .card:nth-child(2) {
-    border: 2px solid var(--blue);
-}
-
-.membership-cards .card-title {
-    font-size: 30px;
-    font-weight: 700;
-    color: var(--violet);
-}
-
-.membership-cards .card-content {
-    flex: 1;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    color: var(--ink-soft);
-}
 
 .divider {
     height: 1px;
     width: 100%;
     background: var(--line);
-}
-
-.card-footer {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-}
-
-.card-price {
-    font-family: var(--font-display);
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--ink);
-}
-
-.card-btn {
-    padding: 10px 22px;
-    background: var(--blue);
-    color: #fff;
-    font-weight: 600;
-    text-decoration: none;
-    border-radius: var(--btn-radius);
-    transition: background-color 0.2s ease;
-}
-
-.card-btn:hover {
-    background: var(--blue-dark);
 }
