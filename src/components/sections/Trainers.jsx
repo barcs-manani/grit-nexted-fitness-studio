@@ -4,7 +4,7 @@ import "../../styles/Home.css"
 export const Trainers = () => {
     return (
         <div id="trainers" class="w-full flex justify-center py-(--section-gap) bg-(--bg-secondary)">
-            <div className="w-full flex flex-col items-start gap-4 mt-(--section-gap) max-w-(--max-w) px-(--gutter) trainers-wrapper">
+            <div className="w-full flex flex-col items-start gap-4 max-w-(--max-w) px-(--gutter) trainers-wrapper">
                 <h2 className="font-bold text-[34px] sm:text-[5vw] xl:text-12 text-(--ink)">Trained For Toughness</h2>
                 <p className="max-w-[62ch] text-[18px] text-(--ink-soft) mb-4">Our experienced team of trainers are here to ensure your physical growth and safety in the studio, so
                     that

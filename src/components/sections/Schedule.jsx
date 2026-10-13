@@ -4,7 +4,7 @@ import "../../styles/Home.css"
 
 export const Schedule = () => {
     return (
-        <div id="schedule" className="w-full flex flex-col items-start gap-4 mt-(--section-gap) max-w-(--max-w) px-(--gutter) schedule-cntr">
+        <div id="schedule" className="w-full flex flex-col items-start gap-4 py-(--section-gap) max-w-(--max-w) px-(--gutter)">
             <h2 className="font-bold text-[34px] sm:text-[5vw] xl:text-12 text-(--ink)">Scheduled For Greatness</h2>
             <div className="w-full grid grid-cols-1 md:grid-cols-5 gap-6 sm:gap-[5vw] xl:gap-16">
                 <div className="col-span-1 md:col-span-3 flex flex-col gap-6">
