@@ -35,6 +35,10 @@ html {
   --btn-radius: 999px;
   --btn-padding: 14px 28px;
   --card-radius: 14px;
+
+  --z-tooltip: 10;
+  --z-modal-backdrop: 20;
+  --z-modal: 50;
 }
 
 @layer base {
