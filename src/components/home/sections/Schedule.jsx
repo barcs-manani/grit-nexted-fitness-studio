@@ -1,6 +1,5 @@
 import { scheduleImg } from "../../../assets/images";
 import { ScheduleData } from "../../../data/Schedule";
-import "../../styles/Home.css"
 
 export const Schedule = () => {
     return (
@@ -12,15 +11,15 @@ export const Schedule = () => {
                         <p className="max-w-[52ch] text-[18px] text-(--ink-soft)">
                             Our training times are customized to fit your 9-to-5 work schedule, with weekends designated for intense-level training
                         </p>
-                        <div className="w-full flex flex-col gap-3.5 schedule-cards">
-                            {ScheduleData.map((s) => (
-                                <div className="rounded-br-(--card-radius) rounded-tr-(--card-radius) rounded-bl-sm rounded-tl-sm py-4.5 px-5.5 bg-(--bg-secondary) border-l-4 border-l-(--blue)">
+                        <div className="w-full flex flex-col gap-3.5">
+                            {ScheduleData.map((s, s_idx) => (
+                                <div key={s_idx} className="rounded-br-(--card-radius) rounded-tr-(--card-radius) rounded-bl-sm rounded-tl-sm py-4.5 px-5.5 bg-(--bg-secondary) border-l-4 border-l-(--blue)">
                                     <h3 className="mb-2 text-[26px] font-bold text-(--violet)">
                                         {s.period}
                                     </h3>
                                     <ul className="list-none flex flex-wrap gap-y-1.5 gap-x-5.5">
-                                        {s.times.map((t) => (
-                                            <li className="font-semibold">{t}</li>
+                                        {s.times.map((t, t_idx) => (
+                                            <li key={t_idx} className="font-semibold">{t}</li>
                                         ))}
                                     </ul>
                                 </div>

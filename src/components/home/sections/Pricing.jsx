@@ -1,5 +1,4 @@
-import { MembershipPlans } from "../../data/Memberships";
-import "../../styles/Home.css"
+import { MembershipPlans } from "../../../data/Memberships";
 
 export const Pricing = () => {
     return (
@@ -8,7 +7,7 @@ export const Pricing = () => {
             <h2 className="font-bold text-[34px] sm:text-[5vw] xl:text-12 text-(--ink)">Membership Pricing</h2>
             <p className="max-w-[62ch] text-[18px] text-(--ink-soft)">Our membership tiers are structured to ensure you get the most value for trusting us to guide you to your
                 dream physique</p>
-            <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mt-3 items-stretch membership-cards">
+            <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mt-3 items-stretch">
                 {MembershipPlans.map((m, m_idx) => (
                     <div key={m_idx} className={`rounded-(--card-radius) flex flex-col gap-4 py-7 px-6.5 bg-white transition-all delay-150 ease-in-out hover:border-(--blue) hover:shadow-[0_0_0_1px_var(--blue)] ${m.recommended ? 'border-2 border-(--blue)' : 'border border-(--line)'}`}>
                         <h3 className="text-[30px] font-bold text-(--violet)">{m.type}</h3>

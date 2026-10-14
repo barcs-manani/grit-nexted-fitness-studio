@@ -1,5 +1,4 @@
 import { TrainersData } from "../../../data/Trainers";
-import "../../styles/Home.css"
 
 export const Trainers = () => {
     return (
@@ -9,7 +8,7 @@ export const Trainers = () => {
                 <p className="max-w-[62ch] text-[18px] text-(--ink-soft) mb-4">Our experienced team of trainers are here to ensure your physical growth and safety in the studio, so
                     that
                     you can put as much effort as you can, to be the best you that you can be</p>
-                <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5.5 trainer-cards">
+                <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5.5">
                     {TrainersData.map((t, idx) => (
                         <div key={idx} className="rounded-(--card-radius) overflow-hidden bg-white border border-(--line) transition-all delay-150 ease-in-out hover:-translate-y-1.5 hover:shadow-xl">
                             <div className="bg-(--ice)">

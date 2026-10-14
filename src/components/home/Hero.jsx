@@ -1,7 +1,7 @@
 import { GritLogo } from "../shared/brand/GritLogo";
 import { H1 } from "../../data/H1";
 import { HeroNav } from "../../data/Navigation";
-import "../styles/Home.css"
+import "../../styles/Home.css"
 
 
 export const Hero = () => {
@@ -11,8 +11,8 @@ export const Hero = () => {
                 <nav id="hero-nav" className="w-full flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <GritLogo />
                     <ul className="flex gap-4 sm:gap-[3vw] xl:gap-9 list-none hero-nav-menu">
-                        {HeroNav.map((nv) => (
-                            <li>
+                        {HeroNav.map((nv, idx) => (
+                            <li key={idx}>
                                 <a href={nv.link} className="relative py-1.5 text-white opacity-85 font-semibold no-underline transition-colors delay-200 ease-in-out">
                                     {nv.text}
                                 </a>
@@ -22,8 +22,8 @@ export const Hero = () => {
                 </nav>
                 <div className="flex flex-col items-start gap-5 max-w-180 hero-content">
                     <h1 className="text-white font-bold text-[44px] sm:text-[9vw] xl:text-[92px] uppercase leading-[0.98]">
-                        {H1.map((txt) => (
-                            <span><span className="text-(--ice)">{txt.first}</span>{txt.rest} </span>
+                        {H1.map((txt, idx) => (
+                            <span key={idx}><span className="text-(--ice)">{txt.first}</span>{txt.rest} </span>
                         ))}
                     </h1>
                     <p className="text-[18px] sm:text-[2.6vw] xl:text-[24px] font-medium max-w-[34ch] text-white opacity-85">Build Strength, Grow Endurance and Enjoy Longevity</p>
