@@ -35,6 +35,7 @@ html {
   --btn-radius: 999px;
   --btn-padding: 14px 28px;
   --card-radius: 14px;
+  --field-radius: 10px;
 
   --z-tooltip: 10;
   --z-modal-backdrop: 20;

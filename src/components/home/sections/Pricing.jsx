@@ -31,7 +31,7 @@ export const Pricing = () => {
                                     ))}
                                 </ul>
                                 <div className="h-px w-full bg-(--line)"></div>
-                                <span className="w-full flex justify-between items-center gap-3">
+                                <span className="w-full flex justify-between items-center flex-wrap gap-3">
                                     <span className="font-display text-[32px] font-bold text-(--ink)">${m.price}/month</span>
                                     <button
                                         href="#"
