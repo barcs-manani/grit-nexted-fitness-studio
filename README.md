@@ -7,21 +7,29 @@ Mayerfeld Practicum Team 2 assignment upgraded to use React JS framework with vi
 - Vite
 
 ## Structure
-#### Public
-- favicon
-#### SRC
-###### assets (JSX + Media)
-- icons
-- images
-###### components (JSX)
-- Hero
-- sections - Pricing, Schedule, Trainers
-- Footer
-###### styles
-- Home.css
-###### App.jsx
-###### index.css
-###### main.jsx
+```text
+public/                 Static files
+src/
+├── assets/
+│   ├── icons/
+│   └── images/
+├── components/
+│   ├── home/
+│   │   ├── sections/    Pricing, Schedule, Trainers
+│   │   └── Hero.jsx
+│   └── shared/
+│       ├── brand/       Shared brand elements
+│       ├── modals/      Shared dialogs
+│       └── ...          Reusable UI components
+├── data/                Content and configuration
+├── styles/
+├── App.jsx
+├── index.css
+└── main.jsx
 
-#### .gitignore
-#### e.t.c
+index.html
+package.json
+vite.config.js
+eslint.config.js
+README.md
+```
