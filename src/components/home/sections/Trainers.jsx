@@ -4,6 +4,7 @@ import { TrainersData } from "../../../data/Trainers";
 import { Filters } from "../../shared/Filters";
 
 export const Trainers = () => {
+    const defField = { city: "all" };
     const [filteredTrainers, setFilteredTrainers] = useState(
         Array.isArray(TrainersData)
             ? TrainersData
@@ -11,13 +12,13 @@ export const Trainers = () => {
     );
     const filterFields = (
         Array.isArray(BranchLocations)
-            ? BranchLocations
+            ? [defField, ...BranchLocations]
             : []
     ).map((b) => b.city);
 
     const handleSelectFilterItem = (selected) => {
-        
-        setFilteredTrainers()
+        const res = selected.includes(defField.city) ? TrainersData : TrainersData.filter((t) => selected.includes(t.location));
+        setFilteredTrainers([...res]);
     };
     return (
         <div id="trainers" className="w-full flex justify-center py-(--section-gap) bg-(--bg-secondary)">
@@ -30,6 +31,7 @@ export const Trainers = () => {
                 <Filters
                     fields={filterFields}
                     setSelected={handleSelectFilterItem}
+                    xPosition="right"
                 />
                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5.5">
                     {filteredTrainers.map((t, idx) => (
