@@ -33,7 +33,7 @@ const Filters = ({
                 return (
                     <button
                         key={idx}
-                        className={`py-1.5 px-3.5 ${selected ? 'bg-(--blue) text-white' : 'bg-(--bg) text-(--ink-soft)'} font-semibold no-underline rounded-(--btn-radius) cursor-pointer transition-colors delay-200 ease-in-out hover:bg-(--ice)`}
+                        className={`py-1.5 px-3.5 ${selected ? 'bg-(--blue) text-white' : 'bg-(--bg) text-(--ink-soft) border border-(--line)'} font-semibold no-underline rounded-(--btn-radius) cursor-pointer transition-colors delay-200 ease-in-out hover:bg-(--ice)`}
                         onClick={() => handleSelect(f)}
                     >
                         {f}
