@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Age } from "../../../data/FormFields";
-import { fieldClass } from "../../../styles/FormStyles";
 import { BranchLocations } from "../../../data/Locations";
-import { PhoneField, TextField } from "../forms/FormFields";
+import { PhoneField, SingleSelect, TextField } from "../forms/FormFields";
 
 const RegistrationModal = ({
     open,
@@ -26,6 +25,18 @@ const RegistrationModal = ({
     };
     const [formData, setFormData] = useState(defaultFormData);
     const [errors, setErrors] = useState([]);
+    const ageOptions = useMemo(() => {
+        return Age.map((a) => ({
+            value: `${a.id}`,
+            display: a.group
+        }))
+    }, []);
+    const branchOptions = useMemo(() => {
+        return BranchLocations.map((b) => ({
+            value: `${b.id}`,
+            display: `${b.city}, ${b.country}`
+        }))
+    }, []);
 
     const handleChange = (n, val) => {
         setFormData((prev) => {
@@ -108,51 +119,23 @@ const RegistrationModal = ({
                         value={formData.phoneNumber}
                         onChange={(fullNum) => { handleChange("phoneNumber", fullNum) }}
                     />
-                    <div className="flex flex-col gap-1 justify-center items-start px-3">
-                        <label className="font-semibold text-lg text-(--ink-soft)">
-                            Age Group
-                        </label>
-                        <select
-                            name="age"
-                            className={fieldClass}
-                            onChange={(e) => handleChange("age", e.target.value)}
-                            placeholder="Select the member's age"
-                            value={formData.age}
-                        >
-                            <option value="" disabled>Select the member's age</option>
-                            {Age.map((a) => (
-                                <option
-                                    key={a.id}
-                                    value={`${a.id}`}
-                                >
-                                    {a.group}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="flex flex-col gap-1 justify-center items-start px-3">
-                        <label className="font-semibold text-lg text-(--ink-soft)">
-                            Branch Location
-                        </label>
-                        <select
-                            name="branch"
-                            className={fieldClass}
-                            onChange={(e) => handleChange("branch", e)}
-                            placeholder="Select your location"
-                            value={formData.branch}
-                        >
-                            <option value="" disabled>Select the member's location</option>
-                            {BranchLocations.map((b) => (
-                                <option
-                                    key={b.id}
-                                    value={`${b.id}`}
-                                >
-                                    {b.city}, {b.country}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <span className="w-full text-red-600 font-semibold text-sm">
+                    <SingleSelect
+                        name="age"
+                        label="Age Group"
+                        options={ageOptions}
+                        value={formData.age}
+                        placeHolder="Select the member's age"
+                        onChange={(e) => handleChange("age", e.target.value)}
+                    />
+                    <SingleSelect
+                        name="branch"
+                        label="Branch Location"
+                        options={branchOptions}
+                        value={formData.branch}
+                        placeHolder="Select the member's location"
+                        onChange={(e) => handleChange("branch", e.target.value)}
+                    />
+                    <span className="w-full text-red-600 font-semibold text-md px-2">
                         {errors.length ? `Please fill the ${errors.join(", ")} field${errors.length > 1 ? 's' : ''}` : ''}
                     </span>
                 </div>

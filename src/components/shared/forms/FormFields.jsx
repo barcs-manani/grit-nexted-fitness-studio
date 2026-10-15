@@ -67,4 +67,38 @@ const PhoneField = ({
     )
 };
 
-export { TextField, PhoneField }
+const SingleSelect = ({
+    label="",
+    name="",
+    options=[],
+    value="",
+    placeHolder="",
+    onChange
+}) => {
+    return (
+        <div className="flex flex-col gap-1 justify-center items-start px-3">
+            <label className="font-semibold text-lg text-(--ink-soft)">
+                {label}
+            </label>
+            <select
+                name={name}
+                className={fieldClass}
+                onChange={onChange}
+                placeholder={placeHolder}
+                value={value}
+            >
+                <option value="" disabled>{placeHolder}</option>
+                {options.map((o, idx) => (
+                    <option
+                        key={idx}
+                        value={o.value}
+                    >
+                        {o.display}
+                    </option>
+                ))}
+            </select>
+        </div>
+    );
+};
+
+export { TextField, PhoneField, SingleSelect }
