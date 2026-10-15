@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Branches } from "../../../data/FooterData";
 import { Age } from "../../../data/FormFields";
 import 'react-phone-number-input/style.css';
 import '../../../styles/PhoneInput.css'
 import PhoneInput from 'react-phone-number-input'
 import flags from 'react-phone-number-input/flags'
 import { fieldClass } from "../../../styles/FormStyles";
+import { BranchLocations } from "../../../data/Locations";
 
 const RegistrationModal = ({
     open,
@@ -66,7 +66,7 @@ const RegistrationModal = ({
         const formDataFmt = {
             ...formData,
             age: Age.filter((i) => `${i.id}` === formData.age).group,
-            branch: Branches.filter((j) => `${j.id}` === formData.branch).city
+            branch: BranchLocations.filter((j) => `${j.id}` === formData.branch).city
         }
         if (onSubmit === "function") {
             setFormData(defaultFormData);
@@ -169,7 +169,7 @@ const RegistrationModal = ({
                             value={formData.branch}
                         >
                             <option value="" disabled>Select the member's location</option>
-                            {Branches.map((b) => (
+                            {BranchLocations.map((b) => (
                                 <option
                                     key={b.id}
                                     value={`${b.id}`}

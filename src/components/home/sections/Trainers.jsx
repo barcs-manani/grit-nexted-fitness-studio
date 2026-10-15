@@ -1,15 +1,38 @@
+import { useState } from "react";
+import { BranchLocations } from "../../../data/Locations";
 import { TrainersData } from "../../../data/Trainers";
+import { Filters } from "../../shared/Filters";
 
 export const Trainers = () => {
+    const [filteredTrainers, setFilteredTrainers] = useState(
+        Array.isArray(TrainersData)
+            ? TrainersData
+            : []
+    );
+    const filterFields = (
+        Array.isArray(BranchLocations)
+            ? BranchLocations
+            : []
+    ).map((b) => b.city);
+
+    const handleSelectFilterItem = (selected) => {
+        
+        setFilteredTrainers()
+    };
     return (
         <div id="trainers" className="w-full flex justify-center py-(--section-gap) bg-(--bg-secondary)">
             <div className="w-full flex flex-col items-start gap-4 max-w-(--max-w) px-(--gutter)">
                 <h2 className="font-bold text-[34px] sm:text-[5vw] xl:text-12 text-(--ink)">Trained For Toughness</h2>
-                <p className="max-w-[62ch] text-[18px] text-(--ink-soft) mb-4">Our experienced team of trainers are here to ensure your physical growth and safety in the studio, so
-                    that
-                    you can put as much effort as you can, to be the best you that you can be</p>
+                <p className="max-w-[62ch] text-[18px] text-(--ink-soft) mb-4">
+                    Our experienced team of trainers are here to ensure your physical growth and safety in the studio, so
+                    that you can put as much effort as you can, to be the best you that you can be
+                </p>
+                <Filters
+                    fields={filterFields}
+                    setSelected={handleSelectFilterItem}
+                />
                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5.5">
-                    {TrainersData.map((t, idx) => (
+                    {filteredTrainers.map((t, idx) => (
                         <div key={idx} className="rounded-(--card-radius) overflow-hidden bg-white border border-(--line) transition-all delay-150 ease-in-out hover:-translate-y-1.5 hover:shadow-xl">
                             <div className="bg-(--ice)">
                                 <img className="block w-full aspect-4/5 object-cover" alt="trainer image" src={t.img} />

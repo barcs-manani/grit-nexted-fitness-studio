@@ -1,4 +1,6 @@
-import { Branches, Contacts } from "../../data/FooterData";
+import { BranchLocations } from "../../data/Locations";
+import { SocialLinks } from "../../data/SocialLinks";
+
 
 export const Footer = () => {
     return (
@@ -12,7 +14,7 @@ export const Footer = () => {
                     <div className="footer-branches">
                         <h2 className="mb-3.5 text-[30px] text-white">Where to Find Us</h2>
                         <ul className="list-none flex flex-col gap-1.5">
-                            {Branches.map((b, idx) => (
+                            {BranchLocations.map((b, idx) => (
                                 <li key={idx}>- {b.city}, {b.country}</li>
                             ))}
                         </ul>
@@ -20,7 +22,7 @@ export const Footer = () => {
                     <div className="footer-contacts">
                         <h2 className="mb-3.5 text-[30px] text-white">Contacts</h2>
                         <ul className="list-none flex flex-col gap-1.5">
-                            {Contacts.map((c, idx) => (
+                            {SocialLinks.map((c, idx) => (
                                 <li key={idx}>
                                     <a href={c.link} className="text-(--ice) no-underline hover:text-white hover:underline">{c.platform}</a>
                                 </li>
