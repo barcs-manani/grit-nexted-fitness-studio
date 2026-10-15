@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Branches } from "../../../data/FooterData";
 import { Age } from "../../../data/FormFields";
 import 'react-phone-number-input/style.css';
+import '../../../styles/PhoneInput.css'
 import PhoneInput from 'react-phone-number-input'
 import flags from 'react-phone-number-input/flags'
+import { fieldClass } from "../../../styles/FormStyles";
 
 const RegistrationModal = ({
     open,
@@ -15,10 +17,18 @@ const RegistrationModal = ({
         fullName: "",
         emailAddress: "",
         phoneNumber: "",
-        age: null,
-        branch: null
+        age: "",
+        branch: ""
+    };
+    const fieldNames = {
+        fullName: "full name",
+        emailAddress: "email address",
+        phoneNumber: "phone number",
+        age: "age",
+        branch: "location"
     };
     const [formData, setFormData] = useState(defaultFormData);
+    const [errors, setErrors] = useState([]);
 
     const handleChange = (n, val) => {
         console.log(val);
@@ -37,27 +47,57 @@ const RegistrationModal = ({
             }
         })
     };
+    const validate = (raw) => {
+        const newErrors = [];
+        for (const k in raw) {
+            if (raw[k] == null || (typeof raw[k] === "string" && !raw[k].trim())) {
+                newErrors.push(fieldNames[k])
+            }
+        }
+        return newErrors;
+    };
     const handleSubmit = () => {
-        console.log(JSON.stringify(formData));
-        typeof onSubmit === "function" ? onSubmit(formData) : "";
+        const newErrors = validate(formData);
+        if (newErrors && newErrors.length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+        setErrors([]);
+        const formDataFmt = {
+            ...formData,
+            age: Age.filter((i) => `${i.id}` === formData.age).group,
+            branch: Branches.filter((j) => `${j.id}` === formData.branch).city
+        }
+        if (onSubmit === "function") {
+            setFormData(defaultFormData);
+            onSubmit(formDataFmt);
+            onClose();
+        }
     };
 
     if (!open || !regData) return null;
     return (
-        <div className="fixed top-0 left-0 bottom-0 w-full z-(--z-modal-backdrop) bg-(--ink) opacity-75 flex justify-center items-center">
-            <div className="relative z-(--z-modal) bg-(--bg) sm:rounded-(--card-radius) shadow-sm overflow-hidden flex flex-col justify-between w-full sm:w-[90vw] xl:w-150 h-screen sm:h-[80vh] xl:h-150">
+        <div className="fixed inset-0 z-(--z-modal-backdrop) bg-(--ink)/75 flex justify-center items-center p-3 sm:p-6">
+            {/* Modal panel */}
+            <div className="relative z-(--z-modal) bg-(--bg) text-(--ink) border border-(--line) rounded-(--card-radius) shadow-2xl overflow-hidden flex flex-col w-full max-w-2xl max-h-[90dvh]">
+
                 {/* Header */}
-                <div className="flex justify-between p-4 text-2xl">
-                    <span>{regData.type}</span>
+                <div className="flex justify-between items-center p-4 border-b border-(--line)">
+                    <h2 className="text-2xl font-bold">
+                        {regData.type}
+                    </h2>
+
                     <button
-                        className="w-8 h-8 bg-white border-2 border-(--line) hover:shadow-xl rounded-full cursor-pointer font-extrabold flex justify-center items-center"
+                        type="button"
+                        aria-label="Close registration form"
                         onClick={onClose}
+                        className="w-9 h-9 bg-(--bg-secondary) text-(--ink-soft) border border-(--line) hover:bg-(--ice) hover:text-(--ink) rounded-full cursor-pointer font-bold flex justify-center items-center transition-colors"
                     >
                         x
                     </button>
                 </div>
                 {/* Fields */}
-                <div className="w-full flex flex-col gap-3 justify-start px-2">
+                <div className="overflow-y-auto flex-1 p-4 flex flex-col gap-4">
                     <div className="flex flex-col gap-1 justify-center items-start px-3">
                         <label className="font-semibold text-lg text-(--ink-soft)">
                             Full Name
@@ -66,7 +106,7 @@ const RegistrationModal = ({
                             type="text"
                             name="fullName"
                             placeholder="Peter Parker"
-                            className="border border-(--line) rounded-(--field-radius) focus:border-(--blue) w-full py-1 px-2"
+                            className={fieldClass}
                             value={formData.fullName}
                             onChange={(e) => { handleChange("fullName", e.target.value) }}
                         />
@@ -79,7 +119,7 @@ const RegistrationModal = ({
                             type="email"
                             name="emailAddress"
                             placeholder="spiderman@mail.com"
-                            className="border border-(--line) rounded-(--field-radius) focus:border-(--blue) w-full py-1 px-2"
+                            className={fieldClass}
                             value={formData.emailAddress}
                             onChange={(e) => { handleChange("emailAddress", e.target.value) }}
                         />
@@ -101,15 +141,16 @@ const RegistrationModal = ({
                         </label>
                         <select
                             name="age"
-                            className="border border-(--line) rounded-(--field-radius) focus:border-(--blue) w-full p-2"
+                            className={fieldClass}
                             onChange={(e) => handleChange("age", e.target.value)}
                             placeholder="Select the member's age"
                             value={formData.age}
                         >
+                            <option value="" disabled>Select the member's age</option>
                             {Age.map((a) => (
                                 <option
                                     key={a.id}
-                                    value={a}
+                                    value={`${a.id}`}
                                 >
                                     {a.group}
                                 </option>
@@ -122,27 +163,32 @@ const RegistrationModal = ({
                         </label>
                         <select
                             name="branch"
-                            className="border border-(--line) rounded-(--field-radius) focus:border-(--blue) w-full p-2"
+                            className={fieldClass}
                             onChange={(e) => handleChange("branch", e)}
                             placeholder="Select your location"
                             value={formData.branch}
                         >
-                            {Branches.map((b, idx) => (
+                            <option value="" disabled>Select the member's location</option>
+                            {Branches.map((b) => (
                                 <option
-                                    key={idx}
-                                    value={b}
+                                    key={b.id}
+                                    value={`${b.id}`}
                                 >
                                     {b.city}, {b.country}
                                 </option>
                             ))}
                         </select>
                     </div>
+                    <span className="w-full text-red-600 font-semibold text-sm">
+                        {errors.length ? `Please fill the ${errors.join(", ")} field${errors.length > 1 ? 's' : ''}` : ''}
+                    </span>
                 </div>
                 {/* Footer */}
-                <div className="w-full p-2 flex items-center justify-end">
+                <div className="p-4 flex justify-end border-t border-(--line)">
                     <button
+                        type="button"
                         onClick={handleSubmit}
-                        className="py-2.5 px-5.5 bg-(--blue) text-white font-semibold no-underline rounded-(--btn-radius) transition-colors delay-200 ease-in-out hover:bg-(--blue-dark)"
+                        className="py-2.5 px-6 bg-(--blue) text-white font-semibold rounded-(--btn-radius) transition-colors hover:bg-(--blue-dark) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--blue)"
                     >
                         Next
                     </button>
