@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BranchLocations } from "../../../data/Locations";
 import { TrainersData } from "../../../data/Trainers";
 import { Filters } from "../../shared/Filters";
+import { trainerMan, trainerWoman } from "../../../assets/images";
 
 export const Trainers = () => {
     const defField = { city: "all" };
@@ -34,17 +35,26 @@ export const Trainers = () => {
                     xPosition="right"
                 />
                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5.5">
-                    {filteredTrainers.map((t, idx) => (
-                        <div key={idx} className="rounded-(--card-radius) overflow-hidden bg-white border border-(--line) transition-all delay-150 ease-in-out hover:-translate-y-1.5 hover:shadow-xl">
+                    {filteredTrainers.map((t) => {
+                        const imgSrc = t?.gender === "male" ? trainerMan : trainerWoman;
+                        return (
+                        <div key={t.id} className="rounded-(--card-radius) overflow-hidden bg-white border border-(--line) transition-all delay-150 ease-in-out hover:-translate-y-1.5 hover:shadow-xl">
                             <div className="bg-(--ice)">
-                                <img className="block w-full aspect-4/5 object-cover" alt="trainer image" src={t.img} />
+                                <img
+                                    className="block w-full aspect-4/5 object-cover"
+                                    alt={`Image of ${t.name}`}
+                                    src={t?.img || imgSrc}
+                                    onError={(e) => {
+                                        e.target.src = imgSrc;
+                                    }}
+                                />
                             </div>
                             <div className="flex flex-col gap-0.5 pt-4 pb-5 px-4.5">
                                 <span className="font-display text-[26px] font-bold leading-[1.1]">{t.name}</span>
                                 <span className="text-[15px] text-(--ink-soft)">{t.fields.join(", ")}</span>
                             </div>
                         </div>
-                    ))}
+                    )})}
                 </div>
             </div>
         </div>

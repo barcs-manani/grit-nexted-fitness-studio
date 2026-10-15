@@ -1,67 +1,88 @@
 import { 
-    trainerTwo, trainerFour, trainerOne, trainerThree
+    trainerTwo, trainerFour, trainerOne, trainerThree,
+    trainerFive, trainerSix, trainerSeven
 } from "../assets/images";
 
 const TrainersData = [
     {
+        id: 1,
         name: "James Peck",
         fields: ["Calisthenics", "Body-Building"],
         location: "Berlin",
+        gender: "male",
         img: trainerOne
     },
     {
+        id: 2,
         name: "Winnie Bend",
         fields: ["Body-Building", "Stretching & Flexibility"],
         location: "London",
-        img: trainerTwo
+        gender: "female",
+        img: trainerFive
     },
     {
+        id: 3,
         name: "John Strong",
         fields: ["Boxing", "Body-Building"],
         location: "New York",
+        gender: "male",
         img: trainerThree
     },
     {
+        id: 4,
         name: "Andrew Fit",
         fields: ["Dance", "Cardio", "Endurance Training"],
         location: "Berlin",
-        img: trainerFour
+        gender: "male",
+        img: trainerSeven
     },
     {
+        id: 5,
         name: "Maya Power",
         fields: ["Calisthenics", "Cardio"],
         location: "London",
-        img: trainerOne
+        gender: "female",
+        img: trainerSix
     },
     {
+        id: 6,
         name: "Leo Forge",
         fields: ["Body-Building", "Endurance Training"],
         location: "New York",
-        img: trainerTwo
+        gender: "male",
+        img: trainerFour
     },
     {
+        id: 7,
         name: "Sofia Blaze",
         fields: ["Dance", "Stretching & Flexibility"],
         location: "Berlin",
-        img: trainerThree
+        gender: "female",
+        img: trainerTwo
     },
     {
+        id: 8,
         name: "Marcus Flex",
         fields: ["Boxing", "Calisthenics"],
         location: "London",
-        img: trainerFour
+        gender: "male",
+        img: null
     },
     {
+        id: 9,
         name: "Elena Strike",
         fields: ["Boxing", "Cardio"],
         location: "New York",
-        img: trainerOne
+        gender: "female",
+        img: null
     },
     {
+        id: 10,
         name: "Noah Pulse",
         fields: ["Endurance Training", "Stretching & Flexibility"],
         location: "Berlin",
-        img: trainerFour
+        gender: "male",
+        img: null
     }
 ];
 
