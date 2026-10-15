@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { Age } from "../../../data/FormFields";
-import 'react-phone-number-input/style.css';
-import '../../../styles/PhoneInput.css'
-import PhoneInput from 'react-phone-number-input'
-import flags from 'react-phone-number-input/flags'
 import { fieldClass } from "../../../styles/FormStyles";
 import { BranchLocations } from "../../../data/Locations";
+import { PhoneField, TextField } from "../forms/FormFields";
 
 const RegistrationModal = ({
     open,
@@ -31,7 +28,6 @@ const RegistrationModal = ({
     const [errors, setErrors] = useState([]);
 
     const handleChange = (n, val) => {
-        console.log(val);
         setFormData((prev) => {
             return {
                 ...prev,
@@ -39,14 +35,7 @@ const RegistrationModal = ({
             }
         })
     };
-    const handleSetPhoneNumber = (val) => {
-        setFormData((prev) => {
-            return {
-                ...prev,
-                "phoneNumber": val
-            }
-        })
-    };
+
     const validate = (raw) => {
         const newErrors = [];
         for (const k in raw) {
@@ -98,43 +87,27 @@ const RegistrationModal = ({
                 </div>
                 {/* Fields */}
                 <div className="overflow-y-auto flex-1 p-4 flex flex-col gap-4">
-                    <div className="flex flex-col gap-1 justify-center items-start px-3">
-                        <label className="font-semibold text-lg text-(--ink-soft)">
-                            Full Name
-                        </label>
-                        <input
-                            type="text"
-                            name="fullName"
-                            placeholder="Peter Parker"
-                            className={fieldClass}
-                            value={formData.fullName}
-                            onChange={(e) => { handleChange("fullName", e.target.value) }}
-                        />
-                    </div>
-                    <div className="flex flex-col gap-1 justify-center items-start px-3">
-                        <label className="font-semibold text-lg text-(--ink-soft)">
-                            Email Address
-                        </label>
-                        <input
-                            type="email"
-                            name="emailAddress"
-                            placeholder="spiderman@mail.com"
-                            className={fieldClass}
-                            value={formData.emailAddress}
-                            onChange={(e) => { handleChange("emailAddress", e.target.value) }}
-                        />
-                    </div>
-                    <div className="flex flex-col gap-1 justify-center items-start px-3">
-                        <label className="font-semibold text-lg text-(--ink-soft)">
-                            Phone Number
-                        </label>
-                        <PhoneInput
-                            name="phoneNumber"
-                            flags={flags}
-                            value={formData.phoneNumber}
-                            onChange={handleSetPhoneNumber}
-                        />
-                    </div>
+                    <TextField
+                        label="Full Name"
+                        name="fullName"
+                        placeHolder="Peter Parker"
+                        value={formData.fullName}
+                        onChange={(e) => { handleChange("fullName", e.target.value) }}
+                    />
+                    <TextField
+                        isEmail={true}
+                        name="emailAddress"
+                        label="Email Address"
+                        placeHolder="spiderman@mail.com"
+                        value={formData.emailAddress}
+                        onChange={(e) => { handleChange("emailAddress", e.target.value) }}
+                    />
+                    <PhoneField
+                        name="phoneNumber"
+                        label="Phone Number"
+                        value={formData.phoneNumber}
+                        onChange={(fullNum) => { handleChange("phoneNumber", fullNum) }}
+                    />
                     <div className="flex flex-col gap-1 justify-center items-start px-3">
                         <label className="font-semibold text-lg text-(--ink-soft)">
                             Age Group
