@@ -5,7 +5,8 @@ const PromoBadge01 = ({
     xPosition = "right", // right, left, center
     yPosition = "border-float", // border-float, border-sink
     txtSize = "small", // xsmall, small, medium, large, larger, xlarge
-    theme = "primary" // primary, secondary, extra
+    theme = "primary", // primary, secondary, extra
+    fullCustom = "" // Full tailwind script
 }) => {
     const radius = design === "pill"
         ? "rounded-[999px]"
@@ -36,9 +37,14 @@ const PromoBadge01 = ({
         : theme === "secondary"
             ? "text-white bg-(--violet)"
             : "border border-(--line) text-(--ink-soft) bg-(--bg)";
+
+    const styles = fullCustom.trim()
+        ? fullCustom
+        : `absolute ${yfloat} ${xfloat} ${radius} px-3 py-0.5 flex items-center justify-center ${fontSize} ${splash}`;
+
     if (!display) return null;
     return (
-        <div className={`absolute ${yfloat} ${xfloat} ${radius} px-3 py-0.5 flex items-center justify-center ${fontSize} ${splash}`}>
+        <div className={styles}>
             {text}
         </div>
     );
