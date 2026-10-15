@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MembershipPlans } from "../../../data/Memberships";
 import { RegistrationModal } from "../../shared/modals/Registration";
+import { PromoBadge01 } from "../../shared/Badges";
 
 export const Pricing = () => {
     const [selectedTier, setSelectedTier] = useState(null);
@@ -23,7 +24,15 @@ export const Pricing = () => {
                     <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mt-3 items-stretch">
                         {MembershipPlans.map((m, m_idx) => (
                             <div key={m_idx} className={`relative rounded-(--card-radius) flex flex-col gap-4 py-7 px-6.5 bg-white transition-all delay-150 ease-in-out hover:border-(--blue) hover:shadow-[0_0_0_1px_var(--blue)] ${m.recommended ? 'border-2 border-(--violet)' : 'border border-(--line)'}`}>
-                                
+                                <PromoBadge01
+                                    text="Recommended"
+                                    design="pill"
+                                    xPosition="right"
+                                    yPosition="border-float"
+                                    txtSize="medium"
+                                    theme="secondary"
+                                    display={m.recommended}
+                                />
                                 <h3 className="text-[30px] font-bold text-(--violet)">{m.type}</h3>
                                 <div className="h-px w-full bg-(--line)"></div>
                                 <ul className="flex-1 list-none flex flex-col gap-2 text-(--ink-soft)">
