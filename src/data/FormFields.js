@@ -11,22 +11,22 @@ const Age = [
     },
     {
         id: 3,
-        type: "Adult",
+        type: "adult",
         group: "17 to 25"
     },
     {
         id: 4,
-        type: "Adult",
+        type: "adult",
         group: "26 to 35"
     },
     {
         id: 5,
-        type: "Adult",
+        type: "adult",
         group: "36 to 50"
     },
     {
         id: 6,
-        type: "Adult",
+        type: "adult",
         group: "Over 51"
     }
 ];

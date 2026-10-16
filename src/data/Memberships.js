@@ -20,14 +20,15 @@ const MembershipPlans = [
             "Free amenities exclusive of pool access"
         ],
         price: 10,
-        recommended: true
+        popular: true
     },
     {
         type: "custom",
-        name: "Special",
+        name: "Custom",
         perks: [
             "Cardio, Calisthenics, Strength & Dancing",
             "All levels including expert training",
+            "Adults & Kids above 10 yrs",
             "Group schedules and personalized",
             "Free pool time"
         ],

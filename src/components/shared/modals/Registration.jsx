@@ -26,11 +26,15 @@ const RegistrationModal = ({
     const [formData, setFormData] = useState(defaultFormData);
     const [errors, setErrors] = useState([]);
     const ageOptions = useMemo(() => {
-        return Age.map((a) => ({
+        return Age.filter((af) => (
+            !regData?.type || regData.type === "custom"
+                ? af
+                : af.type === regData.type
+        )).map((a) => ({
             value: `${a.id}`,
             display: a.group
         }))
-    }, []);
+    }, [regData]);
     const branchOptions = useMemo(() => {
         return BranchLocations.map((b) => ({
             value: `${b.id}`,
