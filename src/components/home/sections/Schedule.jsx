@@ -89,7 +89,7 @@ const Schedule = () => {
                 <div className="w-full grid grid-cols-1 md:grid-cols-5 gap-6 sm:gap-[5vw] xl:gap-16">
                     <div className="col-span-1 md:col-span-3 flex flex-col gap-6">
                         <div className="w-full flex flex-col gap-2.5">
-                            <p className="text-sm font-semibold text-(--ink-soft)">Show sections sessions for</p>
+                            <p className="text-sm font-semibold text-(--ink-soft)">Show sessions for</p>
                             <Filters
                                 fields={focusAreas}
                                 setSelected={setSelectedFocus}

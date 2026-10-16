@@ -33,7 +33,7 @@ export const Pricing = () => {
                                     theme="secondary"
                                     display={m.recommended}
                                 />
-                                <h3 className="text-[30px] font-bold text-(--violet)">{m.type}</h3>
+                                <h3 className="text-[30px] font-bold text-(--violet)">{m.name}</h3>
                                 <div className="h-px w-full bg-(--line)"></div>
                                 <ul className="flex-1 list-none flex flex-col gap-2 text-(--ink-soft)">
                                     {m.perks.map((p, p_idx) => (

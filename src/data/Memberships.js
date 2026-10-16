@@ -1,6 +1,7 @@
 const MembershipPlans = [
     {
-        type: "Kids (Under 17)",
+        type: "child",
+        name: "Kids (Under 17)",
         perks: [
             "Cardio and Calisthenics focus",
             "Beginner friendly workouts",
@@ -10,7 +11,8 @@ const MembershipPlans = [
         price: 5
     },
     {
-        type: "Adult",
+        type: "adult",
+        name: "Adult",
         perks: [
             "Cardio, Calisthenics & Strength training",
             "Beginner & Intermediate workouts",
@@ -21,7 +23,8 @@ const MembershipPlans = [
         recommended: true
     },
     {
-        type: "Special",
+        type: "custom",
+        name: "Special",
         perks: [
             "Cardio, Calisthenics, Strength & Dancing",
             "All levels including expert training",

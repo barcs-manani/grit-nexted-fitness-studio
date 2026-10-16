@@ -84,7 +84,7 @@ const RegistrationModal = ({
                 {/* Header */}
                 <div className="flex justify-between items-center p-4 border-b border-(--line)">
                     <h2 className="text-2xl font-bold">
-                        {regData.type}
+                        {regData.name}
                     </h2>
 
                     <button
@@ -108,14 +108,14 @@ const RegistrationModal = ({
                     <TextField
                         isEmail={true}
                         name="emailAddress"
-                        label="Email Address"
+                        label={regData?.type === "child" ? "Guardian's Email Address" : "Email Address"}
                         placeHolder="spiderman@mail.com"
                         value={formData.emailAddress}
                         onChange={(e) => { handleChange("emailAddress", e.target.value) }}
                     />
                     <PhoneField
                         name="phoneNumber"
-                        label="Phone Number"
+                        label={regData?.type === "child" ? "Guardian's Phone Number" : "Phone Number"}
                         value={formData.phoneNumber}
                         onChange={(fullNum) => { handleChange("phoneNumber", fullNum) }}
                     />
