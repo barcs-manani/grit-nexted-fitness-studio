@@ -1,3 +1,32 @@
+const radiusByDesign = {
+    pill: "rounded-[999px]",
+    basic: "rounded-(--card-radius)"
+};
+
+const xPositionClasses = {
+    right: "right-[5%]",
+    left: "left-[5%]",
+    center: "left-[50%]"
+};
+
+const yPositionClasses = {
+    "border-float": "-top-[4%]",
+    "border-sink": "top-[4%]"
+};
+
+const fontSizeClasses = {
+    xsmall: "text-xs",
+    small: "text-sm",
+    large: "text-lg",
+    xlarge: "text-xl"
+};
+
+const themeClasses = {
+    primary: "text-white bg-(--blue)",
+    secondary: "text-white bg-(--violet)",
+    extra: "border border-(--line) text-(--ink-soft) bg-(--bg)"
+};
+
 const PromoBadge01 = ({
     display = false,
     text = "",
@@ -8,35 +37,11 @@ const PromoBadge01 = ({
     theme = "primary", // primary, secondary, extra
     fullCustom = "" // Full tailwind script
 }) => {
-    const radius = design === "pill"
-        ? "rounded-[999px]"
-        : design === "basic"
-            ? "rounded-(--card-radius)"
-            : "";
-    const xfloat = xPosition === "right"
-        ? "right-[5%]"
-        : xPosition === "left"
-            ? "left-[5%]"
-            : "left-[50%]";
-    const yfloat = yPosition === "border-float"
-        ? "-top-[4%]"
-        : yPosition === "border-sink"
-            ? "top-[4%]"
-            : "";
-    const fontSize = txtSize === "xsmall"
-        ? "text-xs"
-        : txtSize === "small"
-            ? "text-sm"
-            : txtSize === "large"
-                ? "text-lg"
-                : txtSize === "xlarge"
-                    ? "text-xl"
-                    : "text-md";
-    const splash = theme === "primary"
-        ? "text-white bg-(--blue)"
-        : theme === "secondary"
-            ? "text-white bg-(--violet)"
-            : "border border-(--line) text-(--ink-soft) bg-(--bg)";
+    const radius = radiusByDesign[design] ?? "";
+    const xfloat = xPositionClasses[xPosition] ?? xPositionClasses.center;
+    const yfloat = yPositionClasses[yPosition] ?? "";
+    const fontSize = fontSizeClasses[txtSize] ?? "text-md";
+    const splash = themeClasses[theme] ?? themeClasses.extra;
 
     const styles = fullCustom.trim()
         ? fullCustom

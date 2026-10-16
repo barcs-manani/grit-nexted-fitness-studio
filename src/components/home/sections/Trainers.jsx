@@ -42,7 +42,7 @@ export const Trainers = () => {
                             <div className="bg-(--ice)">
                                 <img
                                     className="block w-full aspect-4/5 object-cover"
-                                    alt={`Image of ${t.name}`}
+                                    alt={`Portrait of ${t.name}`}
                                     src={t?.img || imgSrc}
                                     onError={(e) => {
                                         e.target.src = imgSrc;

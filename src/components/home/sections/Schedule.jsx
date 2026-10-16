@@ -28,9 +28,8 @@ const ScheduleCard = ({
             <span className="mt-2"><Chevron rotate={open ? "180" : ""} /></span>
         </button>
 
-        <div
+        <section
             id={`${id}-panel`}
-            role="region"
             aria-labelledby={`${id}-trigger`}
             className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
         >
@@ -53,7 +52,7 @@ const ScheduleCard = ({
                     ))}
                 </ul>
             </div>
-        </div>
+        </section>
     </div>
 );
 
@@ -63,7 +62,7 @@ const Schedule = () => {
 
     const focusAreas = useMemo(() => {
         const all = ScheduleData.flatMap((p) => p.times.flatMap((t) => t.focus || []));
-        return [...new Set(all)].sort();
+        return [...new Set(all)].sort((a, b) => a.localeCompare(b));
     }, []);
 
     // Using memoization in this version to compare to trainers.jsx architecture for scalabilty
@@ -123,7 +122,7 @@ const Schedule = () => {
                         </div>
                     </div>
                     <div className="col-span-1 md:col-span-2">
-                        <img className="block w-full h-[60vh] sm:h-auto rounded-[20px]" alt="schedule section image" src={scheduleImg} />
+                        <img className="block w-full h-[60vh] sm:h-auto rounded-[20px]" alt="person with phone checking calendar" src={scheduleImg} />
                     </div>
                 </div>
             </div>

@@ -8,16 +8,12 @@ const Chevron = ({
     if (typeof weight !== "number")
         return <></>;
 
-    const rotation = !rotate || !rotate.trim()
-        ? ""
-        : rotate === "180"
-            ? "rotate-180"
-            : rotate === "90"
-                ? "rotate-90"
-                : rotate === "270"
-                    ? "rotate-270"
-                    : "";
-
+    const rotationsByAngle = {
+        "270": "rotate-270",
+        "180": "rotate-180",
+        "90": "rotate-90"
+    };
+    const rotation = rotationsByAngle[rotate] ?? "";
     const font_weight = weight / 100;
 
     return (
