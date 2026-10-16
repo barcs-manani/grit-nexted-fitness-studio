@@ -1,3 +1,4 @@
+import { Chevron } from "../../assets/icons/Icons";
 import { H1 } from "../../data/H1";
 import "../../styles/Home.css"
 
@@ -12,7 +13,21 @@ export const Hero = () => {
                     ))}
                 </h1>
                 <p className="text-[18px] sm:text-[2.6vw] xl:text-[24px] font-medium max-w-[34ch] text-white opacity-85">Build Strength, Grow Endurance and Enjoy Longevity</p>
-                <a id="hero-btn" href="#schedule" className="inline-block p-(--btn-padding) bg-(--blue) text-white font-semibold rounded-(--btn-radius) no-underline duration-200 ease-in-out hover:bg-(--blue-dark) hover:-translate-y-0.5  transition-colors">Get Started</a>
+                <a
+                    id="hero-btn"
+                    href="#schedule"
+                    className="
+                        flex gap-1 justify-center items-end p-(--btn-padding)
+                        bg-(--blue) text-white font-semibold rounded-(--btn-radius)
+                        no-underline duration-200 ease-in-out
+                        hover:bg-(--blue-dark) hover:-translate-y-0.5  transition-colors
+                    "
+                >
+                    <span className="inline-block">Get Started</span>
+                    <span className="animate-bounce duration-300 flex">
+                        <Chevron weight={300}/>
+                    </span>
+                </a>
             </div>
         </div>
     );

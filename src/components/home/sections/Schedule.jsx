@@ -25,7 +25,7 @@ const ScheduleCard = ({
                     ))}
                 </ul>
             </div>
-            <span className="mt-2"><Chevron open={open} /></span>
+            <span className="mt-2"><Chevron rotate={open ? "180" : ""} /></span>
         </button>
 
         <div
