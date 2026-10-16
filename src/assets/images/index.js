@@ -8,8 +8,11 @@ import trainerSix from "./gym-man-06.png";
 import trainerSeven from "./gym-man-07.png";
 import trainerMan from "./fitness-man-noID.png";
 import trainerWoman from "./fitness-woman-noID.png";
+import gritLogoWhite from "./GRIT_Fitness_Studio_icon_mono_white.png";
+import gritLogoDark from "./GRIT_Fitness_Studio_icon_mono_dark.png";
 
 export {
     scheduleImg, trainerOne, trainerTwo, trainerThree, trainerFour,
-    trainerFive, trainerSix, trainerSeven, trainerMan, trainerWoman
+    trainerFive, trainerSix, trainerSeven, trainerMan, trainerWoman,
+    gritLogoDark, gritLogoWhite
 };

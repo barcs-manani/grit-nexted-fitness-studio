@@ -37,9 +37,10 @@ html {
   --card-radius: 14px;
   --field-radius: 10px;
 
-  --z-tooltip: 10;
-  --z-modal-backdrop: 20;
-  --z-modal: 50;
+  --z-nav-bar: 200;
+  --z-tooltip: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
 }
 
 @layer base {
