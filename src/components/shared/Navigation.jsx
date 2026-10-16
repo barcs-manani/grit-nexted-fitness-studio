@@ -13,7 +13,7 @@ const PrimaryNav = ({
         lv5: "hover:text-(--bg) focus-visible:text-(--bg) after:bg-(--ice)" // a
     }
         : {
-            lv1: "bg-(--bg)/85 shadow-sm",
+            lv1: "bg-(--bg)/65 backdrop-blur-sm shadow-sm",
             lv2: "",
             lv3: "",
             lv4: "text-(--blue-dark)",
