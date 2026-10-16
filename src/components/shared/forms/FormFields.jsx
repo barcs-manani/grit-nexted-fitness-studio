@@ -17,7 +17,6 @@ const TextField = ({
             onChange(event);
         else {
             console.warn("'onChange' passed to 'TextField' in shared/forms/FormFields.jsx is not callable!");
-            return;
         }
     }
     return (
@@ -49,7 +48,6 @@ const PhoneField = ({
             onChange(fullNumber);
         else {
             console.warn("'onChange' passed to 'PhoneField' in shared/forms/FormFields.jsx is not callable!");
-            return;
         }
     }
     return (
