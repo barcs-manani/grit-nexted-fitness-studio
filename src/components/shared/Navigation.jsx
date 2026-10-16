@@ -24,7 +24,7 @@ const PrimaryNav = ({
                 <ul className="flex gap-4 sm:gap-[3vw] xl:gap-9 list-none hero-nav-menu">
                     {HeroNav.map((nv, idx) => (
                         <li key={idx} className={styles.lv4}>
-                            <a href={nv.link} className="relative py-1.5 opacity-85 font-semibold no-underline transition-colors delay-200 ease-in-out">
+                            <a href={nv.link} className="relative py-1.5 opacity-85 font-semibold no-underline transition-colors duration-200 ease-in-out">
                                 {nv.text}
                             </a>
                         </li>

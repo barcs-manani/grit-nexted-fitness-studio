@@ -38,7 +38,7 @@ export const Trainers = () => {
                     {filteredTrainers.map((t) => {
                         const imgSrc = t?.gender === "male" ? trainerMan : trainerWoman;
                         return (
-                        <div key={t.id} className="rounded-(--card-radius) overflow-hidden bg-white border border-(--line) transition-all delay-150 ease-in-out hover:-translate-y-1.5 hover:shadow-xl">
+                        <div key={t.id} className="rounded-(--card-radius) overflow-hidden bg-white border border-(--line) transition-all duration-150 ease-in-out hover:-translate-y-1.5 hover:shadow-xl">
                             <div className="bg-(--ice)">
                                 <img
                                     className="block w-full aspect-4/5 object-cover"

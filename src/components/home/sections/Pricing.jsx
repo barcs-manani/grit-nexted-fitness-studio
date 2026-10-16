@@ -23,7 +23,7 @@ export const Pricing = () => {
                         dream physique</p>
                     <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mt-3 items-stretch">
                         {MembershipPlans.map((m, m_idx) => (
-                            <div key={m_idx} className={`relative rounded-(--card-radius) flex flex-col gap-4 py-7 px-6.5 bg-white transition-all delay-150 ease-in-out hover:border-(--blue) hover:shadow-[0_0_0_1px_var(--blue)] ${m.recommended ? 'border-2 border-(--violet)' : 'border border-(--line)'}`}>
+                            <div key={m_idx} className={`relative rounded-(--card-radius) flex flex-col gap-4 py-7 px-6.5 bg-white transition-all duration-150 ease-in-out hover:border-(--blue) hover:shadow-[0_0_0_1px_var(--blue)] ${m.recommended ? 'border-2 border-(--violet)' : 'border border-(--line)'}`}>
                                 <PromoBadge01
                                     text="Recommended"
                                     design="pill"
@@ -46,7 +46,7 @@ export const Pricing = () => {
                                     <button
                                         href="#"
                                         onClick={() => handleClickReg(m)}
-                                        className="py-2.5 px-5.5 bg-(--blue) text-white font-semibold no-underline rounded-(--btn-radius) transition-colors delay-200 ease-in-out hover:bg-(--blue-dark)"
+                                        className="py-2.5 px-5.5 bg-(--blue) text-white font-semibold no-underline rounded-(--btn-radius) transition-colors duration-200 ease-in-out hover:bg-(--blue-dark)"
                                     >
                                         Register
                                     </button>
