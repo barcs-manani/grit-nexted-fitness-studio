@@ -1,11 +1,43 @@
+"use client"
+
 import { useState } from "react";
-import { BranchLocations } from "../../../data/Locations";
-import { TrainersData } from "../../../data/Trainers";
-import { Filters } from "../../shared/Filters";
-import { trainerMan, trainerWoman } from "../../../assets/images";
+import { BranchLocations } from "@/data/Locations";
+import { TrainersData } from "@/data/Trainers";
+import { Filters } from "@/components/shared/Filters";
+import { trainerMan, trainerWoman } from "@/assets/images";
+import Image from "next/image";
+
+function TrainerCard({ trainer }) {
+    const fallBackImgSrc = trainer?.gender === "male" ? trainerMan : trainerWoman;
+    const [useFallBackImgSrc, setUseFallBackImgSrc] = useState(false);
+    const imgSrc = useFallBackImgSrc ? fallBackImgSrc : trainer.img || fallBackImgSrc;
+    return (
+        <div key={trainer.id} className="rounded-(--card-radius) overflow-hidden bg-white border border-(--line) transition-all duration-150 ease-in-out hover:-translate-y-1.5 hover:shadow-xl">
+            <div className="bg-(--ice)">
+                <Image
+                    className="block w-full aspect-4/5 object-cover"
+                    alt={`Portrait of ${trainer.name}`}
+                    src={imgSrc}
+                    width={500}
+                    height={625}
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1280px) 25vw, 300px"
+                    onError={() => {
+                        if (!useFallBackImgSrc) setUseFallBackImgSrc(true);
+                    }}
+                />
+            </div>
+            <div className="flex flex-col gap-0.5 pt-4 pb-5 px-4.5">
+                <span className="font-display text-[26px] font-bold leading-[1.1]">{trainer.name}</span>
+                <span className="text-[15px] text-(--ink-soft)">{trainer.fields.join(", ")}</span>
+            </div>
+        </div>
+    );
+}
+
+const defField = { city: "all" };
 
 export const Trainers = () => {
-    const defField = { city: "all" };
+    const [selectedFilters, setSelectedFilters] = useState([]);
     const [filteredTrainers, setFilteredTrainers] = useState(
         Array.isArray(TrainersData)
             ? TrainersData
@@ -18,7 +50,13 @@ export const Trainers = () => {
     ).map((b) => b.city);
 
     const handleSelectFilterItem = (selected) => {
-        const res = selected.includes(defField.city) ? TrainersData : TrainersData.filter((t) => selected.includes(t.location));
+        const trainers = Array.isArray(TrainersData)
+            ? TrainersData
+            : [];
+        const res = selected.includes(defField.city)
+            ? trainers
+            : TrainersData.filter((t) => selected.includes(t.location));
+        setSelectedFilters(selected);
         setFilteredTrainers([...res]);
     };
     return (
@@ -30,31 +68,15 @@ export const Trainers = () => {
                     that you can put as much effort as you can, to be the best you that you can be
                 </p>
                 <Filters
+                    selected={selectedFilters}
                     fields={filterFields}
                     setSelected={handleSelectFilterItem}
                     xPosition="right"
                 />
                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5.5">
-                    {filteredTrainers.map((t) => {
-                        const imgSrc = t?.gender === "male" ? trainerMan : trainerWoman;
-                        return (
-                        <div key={t.id} className="rounded-(--card-radius) overflow-hidden bg-white border border-(--line) transition-all duration-150 ease-in-out hover:-translate-y-1.5 hover:shadow-xl">
-                            <div className="bg-(--ice)">
-                                <img
-                                    className="block w-full aspect-4/5 object-cover"
-                                    alt={`Portrait of ${t.name}`}
-                                    src={t?.img || imgSrc}
-                                    onError={(e) => {
-                                        e.target.src = imgSrc;
-                                    }}
-                                />
-                            </div>
-                            <div className="flex flex-col gap-0.5 pt-4 pb-5 px-4.5">
-                                <span className="font-display text-[26px] font-bold leading-[1.1]">{t.name}</span>
-                                <span className="text-[15px] text-(--ink-soft)">{t.fields.join(", ")}</span>
-                            </div>
-                        </div>
-                    )})}
+                    {filteredTrainers.map((t) => (
+                        <TrainerCard key={t.id} trainer={t} />
+                    ))}
                 </div>
             </div>
         </div>

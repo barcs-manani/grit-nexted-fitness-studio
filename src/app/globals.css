@@ -1,19 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap");
 @import "tailwindcss";
-
-html,
-body,
-#root {
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100%;
-  min-height: 100%;
-}
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 16px;
-}
 
 @theme {
   --ink: #0d1422;
@@ -26,8 +11,8 @@ html {
   --ice: #c9dcff;
   --line: #dde4ef;
 
-  --font-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
   --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
 
   --max-w: 1120px;
   --gutter: clamp(20px, 5vw, 40px);
@@ -52,6 +37,11 @@ html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 16px;
   }
 
   /* Base */

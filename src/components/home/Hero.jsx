@@ -1,6 +1,6 @@
-import { Chevron } from "../../assets/icons/Icons";
-import { H1 } from "../../data/H1";
-import "../../styles/Home.css"
+import { Chevron } from "@/assets/icons/Icons";
+import { H1 } from "@/data/H1";
+import "../../styles/Home.css";
 
 
 export const Hero = () => {

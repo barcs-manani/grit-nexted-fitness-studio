@@ -1,7 +1,7 @@
-import 'react-phone-number-input/style.css';
-import '../../../styles/PhoneInput.css';
+"use client"
+
 import PhoneInput from "react-phone-number-input";
-import { fieldClass } from "../../../styles/FormStyles";
+import { fieldClass } from '@/styles/FormStyles';
 import flags from "react-phone-number-input/flags";
 
 const TextField = ({
@@ -21,16 +21,18 @@ const TextField = ({
     }
     return (
         <div className="flex flex-col gap-1 justify-center items-start px-3">
-            <label className="font-semibold text-lg text-(--ink-soft)">
+            <label htmlFor={name} className="font-semibold text-lg text-(--ink-soft)">
                 {label}
             </label>
             <input
+                id={name}
                 type={isEmail ? "email" : "text"}
                 name={name}
                 placeholder={placeHolder}
                 className={fieldClass}
                 value={value}
                 onChange={handleChange}
+                autoComplete={isEmail ? "email" : name === "name" ? "name" : undefined}
             />
         </div>
     );
@@ -52,33 +54,37 @@ const PhoneField = ({
     }
     return (
         <div className="flex flex-col gap-1 justify-center items-start px-3">
-            <label className="font-semibold text-lg text-(--ink-soft)">
+            <label htmlFor={name} className="font-semibold text-lg text-(--ink-soft)">
                 {label}
             </label>
             <PhoneInput
+                id={name}
+                defaultCountry="US"
                 name={name}
                 flags={flags}
-                value={value}
+                value={value || undefined}
                 onChange={handleChange}
+                autoComplete='tel'
             />
         </div>
     )
 };
 
 const SingleSelect = ({
-    label="",
-    name="",
-    options=[],
-    value="",
-    placeHolder="",
+    label = "",
+    name = "",
+    options = [],
+    value = "",
+    placeHolder = "",
     onChange
 }) => {
     return (
         <div className="flex flex-col gap-1 justify-center items-start px-3">
-            <label className="font-semibold text-lg text-(--ink-soft)">
+            <label htmlFor={name} className="font-semibold text-lg text-(--ink-soft)">
                 {label}
             </label>
             <select
+                id={name}
                 name={name}
                 className={fieldClass}
                 onChange={onChange}
@@ -86,9 +92,9 @@ const SingleSelect = ({
                 value={value}
             >
                 <option value="" disabled>{placeHolder}</option>
-                {options.map((o, idx) => (
+                {options.map((o) => (
                     <option
-                        key={idx}
+                        key={o.value}
                         value={o.value}
                     >
                         {o.display}

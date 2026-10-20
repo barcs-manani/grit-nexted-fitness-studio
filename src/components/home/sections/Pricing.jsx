@@ -1,7 +1,9 @@
+"use client"
+
 import { useState } from "react";
-import { MembershipPlans } from "../../../data/Memberships";
-import { RegistrationModal } from "../../shared/modals/Registration";
-import { PromoBadge01 } from "../../shared/Badges";
+import { MembershipPlans } from "@/data/Memberships";
+import { RegistrationModal } from "@/components/shared/modals/Registration";
+import { PromoBadge01 } from "@/components/shared/Badges";
 
 export const Pricing = () => {
     const [selectedTier, setSelectedTier] = useState(null);
@@ -14,6 +16,14 @@ export const Pricing = () => {
         setOpenRegForm(false);
         setSelectedTier(null);
     };
+    const handleSubmit = (submitData) => {
+        const regPayload = {
+            ...submitData,
+            membershipType: selectedTier?.type
+        };
+        console.log("Registration payload: ", JSON.stringify(regPayload));
+    };
+
     return (
         <>
             <div id="member-tiers" className="w-full flex justify-center mt-(--section-gap)">
@@ -44,7 +54,7 @@ export const Pricing = () => {
                                 <span className="w-full flex justify-between items-center flex-wrap gap-3">
                                     <span className="font-display text-[32px] font-bold text-(--ink)">${m.price}/month</span>
                                     <button
-                                        href="#"
+                                        type="button"
                                         onClick={() => handleClickReg(m)}
                                         className="py-2.5 px-5.5 bg-(--blue) text-white font-semibold no-underline rounded-(--btn-radius) transition-colors duration-200 ease-in-out hover:bg-(--blue-dark)"
                                     >
@@ -60,6 +70,7 @@ export const Pricing = () => {
                 open={openRegForm}
                 onClose={handleCloseReg}
                 regData={selectedTier}
+                onSubmit={handleSubmit}
             />
         </>
     );
