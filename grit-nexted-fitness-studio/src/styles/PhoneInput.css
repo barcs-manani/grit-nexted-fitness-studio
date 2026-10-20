@@ -1,0 +1,27 @@
+.PhoneInput {
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.PhoneInputInput {
+  min-width: 0;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--field-radius);
+  background: var(--bg);
+  color: var(--ink);
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+}
+
+.PhoneInputInput:focus {
+  outline: 2px solid var(--blue);
+  outline-offset: 1px;
+}
+
+.PhoneInputCountry {
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--field-radius);
+  background: var(--bg);
+}
