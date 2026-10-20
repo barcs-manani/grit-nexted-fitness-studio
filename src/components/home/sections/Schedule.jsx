@@ -1,8 +1,11 @@
+"use client"
+
 import { useMemo, useState } from "react";
-import { Chevron } from "../../../assets/icons/Icons";
-import { scheduleImg } from "../../../assets/images";
-import { ScheduleData } from "../../../data/Schedule";
-import { Filters } from "../../shared/Filters";
+import { Chevron } from "@/assets/icons/Icons";
+import { scheduleImg } from "@/assets/images";
+import { ScheduleData } from "@/data/Schedule";
+import { Filters } from "@/components/shared/Filters";
+import Image from "next/image";
 
 
 const ScheduleCard = ({
@@ -58,7 +61,7 @@ const ScheduleCard = ({
 
 const Schedule = () => {
     const [selectedFocus, setSelectedFocus] = useState([]);
-    const [openPID, setOpenPID] = useState(0);
+    const [openPID, setOpenPID] = useState(null);
 
     const focusAreas = useMemo(() => {
         const all = ScheduleData.flatMap((p) => p.times.flatMap((t) => t.focus || []));
@@ -70,7 +73,7 @@ const Schedule = () => {
         return ScheduleData.map((p) => {
             if (p.custom) return { ...p, slots: [] };
             const slots = selectedFocus.length
-                ? p.times.filter((t) => t.focus.some((f) => selectedFocus.includes(f)))
+                ? p.times.filter((t) => (t.focus || []).some((f) => selectedFocus.includes(f)))
                 : p.times;
             return { ...p, slots };
         }).filter((p) => p?.custom || p.slots.length)
@@ -91,6 +94,7 @@ const Schedule = () => {
                             <p className="text-sm font-semibold text-(--ink-soft)">Show sessions for</p>
                             <Filters
                                 fields={focusAreas}
+                                selected={selectedFocus}
                                 setSelected={setSelectedFocus}
                                 xPosition="left"
                             />
@@ -122,7 +126,12 @@ const Schedule = () => {
                         </div>
                     </div>
                     <div className="col-span-1 md:col-span-2">
-                        <img className="block w-full h-[60vh] sm:h-auto rounded-[20px]" alt="person with phone checking calendar" src={scheduleImg} />
+                        <Image
+                            src={scheduleImg}
+                            alt="person with phone checking calendar"
+                            className="block w-full h-[60vh] sm:h-auto rounded-[20px]"
+                            sizes="(max-width: 768px) 100vw, 40vw"
+                        />
                     </div>
                 </div>
             </div>

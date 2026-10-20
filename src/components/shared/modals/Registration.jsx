@@ -1,7 +1,25 @@
+"use client"
+
 import { useMemo, useState } from "react";
-import { Age } from "../../../data/FormFields";
-import { BranchLocations } from "../../../data/Locations";
-import { PhoneField, SingleSelect, TextField } from "../forms/FormFields";
+import { Age } from "@/data/FormFields";
+import { BranchLocations } from "@/data/Locations";
+import { TextField, PhoneField, SingleSelect } from "../forms/FormFields";
+import { mailValidationStr } from "@/data/InputValidation";
+
+const defaultFormData = {
+    fullName: "",
+    emailAddress: "",
+    phoneNumber: "",
+    age: "",
+    branch: ""
+};
+const fieldNames = {
+    fullName: "full name",
+    emailAddress: "email address",
+    phoneNumber: "phone number",
+    age: "age",
+    branch: "location"
+};
 
 const RegistrationModal = ({
     open,
@@ -9,44 +27,30 @@ const RegistrationModal = ({
     regData,
     onSubmit
 }) => {
-    const defaultFormData = {
-        fullName: "",
-        emailAddress: "",
-        phoneNumber: "",
-        age: "",
-        branch: ""
-    };
-    const fieldNames = {
-        fullName: "full name",
-        emailAddress: "email address",
-        phoneNumber: "phone number",
-        age: "age",
-        branch: "location"
-    };
     const [formData, setFormData] = useState(defaultFormData);
     const [errors, setErrors] = useState([]);
     const ageOptions = useMemo(() => {
         return Age.filter((af) => (
             !regData?.type || regData.type === "custom"
-                ? af
+                ? true
                 : af.type === regData.type
         )).map((a) => ({
-            value: `${a.id}`,
+            value: String(a.id),
             display: a.group
         }))
     }, [regData]);
     const branchOptions = useMemo(() => {
         return BranchLocations.map((b) => ({
-            value: `${b.id}`,
+            value: String(b.id),
             display: `${b.city}, ${b.country}`
         }))
     }, []);
 
-    const handleChange = (n, val) => {
+    const handleChange = (name, value) => {
         setFormData((prev) => {
             return {
                 ...prev,
-                [n]: val
+                [name]: value
             }
         })
     };
@@ -54,10 +58,17 @@ const RegistrationModal = ({
     const validate = (raw) => {
         const newErrors = [];
         for (const k in raw) {
-            if (raw[k] == null || (typeof raw[k] === "string" && !raw[k].trim())) {
-                newErrors.push(fieldNames[k])
-            }
+            const val = raw[k];
+            if (
+                val == null ||
+                (typeof val === "string" && !val.trim())
+            ) newErrors.push(fieldNames[k]);
         }
+        if (
+            raw.emailAddress.trim() &&
+            !mailValidationStr.test(raw.emailAddress.trim())
+        ) newErrors.push("valid email address");
+
         return newErrors;
     };
     const handleSubmit = () => {
@@ -67,34 +78,44 @@ const RegistrationModal = ({
             return;
         }
         setErrors([]);
-        const formDataFmt = {
+        const submitData = {
             ...formData,
-            age: Age.filter((i) => `${i.id}` === formData.age).group,
-            branch: BranchLocations.filter((j) => `${j.id}` === formData.branch).city
+            fullName: formData.fullName.trim(),
+            emailAddress: formData.emailAddress.trim()
         }
-        if (onSubmit === "function") {
+        if (typeof onSubmit === "function") {
             setFormData(defaultFormData);
-            onSubmit(formDataFmt);
-            onClose();
+            onSubmit(submitData);
         }
     };
+
+    const handleClose = () => {
+        setFormData(defaultFormData);
+        setErrors([]);
+        onClose?.();
+    }
 
     if (!open || !regData) return null;
     return (
         <div className="fixed inset-0 z-(--z-modal-backdrop) bg-(--ink)/75 flex justify-center items-center p-3 sm:p-6">
             {/* Modal panel */}
-            <div className="relative z-(--z-modal) bg-(--bg) text-(--ink) border border-(--line) rounded-(--card-radius) shadow-2xl overflow-hidden flex flex-col w-full max-w-2xl max-h-[90dvh]">
+            <div
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="mem-reg-title"
+                className="relative z-(--z-modal) bg-(--bg) text-(--ink) border border-(--line) rounded-(--card-radius) shadow-2xl overflow-hidden flex flex-col w-full max-w-2xl max-h-[90dvh]"
+            >
 
                 {/* Header */}
                 <div className="flex justify-between items-center p-4 border-b border-(--line)">
-                    <h2 className="text-2xl font-bold">
+                    <h2 id="mem-reg-title" className="text-2xl font-bold">
                         {regData.name}
                     </h2>
 
                     <button
                         type="button"
                         aria-label="Close registration form"
-                        onClick={onClose}
+                        onClick={handleClose}
                         className="w-9 h-9 bg-(--bg-secondary) text-(--ink-soft) border border-(--line) hover:bg-(--ice) hover:text-(--ink) rounded-full cursor-pointer font-bold flex justify-center items-center transition-colors"
                     >
                         x

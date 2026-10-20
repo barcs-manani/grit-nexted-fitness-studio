@@ -1,5 +1,5 @@
-import { BranchLocations } from "../../data/Locations";
-import { SocialLinks } from "../../data/SocialLinks";
+import { BranchLocations } from "@/data/Locations";
+import { SocialLinks } from "@/data/SocialLinks";
 
 
 export const Footer = () => {

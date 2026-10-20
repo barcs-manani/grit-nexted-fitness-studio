@@ -1,9 +1,0 @@
-/* ---------- Hero ---------- */
-.hero-cntr {
-    background-image:
-        linear-gradient(100deg, rgba(13, 20, 34, 0.88) 0%, rgba(13, 20, 34, 0.55) 55%, rgba(13, 20, 34, 0.25) 100%),
-        url(/images/hero-img-01.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
