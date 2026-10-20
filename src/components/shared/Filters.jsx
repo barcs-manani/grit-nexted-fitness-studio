@@ -14,6 +14,7 @@ const Filters = ({
 }) => {
     const justify = horizontalPositions[xPosition] ?? "justify-start";
     const handleSelect = (field) => {
+        // console.log("Selected: ", field);
         const nextSelect = selected.includes(field)
             ? selected.filter((f) => f !== field)
             : [

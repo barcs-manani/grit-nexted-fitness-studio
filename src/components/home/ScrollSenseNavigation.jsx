@@ -20,6 +20,7 @@ export function ScrollSenseNavigation() {
         observer.observe(hero);
         return () => observer.disconnect();
     }, []);
+    // console.log("Nav theme: ", navTheme);
 
     return <PrimaryNav theme={navTheme} isScrolled={isScrolled} />
 }
