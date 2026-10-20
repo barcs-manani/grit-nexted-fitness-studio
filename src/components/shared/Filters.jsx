@@ -1,16 +1,17 @@
 import { useState } from "react";
 
+
+const horizontalPositions = {
+    center: "justify-center",
+    right: "justify-end"
+};
+
 const Filters = ({
     fields = [],
     setSelected,
     xPosition = "center"
 }) => {
-    const justify = xPosition === "center"
-        ? "justify-center"
-        : xPosition === "right"
-            ? "justify-end"
-            : "justify-start";
-
+    const justify = horizontalPositions[xPosition] ?? "justify-start";
     const [localSelect, setLocalSelect] = useState([]);
     const handleSelect = (field) => {
         const nextSelect = localSelect.includes(field)
