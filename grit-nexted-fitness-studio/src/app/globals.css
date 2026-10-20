@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+:root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 16px;
+}
+
+@theme {
+  --ink: #0d1422;
+  --ink-soft: #3b4658;
+  --bg: #ffffff;
+  --bg-secondary: #f1f4f9;
+  --blue: #2f6bff;
+  --blue-dark: #1b4fd6;
+  --violet: #6d3df2;
+  --ice: #c9dcff;
+  --line: #dde4ef;
+
+  --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+
+  --max-w: 1120px;
+  --gutter: clamp(20px, 5vw, 40px);
+  --section-gap: clamp(56px, 9vw, 96px);
+  --btn-radius: 999px;
+  --btn-padding: 14px 28px;
+  --card-radius: 14px;
+  --field-radius: 10px;
+
+  --z-nav-bar: 200;
+  --z-tooltip: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Base */
+body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+}
+
+img {
+  max-width: 100%;
+}
+
+a:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
