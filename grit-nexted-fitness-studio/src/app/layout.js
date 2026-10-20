@@ -1,5 +1,7 @@
 import { Barlow, Barlow_Condensed } from "next/font/google";
 import "./globals.css";
+import 'react-phone-number-input/style.css';
+import '../styles/PhoneInput.css';
 
 const barlow = Barlow({
   variable: "--font-body", // Assign each font to custom css property
