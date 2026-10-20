@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { Age } from "@/data/FormFields";
 import { BranchLocations } from "@/data/Locations";
-import { TextField, PhoneField, SingleSelect } from "@components/shared/forms/FormFields";
+import { TextField, PhoneField, SingleSelect } from "../forms/FormFields";
 import { mailValidationStr } from "@/data/InputValidation";
 
 const defaultFormData = {

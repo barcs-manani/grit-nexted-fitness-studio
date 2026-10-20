@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { PrimaryNav } from "../shared/Navigation";
 
 export function ScrollSenseNavigation() {
-    const isScrolled = useScrollDetect(0);
+    const isScrolled = useScrollDetect({ threshold: 0 });
     const [navTheme, setNavTheme] = useState("dark");
 
     useEffect(() => {
