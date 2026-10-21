@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET() {
     try {
-        const plans = await prisma.membership_plans.findMany({
+        const plans = await prisma.membershipPlan.findMany({
             orderBy: {
                 id: "asc",
             },
@@ -12,17 +12,46 @@ export async function GET() {
                 id: true,
                 type: true,
                 name: true,
-                monthlyPrice: true
+                description: true,
+                popular: true,
+                pricing: {
+                    select: {
+                        id: true,
+                        period: true,
+                        currency: true,
+                        amount: true,
+                    },
+                    orderBy: { id: "asc" }
+                },
+                perks: {
+                    select: {
+                        id: true,
+                        name: true
+                    },
+                    orderBy: { id: "asc" },
+                },
             },
         });
 
         const result = plans.map((plan) => ({
             ...plan,
-            id: plan.id.toString(),
-            monthlyPrice: Number(plan.monthlyPrice),
+            id: String(plan.id),
+            pricing: plan.pricing.map((price) => (
+                {
+                    ...price,
+                    id: String(price.id),
+                    amount: price.amount.toString(),
+                }
+            )),
+            perks: plan.perks.map((perk) => (
+                {
+                    ...perk,
+                    id: String(perk.id),
+                }
+            )),
         }));
 
-        return NextResponse.json(result);
+        return NextResponse.json(result, { headers: { "Cache-Control": "no-store" } });
     } catch (error) {
         console.error("Failed to fetch membership plans: ", error);
 
