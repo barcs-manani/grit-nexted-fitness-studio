@@ -1,39 +1,106 @@
+
 const MembershipPlans = [
     {
-        type: "child",
-        name: "Kids (Under 17)",
+        type: "essential",
+        name: "Essential",
+        description: "Build your fitness foundation.",
         perks: [
-            "Cardio and Calisthenics focus",
-            "Beginner friendly workouts",
-            "Group schedules",
-            "Free pool time"
+            "Body-building and calisthenics",
+            "Cardio and endurance training",
+            "Standard gym equipment access",
+            "Basic trainer guidance",
+            "Showers, lockers and changing rooms"
         ],
-        price: 5
+        price: 5,
+        features: {
+            disciplines: [
+                "Body-Building",
+                "Calisthenics",
+                "Cardio",
+                "Endurance Training"
+            ],
+            trainerSupport: "Basic guidance",
+            personalizedPlan: false,
+            personalTrainingSessions: 0,
+            amenities: [
+                "Gym equipment",
+                "Showers",
+                "Lockers",
+                "Changing rooms"
+            ]
+        },
+        popular: false
     },
     {
-        type: "adult",
-        name: "Adult",
+        type: "plus",
+        name: "Plus",
+        description: "Enjoy every regular training discipline.",
         perks: [
-            "Cardio, Calisthenics & Strength training",
-            "Beginner & Intermediate workouts",
-            "Group schedules",
-            "Free amenities exclusive of pool access"
+            "All Essential benefits",
+            "Boxing, dance and flexibility training",
+            "Trainer-guided group classes",
+            "Sauna access"
         ],
         price: 10,
+        features: {
+            disciplines: [
+                "Body-Building",
+                "Calisthenics",
+                "Cardio",
+                "Endurance Training",
+                "Boxing",
+                "Dance",
+                "Stretching & Flexibility"
+            ],
+            trainerSupport: "Group guidance",
+            personalizedPlan: false,
+            personalTrainingSessions: 0,
+            amenities: [
+                "Gym equipment",
+                "Showers",
+                "Lockers",
+                "Changing rooms",
+                "Sauna"
+            ]
+        },
         popular: true
     },
     {
-        type: "custom",
-        name: "Custom",
+        type: "premium",
+        name: "Premium",
+        description: "Get personalized training and complete wellness access.",
         perks: [
-            "Cardio, Calisthenics, Strength & Dancing",
-            "All levels including expert training",
-            "Adults & Kids above 10 yrs",
-            "Group schedules and personalized",
-            "Free pool time"
+            "All Plus benefits",
+            "Personalized training plan",
+            "Trainer matching by specialization",
+            "Two personal training sessions per month",
+            "Sauna and swimming pool access"
         ],
-        price: 15
+        price: 15,
+        features: {
+            disciplines: [
+                "Body-Building",
+                "Calisthenics",
+                "Cardio",
+                "Endurance Training",
+                "Boxing",
+                "Dance",
+                "Stretching & Flexibility"
+            ],
+            trainerSupport: "Personalized coaching",
+            personalizedPlan: true,
+            personalTrainingSessions: 2,
+            amenities: [
+                "Gym equipment",
+                "Showers",
+                "Lockers",
+                "Changing rooms",
+                "Sauna",
+                "Swimming pool"
+            ]
+        },
+        popular: false
     }
 ];
 
-export { MembershipPlans }
+export { MembershipPlans };

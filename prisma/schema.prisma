@@ -8,23 +8,143 @@ datasource db {
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model membership_plans {
-  id            BigInt          @id @default(autoincrement())
-  type          String          @unique @db.VarChar(30)
-  name          String          @db.VarChar(100)
-  monthlyPrice  Decimal         @db.Decimal(10, 2)
-  createdAt     DateTime        @default(now()) @db.Timestamptz(6)
-  registrations registrations[]
+model MembershipPlan {
+  id          Int               @id @default(autoincrement())
+  type        String            @unique @db.VarChar(30)
+  name        String            @db.VarChar(100)
+  description String            @db.Text
+  createdAt   DateTime          @default(now()) @db.Timestamptz(6)
+  pricing     MembershipPrice[]
+  perks       MembershipPerk[]
+  popular     Boolean           @default(false) @db.Boolean
+  members     Member[]
+
+  @@map("membership_plans")
 }
 
-model registrations {
-  id               BigInt           @id @default(autoincrement())
-  fullName         String           @db.VarChar(150)
-  emailAddress     String           @db.VarChar(254)
-  phoneNumber      String           @db.VarChar(30)
-  ageGroupId       BigInt
-  branchId         BigInt
-  membershipPlanId BigInt
-  createdAt        DateTime         @default(now()) @db.Timestamptz(6)
-  membership_plans membership_plans @relation(fields: [membershipPlanId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model MembershipPrice {
+  id               Int            @id @default(autoincrement())
+  membershipPlanId Int
+  period           String         @db.VarChar(20)
+  currency         String         @db.VarChar(5)
+  amount           Decimal        @db.Decimal(10, 2)
+  membershipPlan   MembershipPlan @relation(fields: [membershipPlanId], references: [id])
+
+  @@unique([membershipPlanId, period, currency])
+  @@map("membership_prices")
+}
+
+model MembershipPerk {
+  id               Int            @id @default(autoincrement())
+  membershipPlanId Int
+  name             String         @db.Text
+  membershipPlan   MembershipPlan @relation(fields: [membershipPlanId], references: [id])
+
+  @@unique([membershipPlanId, name])
+  @@map("membership_perks")
+}
+
+model MemberAgeGroup {
+  id      Int      @id @default(autoincrement())
+  type    String   @db.VarChar(20)
+  group   String   @db.VarChar(30)
+  members Member[]
+
+  @@unique([type, group])
+  @@map("member_age_groups")
+}
+
+model BranchLocation {
+  id       Int       @id @default(autoincrement())
+  country  String    @db.VarChar(150)
+  city     String    @db.VarChar(150)
+  trainers Trainer[]
+  members  Member[]
+
+  @@unique([country, city])
+  @@map("branch_locations")
+}
+
+model FitnessField {
+  id            Int            @id @default(autoincrement())
+  name          String         @db.Text
+  trainers      Trainer[]
+  scheduleTimes ScheduleTime[]
+
+  @@map("fitness_fields")
+}
+
+model Trainer {
+  id            BigInt         @id @default(autoincrement())
+  fullName      String         @db.VarChar(250)
+  emailAddress  String         @db.VarChar(254)
+  gender        String         @db.VarChar(20)
+  imageURL      String         @db.Text
+  branchId      Int
+  branch        BranchLocation @relation(fields: [branchId], references: [id])
+  fitnessFields FitnessField[]
+
+  @@map("trainers")
+}
+
+model UserAccount {
+  id           BigInt   @id @default(autoincrement())
+  fullName     String   @db.VarChar(150)
+  emailAddress String   @db.VarChar(254)
+  phoneNumber  String   @db.VarChar(30)
+  passwordHash String   @db.VarChar(255)
+  createdAt    DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
+  members      Member[]
+
+  @@map("user_accounts")
+}
+
+model Member {
+  id               BigInt         @id @default(autoincrement())
+  accountId        BigInt
+  primaryAccount   Boolean        @db.Boolean
+  fullName         String         @db.VarChar(150)
+  emailAddress     String         @db.VarChar(254)
+  phoneNumber      String         @db.VarChar(30)
+  ageGroupId       Int
+  branchId         Int
+  membershipPlanId Int
+  createdAt        DateTime       @default(now()) @db.Timestamptz(6)
+  account          UserAccount?   @relation(fields: [accountId], references: [id])
+  branchLocation   BranchLocation @relation(fields: [branchId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ageGroup         MemberAgeGroup @relation(fields: [ageGroupId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  membershipPlan   MembershipPlan @relation(fields: [membershipPlanId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([emailAddress])
+  @@index([accountId])
+  @@map("members")
+}
+
+model Schedule {
+  id     Int            @id @default(autoincrement())
+  period String         @db.VarChar(30)
+  times  ScheduleTime[]
+
+  @@map("schedules")
+}
+
+model ScheduleTime {
+  id          Int            @id @default(autoincrement())
+  scheduleId  Int
+  time        String         @db.VarChar(300)
+  description String         @db.Text
+  focusArea   FitnessField[]
+  schedule    Schedule       @relation(fields: [scheduleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("schedule_times")
+}
+
+model SocialLink {
+  id       Int    @id @default(autoincrement())
+  tag      String @db.VarChar(30)
+  platform String @db.VarChar(30)
+  link     String @db.Text
+
+  @@map("social_links")
 }
