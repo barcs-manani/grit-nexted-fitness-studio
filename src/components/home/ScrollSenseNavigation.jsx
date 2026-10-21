@@ -3,8 +3,10 @@
 import { useScrollDetect } from "@/hooks/useScrollDetect";
 import { useEffect, useState } from "react";
 import { PrimaryNav } from "../shared/Navigation";
+import { useScreenDetect } from "@/hooks/useScreenDetect";
 
 export function ScrollSenseNavigation() {
+    const { isTablet, isMobile } = useScreenDetect();
     const isScrolled = useScrollDetect({ threshold: 0 });
     const [navTheme, setNavTheme] = useState("dark");
 
@@ -22,5 +24,11 @@ export function ScrollSenseNavigation() {
     }, []);
     // console.log("Nav theme: ", navTheme);
 
-    return <PrimaryNav theme={navTheme} isScrolled={isScrolled} />
+    return (
+        <PrimaryNav
+            theme={navTheme}
+            isScrolled={isScrolled}
+            menu={isTablet || isMobile ? "mini" : "full"}
+        />
+    );
 }
