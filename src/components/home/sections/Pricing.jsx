@@ -16,12 +16,33 @@ export const Pricing = () => {
         setOpenRegForm(false);
         setSelectedTier(null);
     };
-    const handleSubmit = (submitData) => {
+    const handleSubmit = async (submitData) => {
         const regPayload = {
             ...submitData,
             membershipType: selectedTier?.type
         };
-        console.log("Registration payload: ", JSON.stringify(regPayload));
+        try {
+            // console.log("Registration payload: ", JSON.stringify(regPayload));
+            const response = await fetch(
+                "/api/registrations",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(regPayload),
+                }
+            );
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || "Registration failed please try again.")
+            }
+
+            return result;
+        } catch (error) {
+            return error;
+        }
     };
 
     return (

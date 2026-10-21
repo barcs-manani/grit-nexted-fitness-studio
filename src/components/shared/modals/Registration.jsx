@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { Age } from "@/data/FormFields";
 import { BranchLocations } from "@/data/Locations";
 import { TextField, PhoneField, SingleSelect } from "../forms/FormFields";
-import { mailValidationStr } from "@/data/InputValidation";
+import { mailRegEx } from "@/data/InputValidation";
 
 const defaultFormData = {
     fullName: "",
@@ -55,6 +55,12 @@ const RegistrationModal = ({
         })
     };
 
+    const handleClose = () => {
+        setFormData(defaultFormData);
+        setErrors([]);
+        onClose?.();
+    }
+
     const validate = (raw) => {
         const newErrors = [];
         for (const k in raw) {
@@ -66,12 +72,12 @@ const RegistrationModal = ({
         }
         if (
             raw.emailAddress.trim() &&
-            !mailValidationStr.test(raw.emailAddress.trim())
+            !mailRegEx.test(raw.emailAddress.trim())
         ) newErrors.push("valid email address");
 
         return newErrors;
     };
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const newErrors = validate(formData);
         if (newErrors && newErrors.length > 0) {
             setErrors(newErrors);
@@ -81,19 +87,19 @@ const RegistrationModal = ({
         const submitData = {
             ...formData,
             fullName: formData.fullName.trim(),
-            emailAddress: formData.emailAddress.trim()
+            emailAddress: formData.emailAddress.trim(),
+            age: Number(formData.age),
+            branch: Number(formData.branch),
         }
         if (typeof onSubmit === "function") {
-            setFormData(defaultFormData);
-            onSubmit(submitData);
+            const res = await onSubmit(submitData);
+            console.log("onSubmit response: ", res);
+            if (res?.registration?.id) {
+                setFormData(defaultFormData);
+                handleClose();
+            } else console.error(res);
         }
     };
-
-    const handleClose = () => {
-        setFormData(defaultFormData);
-        setErrors([]);
-        onClose?.();
-    }
 
     if (!open || !regData) return null;
     return (

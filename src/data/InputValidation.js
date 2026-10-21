@@ -1,3 +1,3 @@
-const mailValidationStr = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
+const mailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export { mailValidationStr }
+export { mailRegEx }

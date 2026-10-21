@@ -2,7 +2,7 @@ import "server-only"
 
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { mailValidationStr } from "@/data/InputValidation";
+import { mailRegEx } from "@/data/InputValidation";
 
 export async function POST(request) {
     try {
@@ -21,8 +21,8 @@ export async function POST(request) {
             fullName.trim().length > 150 ||
             typeof emailAddress !== "string" ||
             typeof phoneNumber !== "string" ||
-            typeof age !== "string" ||
-            typeof branch !== "string" ||
+            typeof age !== "number" ||
+            typeof branch !== "number" ||
             typeof membershipType !== "string"
         ) {
             return NextResponse.json(
@@ -37,7 +37,7 @@ export async function POST(request) {
 
         if (
             normEmail.length > 254 ||
-            !mailValidationStr.test(normEmail)
+            !mailRegEx.test(normEmail)
         ) {
             return NextResponse.json(
                 { error: "Please provide a valid email address" },
