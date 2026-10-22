@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { TextField } from "../forms/FormFields";
+import { LoginPassword, TextField } from "../forms/FormFields";
 import { mailRegEx } from "@/data/InputValidation";
 import { Close } from "@/assets/icons/Icons";
 
@@ -18,7 +18,8 @@ const fieldNames = {
 const LoginModal = ({
     open,
     onClose,
-    onSubmit
+    onSubmit,
+    switchToSignup,
 }) => {
     const [formData, setFormData] = useState(defaultFormData);
     const [errors, setErrors] = useState([]);
@@ -71,6 +72,12 @@ const LoginModal = ({
 
     };
 
+    const handleSwitchToSignup = () => {
+        setErrors([]);
+        setFormData(defaultFormData);
+        switchToSignup();
+    };
+
     if (!open) return null;
 
     return (
@@ -108,7 +115,7 @@ const LoginModal = ({
                         value={formData.emailAddress}
                         onChange={(e) => { handleChange("emailAddress", e.target.value) }}
                     />
-                    <TextField
+                    <LoginPassword
                         label="Password"
                         name="password"
                         value={formData.password}
@@ -119,22 +126,31 @@ const LoginModal = ({
                     </span>
                 </div>
                 {/* Footer */}
-                <div className="p-4 flex justify-end border-t border-(--line)">
+                <div className="p-4 border-t border-(--line) flex flex-col gap-2">
                     <button
                         type="button"
-                        onClick={handleSubmit}
-                        className={`
+                        onClick={handleSwitchToSignup}
+                        className="text-(--blue)/80 cursor-pointer hover:text-(--blue-dark)"
+                    >
+                        Don&apos;t have an account?
+                    </button>
+                    <div className="flex justify-end">
+                        <button
+                            type="button"
+                            onClick={handleSubmit}
+                            className={`
                             py-2.5 px-6 
                             ${errors.length
-                                ? 'bg-(--bg) text-(--ink-soft)/50 cursor-not-allowed'
-                                : 'bg-(--blue) text-white cursor-pointer hover:bg-(--blue-dark) focus-visible:outline-(--blue)'
-                            } 
+                                    ? 'bg-(--bg) text-(--ink-soft)/50 cursor-not-allowed'
+                                    : 'bg-(--blue) text-white cursor-pointer hover:bg-(--blue-dark) focus-visible:outline-(--blue)'
+                                } 
                             font-semibold rounded-(--btn-radius) transition-colors  
                             focus-visible:outline-2 focus-visible:outline-offset-2 
                         `}
-                    >
-                        Submit
-                    </button>
+                        >
+                            Submit
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
