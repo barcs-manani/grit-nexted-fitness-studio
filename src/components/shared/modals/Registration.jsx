@@ -128,31 +128,30 @@ const RegistrationModal = ({
     }
 
     const handleSubmit = async () => {
-        const members = accountOnly
-            ? [
-                {
-                    primaryAccount: true,
-                    ageGroupId: Number(formData.view3.age),
-                    branchId: Number(formData.view3.branch),
-                }
-            ]
+        const member = !accountOnly && membershipPlan
+            ? {
+                primaryAccount: true,
+                ageGroupId: Number(formData.view3.age),
+                branchId: Number(formData.view3.branch),
+                membershipPlanId: membershipPlan.id
+            }
             : null;
         const submitData = {
             fullName: formData.view1.fullName.trim(),
             emailAddress: formData.view1.emailAddress.trim(),
             phoneNumber: formData.view1.phoneNumber,
             password: formData.view2.password,
-            members
+            member
         }
         if (typeof onSubmit === "function") {
             const res = await onSubmit(submitData);
             // console.log("onSubmit response: ", res);
-            if (res?.signup?.id) {
+            if (!res?.signup?.id) console.error(res);
+            else {
                 setFormData(defaultFormData);
                 handleClose();
-            } else console.error(res);
+            }
         }
-
     };
 
     const handleRegNavigation = async (direction) => {
