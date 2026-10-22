@@ -1,119 +1,16 @@
 "use client"
 
 import { AccountOptions, HeroNav } from "@/data/Navigation";
-import { GritLogo } from "./brand/GritLogo";
+import { GritLogo } from "../brand/GritLogo";
 import { Close } from "@/assets/icons/C/icons";
 import { HamburgerMenu } from "@/assets/icons/H/icons";
 import { useState } from "react";
-import { LoginModal } from "./modals/Login";
-import { RegistrationModal } from "./modals/Registration";
+import { LoginModal } from "../modals/Login";
+import { RegistrationModal } from "../modals/Registration";
 import { useRouter } from "next/navigation";
+import { Drawer, DrawerItem } from "./NavDrawer";
 
-
-const OverlayMenu = ({
-    onClose
-}) => (
-    <div className="fixed inset-0 z-(--z-modal-backdrop) bg-(--ink)/75 flex justify-end items-start">
-        <div
-            aria-modal="true"
-            aria-labelledby="overlay-menu"
-            className="absolute z-(--z-modal) top-0 right-0 bottom-0 bg-(--bg)/85 w-75 pl-5 sm:pl-10"
-        >
-            <div className="flex w-full justify-end items-start p-2">
-                <button
-                    onClick={onClose}
-                    className="w-10 h-10 text-(--bg) flex justify-center items-center cursor-pointer"
-                >
-                    <Close />
-                </button>
-            </div>
-            <ul className="flex flex-col divider-y divider-(--line) gap-4 sm:gap-[3vh] xl:gap-9 list-none">
-                {HeroNav.map((nv) => (
-                    <li key={nv.id} className="text-(--blue-dark)">
-                        <a
-                            href={nv.link}
-                            className="
-                                    relative
-                                    py-1.5 
-                                    opacity-85 
-                                    font-semibold no-underline 
-                                    transition-colors duration-200 ease-in-out
-
-                                    after:content-['']
-                                    after:absolute after:left-0 after:bottom-0
-                                    after:w-full after:h-0.5 
-                                    after:scale-x-0 after:origin-left
-                                    after:transition-transform after:duration-250 after:ease-in-out
-
-                                    hover:after:scale-x-100 focus-visible:hover:after:scale-x-100 
-
-                                    hover:text-(--blue-dark) focus-visible:text-(--blue-dark) after:bg-(--blue)
-                                "
-                        >
-                            {nv.text}
-                        </a>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    </div>
-);
-
-const AccountMenu = ({
-    open,
-    onClose,
-    onLogout
-}) => {
-    if (!open) return null;
-    return (
-        <div className="fixed inset-0 z-(--z-modal-backdrop) bg-(--ink)/75 flex justify-end items-start">
-            <div
-                aria-modal="true"
-                aria-labelledby="account-settings"
-                className="absolute z-(--z-modal) top-0 right-0 bottom-0 bg-(--bg)/85 w-75 pl-5 sm:pl-10"
-            >
-                <div className="flex w-full justify-end items-start p-2">
-                    <button
-                        onClick={onClose}
-                        className="w-10 h-10 text-(--bg) flex justify-center items-center cursor-pointer"
-                    >
-                        <Close />
-                    </button>
-                </div>
-                <ul className="flex flex-col divider-y divider-(--line) gap-4 sm:gap-[3vh] xl:gap-9 list-none">
-                    {AccountOptions.map((opt) => (
-                        <li key={opt.id} className="text-(--blue-dark)">
-                            <a
-                                href={opt.link}
-                                className="
-                                    relative
-                                    py-1.5 
-                                    opacity-85 
-                                    font-semibold no-underline 
-                                    transition-colors duration-200 ease-in-out
-
-                                    after:content-['']
-                                    after:absolute after:left-0 after:bottom-0
-                                    after:w-full after:h-0.5 
-                                    after:scale-x-0 after:origin-left
-                                    after:transition-transform after:duration-250 after:ease-in-out
-
-                                    hover:after:scale-x-100 focus-visible:hover:after:scale-x-100 
-
-                                    hover:text-(--blue-dark) focus-visible:text-(--blue-dark) after:bg-(--blue)
-                                "
-                            >
-                                {opt.text}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </div>
-    );
-};
-
-const PrimaryNav = ({
+const MainNav = ({
     theme = "dark", // dark, light
     isScrolled = false,
     menu = "full", // full, mini
@@ -258,23 +155,59 @@ const PrimaryNav = ({
     };
 
     return (
-        <header className={`fixed inset-x-0 top-0 z-(--z-nav-bar) px-(--gutter) py-3 transition-colors ${styles.lv1}`}>
-            <nav id="hero-nav" className="relative mx-auto w-full max-w-(--max-w) flex justify-between items-center xl:px-(--gutter) gap-4">
-                <GritLogo theme={theme} />
-                <div className="flex gap-4 sm:gap-[3vw] xl:gap-9 items-center">
-                    {menu === "full"
-                        ? fullMenu()
-                        : miniMenu()
-                    }
-                    {isSignedIn
-                        ? profileButton()
-                        : loginButton()
-                    }
-                </div>
-            </nav>
-            {openNavMenu &&
-                <OverlayMenu onClose={() => setOpenNavMenu(false)} />
-            }
+        <>
+            <header className={`fixed inset-x-0 top-0 z-(--z-nav-bar) px-(--gutter) py-3 transition-colors ${styles.lv1}`}>
+                <nav id="hero-nav" className="relative mx-auto w-full max-w-(--max-w) flex justify-between items-center xl:px-(--gutter) gap-4">
+                    <GritLogo theme={theme} />
+                    <div className="flex gap-4 sm:gap-[3vw] xl:gap-9 items-center">
+                        {menu === "full"
+                            ? fullMenu()
+                            : miniMenu()
+                        }
+                        {isSignedIn
+                            ? profileButton()
+                            : loginButton()
+                        }
+                    </div>
+                </nav>
+            </header>
+            {/* Everything below sits NEXT TO the header, not inside it.
+                A blurred header (backdrop-blur) shrinks any "fixed" child down to the header's size,
+                so overlays and modals must live outside it to cover the whole screen. */}
+
+            <Drawer open={openNavMenu} onClose={() => setOpenNavMenu(false)} title="Menu">
+                <ul className="list-none flex flex-col gap-1">
+                    {HeroNav.map((nv) => (
+                        <li key={nv.id}>
+                            <DrawerItem href={nv.link} icon={nv.icon} onClick={() => setOpenNavMenu(false)}>
+                                {nv.text}
+                            </DrawerItem>
+                        </li>
+                    ))}
+                </ul>
+            </Drawer>
+
+            {isSignedIn && (
+                <Drawer open={openAccountMenu} onClose={() => setOpenAccountMenu(false)} title="Account">
+                    <div className="flex items-center gap-3 px-3 pb-4 mb-2 border-b border-(--line)">
+                        <span className="w-11 h-11 shrink-0 flex justify-center items-center rounded-full bg-(--blue) text-white text-xl font-bold">
+                            {accountInfo.fullName[0].toUpperCase()}
+                        </span>
+                        <span className="font-semibold text-(--ink) truncate">{accountInfo.fullName}</span>
+                    </div>
+                    <ul className="list-none flex flex-col gap-1">
+                        {AccountOptions.map((opt) => (
+                            <li key={opt.id}>
+                                {opt.type === "link"
+                                    ? <DrawerItem href={opt.to} icon={opt.icon} onClick={() => setOpenAccountMenu(false)}>{opt.text}</DrawerItem>
+                                    : <DrawerItem icon={opt.icon} onClick={() => handleAccountOption(opt)}>{opt.text}</DrawerItem>
+                                }
+                            </li>
+                        ))}
+                    </ul>
+                </Drawer>
+            )}
+
             <LoginModal
                 open={openLogin}
                 onClose={() => setOpenLogin(false)}
@@ -288,13 +221,8 @@ const PrimaryNav = ({
                 accountOnly={true}
                 switchToLogin={() => handleAuthSwitch("signup")}
             />
-            <AccountMenu
-                open={openAccountMenu}
-                onClose={() => setOpenAccountMenu(false)}
-                onLogout={async () => handleAuth("logout", null)}
-            />
-        </header>
+        </>
     );
 }
 
-export { PrimaryNav }
+export { MainNav }

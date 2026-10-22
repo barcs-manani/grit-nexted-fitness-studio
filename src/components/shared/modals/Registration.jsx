@@ -76,8 +76,8 @@ const RegistrationModal = ({
     open,
     onClose,
     membershipPlan,
-    memberAges,
-    branchLocations,
+    memberAges = [],
+    branchLocations = [],
     onSubmit,
     accountOnly = false, // Not for membership registration
     switchToLogin,
