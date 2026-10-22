@@ -76,6 +76,11 @@ const MainNav = ({
         }
     };
 
+    const handleAccountOption= async (opt)=> {
+        setOpenAccountMenu(false);
+        if (opt.to === "logout") await handleAuth("logout", null);
+    };
+
     const fullMenu = () => (
         <ul className="flex gap-4 sm:gap-[3vw] xl:gap-9 list-none">
             {HeroNav.map((nv, idx) => (

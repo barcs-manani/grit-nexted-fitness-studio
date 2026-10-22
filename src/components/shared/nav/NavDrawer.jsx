@@ -25,7 +25,7 @@ const Drawer = ({ open, onClose, title, children }) => {
                         type="button"
                         aria-label={`Close ${title.toLowerCase()}`}
                         onClick={onClose}
-                        className="w-10 h-10 flex justify-center items-center rounded-full text-(--ink) hover:bg-(--bg-secondary) cursor-pointer transition-colors"
+                        className="w-10 h-10 flex justify-center items-center rounded-full text-(--bg) hover:text-(--blue) cursor-pointer transition-colors"
                     >
                         <Close />
                     </button>
