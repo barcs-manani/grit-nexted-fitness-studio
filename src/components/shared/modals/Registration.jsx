@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { TextField, PhoneField, SingleSelect } from "../forms/FormFields";
 import { mailRegEx } from "@/data/InputValidation";
 import { isValidPhoneNumber } from "react-phone-number-input";
-import { Close } from "@/assets/icons/Icons";
+import { Close } from "@/assets/icons/C/icons";
 import { SignupPassword } from "../forms/SignupPassword";
 
 const defaultFormData = {

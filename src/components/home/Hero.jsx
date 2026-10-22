@@ -1,4 +1,4 @@
-import { Chevron } from "@/assets/icons/Icons";
+import { Chevron } from "@/assets/icons/C/icons";
 import { H1 } from "@/data/H1";
 import "../../styles/Home.css";
 

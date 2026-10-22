@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { LoginPassword, TextField } from "../forms/FormFields";
 import { mailRegEx } from "@/data/InputValidation";
-import { Close } from "@/assets/icons/Icons";
+import { Close } from "@/assets/icons/C/icons";
 
 const defaultFormData = {
     emailAddress: "",

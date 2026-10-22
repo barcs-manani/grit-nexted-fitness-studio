@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react";
-import { Chevron } from "@/assets/icons/Icons";
+import { Chevron } from "@/assets/icons/C/icons";
 import { scheduleImg } from "@/assets/images";
 import { ScheduleData } from "@/data/Schedule";
 import { Filters } from "@/components/shared/Filters";

@@ -1,8 +1,9 @@
 "use client"
 
-import { HeroNav } from "@/data/Navigation";
+import { AccountOptions, HeroNav } from "@/data/Navigation";
 import { GritLogo } from "./brand/GritLogo";
-import { Close, HamburgerMenu } from "@/assets/icons/Icons";
+import { Close } from "@/assets/icons/C/icons";
+import { HamburgerMenu } from "@/assets/icons/H/icons";
 import { useState } from "react";
 import { LoginModal } from "./modals/Login";
 import { RegistrationModal } from "./modals/Registration";
@@ -27,8 +28,8 @@ const OverlayMenu = ({
                 </button>
             </div>
             <ul className="flex flex-col divider-y divider-(--line) gap-4 sm:gap-[3vh] xl:gap-9 list-none">
-                {HeroNav.map((nv, idx) => (
-                    <li key={idx} className="text-(--blue-dark)">
+                {HeroNav.map((nv) => (
+                    <li key={nv.id} className="text-(--blue-dark)">
                         <a
                             href={nv.link}
                             className="
@@ -54,10 +55,63 @@ const OverlayMenu = ({
                     </li>
                 ))}
             </ul>
-
         </div>
     </div>
 );
+
+const AccountMenu = ({
+    open,
+    onClose,
+    onLogout
+}) => {
+    if (!open) return null;
+    return (
+        <div className="fixed inset-0 z-(--z-modal-backdrop) bg-(--ink)/75 flex justify-end items-start">
+            <div
+                aria-modal="true"
+                aria-labelledby="account-settings"
+                className="absolute z-(--z-modal) top-0 right-0 bottom-0 bg-(--bg)/85 w-75 pl-5 sm:pl-10"
+            >
+                <div className="flex w-full justify-end items-start p-2">
+                    <button
+                        onClick={onClose}
+                        className="w-10 h-10 text-(--bg) flex justify-center items-center cursor-pointer"
+                    >
+                        <Close />
+                    </button>
+                </div>
+                <ul className="flex flex-col divider-y divider-(--line) gap-4 sm:gap-[3vh] xl:gap-9 list-none">
+                    {AccountOptions.map((opt) => (
+                        <li key={opt.id} className="text-(--blue-dark)">
+                            <a
+                                href={opt.link}
+                                className="
+                                    relative
+                                    py-1.5 
+                                    opacity-85 
+                                    font-semibold no-underline 
+                                    transition-colors duration-200 ease-in-out
+
+                                    after:content-['']
+                                    after:absolute after:left-0 after:bottom-0
+                                    after:w-full after:h-0.5 
+                                    after:scale-x-0 after:origin-left
+                                    after:transition-transform after:duration-250 after:ease-in-out
+
+                                    hover:after:scale-x-100 focus-visible:hover:after:scale-x-100 
+
+                                    hover:text-(--blue-dark) focus-visible:text-(--blue-dark) after:bg-(--blue)
+                                "
+                            >
+                                {opt.text}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    );
+};
 
 const PrimaryNav = ({
     theme = "dark", // dark, light
@@ -97,13 +151,14 @@ const PrimaryNav = ({
             setOpenLogin(true);
         } else if (currentType === "login") {
             setOpenLogin(false);
-                setOpenReg(true);
+            setOpenReg(true);
         }
     }
-    const handleSubmit = async (type, creds) => {
+    const handleAuth = async (type, creds) => {
         const apis = {
             login: "/api/auth/login",
-            signup: "/api/auth/signup"
+            signup: "/api/auth/signup",
+            logout: "/api/auth/logout"
         };
         const api = apis[type];
         try {
@@ -112,11 +167,12 @@ const PrimaryNav = ({
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(creds),
+                    body: type !== "logout" ? JSON.stringify(creds) : null,
                 }
             );
             const res = await response.json();
-            if (!response.ok) throw new Error(res.error || "Login failed");
+            if (!response.ok) throw new Error(res.error || `${type.toUpperCase()} request failed!`);
+            if (type === "logout" || res?.account?.id) router.refresh();
             return res;
         } catch (err) {
             return err;
@@ -182,7 +238,24 @@ const PrimaryNav = ({
         )
     };
 
-    const profileButton = () => { };
+    const profileButton = () => {
+        const currentState = openAccountMenu;
+        return (
+            <button
+                onClick={() => setOpenAccountMenu(!currentState)}
+                className={`
+                    py-1 px-3
+                    text-2xl font-semibold rounded-full
+                    cursor-pointer
+                    ${styles.lv7}
+                    focus-visible:outline-(--blue) focus-visible:outline-2 focus-visible:outline-offset-2 
+                    transition-all
+                `}
+            >
+                {accountInfo.fullName[0].toUpperCase()}
+            </button>
+        )
+    };
 
     return (
         <header className={`fixed inset-x-0 top-0 z-(--z-nav-bar) px-(--gutter) py-3 transition-colors ${styles.lv1}`}>
@@ -205,15 +278,20 @@ const PrimaryNav = ({
             <LoginModal
                 open={openLogin}
                 onClose={() => setOpenLogin(false)}
-                onSubmit={async (creds) => handleSubmit("login", creds)}
+                onSubmit={async (creds) => handleAuth("login", creds)}
                 switchToSignup={async () => handleAuthSwitch("login")}
             />
             <RegistrationModal
                 open={openReg}
                 onClose={() => setOpenReg(false)}
-                onSubmit={async (creds) => handleSubmit("signup", creds)}
+                onSubmit={async (creds) => handleAuth("signup", creds)}
                 accountOnly={true}
                 switchToLogin={() => handleAuthSwitch("signup")}
+            />
+            <AccountMenu
+                open={openAccountMenu}
+                onClose={() => setOpenAccountMenu(false)}
+                onLogout={async () => handleAuth("logout", null)}
             />
         </header>
     );
