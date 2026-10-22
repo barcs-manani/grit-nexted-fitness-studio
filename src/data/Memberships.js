@@ -104,3 +104,93 @@ const MembershipPlans = [
 ];
 
 export { MembershipPlans };
+
+const fullJs = [
+    {
+        "type": "essential",
+        "name": "Essential",
+        "description": "Build your fitness foundation.",
+        "popular": false,
+        "pricing": [
+            {
+                "period": "monthly",
+                "currency": "USD",
+                "amount": 5.00
+            }
+        ],
+        "perks": [
+            {
+                "name": "Body-building and calisthenics"
+            },
+            {
+                "name": "Cardio and endurance training"
+            },
+            {
+                "name": "Standard gym equipment access"
+            },
+            {
+                "name": "Basic trainer guidance"
+            },
+            {
+                "name": "Showers, lockers and changing rooms"
+            }
+        ]
+    },
+    {
+        "type": "plus",
+        "name": "Plus",
+        "description": "Enjoy every regular training discipline.",
+        "popular": true,
+        "pricing": [
+            {
+                "period": "monthly",
+                "currency": "USD",
+                "amount": 10.00
+            }
+        ],
+        "perks": [
+            {
+                "name": "All Essential benefits"
+            },
+            {
+                "name": "Boxing, dance and flexibility training"
+            },
+            {
+                "name": "Trainer-guided group classes"
+            },
+            {
+                "name": "Sauna access"
+            }
+        ]
+    },
+    {
+        "type": "premium",
+        "name": "Premium",
+        "description": "Get personalized training and complete wellness access.",
+        "popular": false,
+        "pricing": [
+            {
+                "period": "monthly",
+                "currency": "USD",
+                "amount": 15.00
+            }
+        ],
+        "perks": [
+            {
+                "name": "All Plus benefits"
+            },
+            {
+                "name": "Personalized training plan"
+            },
+            {
+                "name": "Trainer matching by specialization"
+            },
+            {
+                "name": "Two personal training sessions per month"
+            },
+            {
+                "name": "Sauna and swimming pool access"
+            }
+        ]
+    }
+];

@@ -148,7 +148,7 @@ export const Pricing = () => {
                                 </ul>
                                 <div className="h-px w-full bg-(--line)"></div>
                                 <span className="w-full flex justify-between items-center flex-wrap gap-3">
-                                    <span className="font-display text-[32px] font-bold text-(--ink)">
+                                    <span className="font-display text-[30px] font-bold text-(--ink)">
                                         {formatCurrency(plan.pricing[0].currency, plan.pricing[0].amount)}/month
                                     </span>
                                     <button
