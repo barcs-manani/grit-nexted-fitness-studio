@@ -12,7 +12,7 @@ export default async function Home() {
     <>
       <ScrollSenseNavigation accountInfo={accountInfo} />
       <Hero />
-      <main>
+      <main className="w-full">
         <Schedule />
         <Trainers />
         <Pricing />
