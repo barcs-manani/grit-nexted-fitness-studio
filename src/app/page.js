@@ -4,11 +4,13 @@ import { Pricing } from "@/components/home/sections/Pricing";
 import { Schedule } from "@/components/home/sections/Schedule";
 import { Trainers } from "@/components/home/sections/Trainers";
 import { Footer } from "@/components/shared/Footer";
+import { getCurrentUser } from "@/lib/auth";
 
-export default function Home() {
+export default async function Home() {
+  const accountInfo = await getCurrentUser();
   return (
     <>
-      <ScrollSenseNavigation />
+      <ScrollSenseNavigation accountInfo={accountInfo} />
       <Hero />
       <main>
         <Schedule />
