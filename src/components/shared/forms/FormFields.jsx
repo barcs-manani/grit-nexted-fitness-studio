@@ -105,4 +105,35 @@ const SingleSelect = ({
     );
 };
 
-export { TextField, PhoneField, SingleSelect }
+const LoginPassword = ({
+    name = "",
+    label = "",
+    value = null,
+    onChange,
+}) => {
+    const handleChange = (event) => {
+        if (typeof onChange === "function")
+            onChange(event);
+        else {
+            console.warn("'onChange' passed to 'TextField' in shared/forms/FormFields.jsx is not callable!");
+        }
+    }
+    return (
+        <div className="flex flex-col gap-1 justify-center items-start px-3">
+            <label htmlFor={name} className="font-semibold text-lg text-(--ink-soft)">
+                {label}
+            </label>
+            <input
+                id={name}
+                type="password"
+                name={name}
+                placeholder="Enter password"
+                className={fieldClass}
+                value={value}
+                onChange={handleChange}
+            />
+        </div>
+    );
+};
+
+export { TextField, PhoneField, SingleSelect, LoginPassword }
