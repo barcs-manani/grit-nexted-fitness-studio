@@ -88,16 +88,31 @@ model Trainer {
 }
 
 model UserAccount {
-  id           BigInt   @id @default(autoincrement())
-  fullName     String   @db.VarChar(150)
-  emailAddress String   @db.VarChar(254)
-  phoneNumber  String   @db.VarChar(30)
-  passwordHash String   @db.VarChar(255)
-  createdAt    DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
+  id           BigInt        @id @default(autoincrement())
+  fullName     String        @db.VarChar(150)
+  emailAddress String        @db.VarChar(254)
+  phoneNumber  String        @db.VarChar(30)
+  passwordHash String        @db.VarChar(255)
+  createdAt    DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime      @updatedAt @db.Timestamptz(6)
   members      Member[]
+  userSessions UserSession[]
 
+  @@unique([emailAddress])
   @@map("user_accounts")
+}
+
+model UserSession {
+  id        BigInt      @id @default(autoincrement())
+  accountId BigInt
+  tokenHash String      @unique @db.Char(64)
+  expiresAt DateTime    @db.Timestamptz(6)
+  createdAt DateTime    @default(now()) @db.Timestamptz(6)
+  account   UserAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId])
+  @@index([expiresAt])
+  @@map("user_sessions")
 }
 
 model Member {

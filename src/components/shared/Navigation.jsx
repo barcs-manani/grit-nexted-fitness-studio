@@ -146,7 +146,7 @@ const PrimaryNav = ({
 
     return (
         <header className={`fixed inset-x-0 top-0 z-(--z-nav-bar) px-(--gutter) py-3 transition-colors ${styles.lv1}`}>
-            <nav id="hero-nav" className="relative mx-auto w-full max-w-(--max-w) flex justify-between items-center px-(--gutter) gap-4">
+            <nav id="hero-nav" className="relative mx-auto w-full max-w-(--max-w) flex justify-between items-center xl:px-(--gutter) gap-4">
                 <GritLogo theme={theme} />
                 <div className="flex gap-4 sm:gap-[3vw] xl:gap-9 items-center">
                     {menu === "full"
