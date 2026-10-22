@@ -49,7 +49,7 @@ const PasswordInput = ({ name, label, value, onChange, onBlur, describedBy }) =>
                     aria-label={show ? `Hide ${label.toLowerCase()}` : `Show ${label.toLowerCase()}`}
                     aria-pressed={show}
                     onClick={() => setShow((s) => !s)}
-                    className="absolute inset-y-0 right-0 w-11 flex items-center justify-center text-(--ink-soft) hover:text-(--blue) cursor-pointer transition-colors rounded-r-(--field-radius) focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-(--blue)"
+                    className="absolute inset-y-0 right-0 w-11 flex items-center justify-center text-(--ink-soft) hover:text-(--blue) cursor-pointer transition-colors rounded-r-(--field-radius) focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-(--blue)"
                 >
                     <EyeIcon off={show} />
                 </button>
