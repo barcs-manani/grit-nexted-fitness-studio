@@ -167,6 +167,6 @@ export async function POST(request) {
         return NextResponse.json(
             { error: "Unable to submit your registration please try again." },
             { status: 500 }
-        )
+        );
     }
 }

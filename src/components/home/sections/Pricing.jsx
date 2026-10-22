@@ -110,12 +110,12 @@ export const Pricing = () => {
                         dream physique</p>
                     <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mt-3 items-stretch">
                         {error && (
-                            <div className="flex flex-col items-center justify-center h-40 gap-3 p-2">
+                            <div className="col-span-1 md:col-span-2 w-full flex flex-col items-center justify-center h-40 gap-3 p-2">
                                 <span>There was an issue loading membership plans. Try again later</span>
                             </div>
                         )}
                         {!membershipPlans.length && (
-                            <div className="flex flex-col items-center justify-center h-40 gap-3 p-2">
+                            <div className="col-span-1 md:col-span-2 w-full flex flex-col items-center justify-center h-40 gap-3 p-2">
                                 <span>No plans added yet!</span>
                             </div>
                         )}
@@ -149,7 +149,7 @@ export const Pricing = () => {
                                 <div className="h-px w-full bg-(--line)"></div>
                                 <span className="w-full flex justify-between items-center flex-wrap gap-3">
                                     <span className="font-display text-[32px] font-bold text-(--ink)">
-                                        {formatCurrency(plan.currency, plan.price)}/month
+                                        {formatCurrency(plan.pricing[0].currency, plan.pricing[0].amount)}/month
                                     </span>
                                     <button
                                         type="button"
