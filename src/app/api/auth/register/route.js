@@ -31,7 +31,10 @@ export async function POST(request) {
             typeof emailAddress !== "string" ||
             typeof phoneNumber !== "string" ||
             typeof password !== "string" ||
-            !member
+            !member ||
+            (!member?.branchId || typeof member.branchId !== "number") ||
+            (!member?.ageGroupId || typeof member.ageGroupId !== "number") ||
+            (!member?.membershipPlanId || typeof member.membershipPlanId !== "number")
         ) {
             return NextResponse.json(
                 { error: "Invalid fields in member registration request" },

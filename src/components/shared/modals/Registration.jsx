@@ -146,7 +146,7 @@ const RegistrationModal = ({
         if (typeof onSubmit === "function") {
             const res = await onSubmit(submitData);
             // console.log("onSubmit response: ", res);
-            if (!res?.signup?.id) console.error(res);
+            if (!res?.account?.id) console.error(res);
             else {
                 setFormData(defaultFormData);
                 handleClose();

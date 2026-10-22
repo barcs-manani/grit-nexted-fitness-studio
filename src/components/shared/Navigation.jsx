@@ -62,9 +62,9 @@ const PrimaryNav = ({
     theme = "dark", // dark, light
     isScrolled = false,
     menu = "full", // full, mini
-    isSignedIn = false,
     accountInfo = null,
 }) => {
+    const isSignedIn = accountInfo?.id ?? false;
     const themeStyles = {
         dark: {
             lv1: isScrolled ? "bg-black/25 backdrop-blur-sm" : "bg-transparent", // header

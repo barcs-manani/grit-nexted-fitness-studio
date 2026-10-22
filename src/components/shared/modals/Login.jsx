@@ -64,12 +64,12 @@ const LoginModal = ({
         if (typeof onSubmit === "function") {
             const res = await onSubmit(submitData);
             // console.log("onSubmit response: ", res);
-            if (res?.login?.id) {
+            if (!res?.account?.id) console.error(res);
+            else {
                 setFormData(defaultFormData);
                 handleClose();
-            } else console.error(res);
+            }
         }
-
     };
 
     const handleSwitchToSignup = () => {
