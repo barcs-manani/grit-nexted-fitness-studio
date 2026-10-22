@@ -75,20 +75,16 @@ export const Pricing = () => {
     };
 
     const handleSubmit = async (submitData) => {
-        const regPayload = {
-            ...submitData,
-            membershipType: selectedTier?.type
-        };
         try {
-            // console.log("Registration payload: ", JSON.stringify(regPayload));
+            // console.log("Registration payload: ", JSON.stringify(submitData));
             const response = await fetch(
-                "/api/registrations",
+                "/api/auth/register",
                 {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(regPayload),
+                    body: JSON.stringify(submitData),
                 }
             );
             const result = await response.json();
@@ -113,6 +109,16 @@ export const Pricing = () => {
                     <p className="max-w-[62ch] text-[18px] text-(--ink-soft)">Our membership tiers are structured to ensure you get the most value for trusting us to guide you to your
                         dream physique</p>
                     <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mt-3 items-stretch">
+                        {error && (
+                            <div className="flex flex-col items-center justify-center h-40 gap-3 p-2">
+                                <span>There was an issue loading membership plans. Try again later</span>
+                            </div>
+                        )}
+                        {!membershipPlans.length && (
+                            <div className="flex flex-col items-center justify-center h-40 gap-3 p-2">
+                                <span>No plans added yet!</span>
+                            </div>
+                        )}
                         {membershipPlans.map((plan) => (
                             <article
                                 key={plan.id}
