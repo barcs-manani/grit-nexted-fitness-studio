@@ -92,7 +92,7 @@ const RegistrationModal = ({
     ), [showErrors, currentView, formData]);
 
     const ageOptions = useMemo(() => {
-        return memberAges.filter((af) => (
+        return (memberAges || []).filter((af) => (
             !membershipPlan?.type || membershipPlan.type === "custom"
                 ? true
                 : af.type === membershipPlan.type
@@ -103,7 +103,7 @@ const RegistrationModal = ({
     }, [membershipPlan, memberAges]);
 
     const branchOptions = useMemo(() => {
-        return branchLocations.map((b) => ({
+        return (branchLocations || []).map((b) => ({
             value: String(b.id),
             display: `${b.city}, ${b.country}`
         }))

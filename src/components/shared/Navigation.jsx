@@ -6,6 +6,7 @@ import { Close, HamburgerMenu } from "@/assets/icons/Icons";
 import { useState } from "react";
 import { LoginModal } from "./modals/Login";
 import { RegistrationModal } from "./modals/Registration";
+import { useRouter } from "next/navigation";
 
 
 const OverlayMenu = ({
@@ -64,6 +65,7 @@ const PrimaryNav = ({
     menu = "full", // full, mini
     accountInfo = null,
 }) => {
+    const router = useRouter();
     const isSignedIn = accountInfo?.id ?? false;
     const themeStyles = {
         dark: {
@@ -88,38 +90,14 @@ const PrimaryNav = ({
     const [openLogin, setOpenLogin] = useState(false);
     const [openReg, setOpenReg] = useState(false);
     const [openAccountMenu, setOpenAccountMenu] = useState(false);
-    const [ageGroups, setAgeGroups] = useState([]);
-    const [branchLocations, setBranchLocations] = useState([]);
 
     const handleAuthSwitch = async (currentType) => {
         if (currentType === "signup") {
             setOpenReg(false);
             setOpenLogin(true);
         } else if (currentType === "login") {
-            try {
-                const [ageResponse, branchResponse] = await Promise.all([
-                    fetch("/api/base/age-groups", { cache: "no-store" }),
-                    fetch("/api/base/branch-locations", { cache: "no-store" }),
-                ]);
-
-                const [ages, branches] = await Promise.all([
-                    ageResponse.json(),
-                    branchResponse.json(),
-                ]);
-
-                if (!ageResponse.ok) throw new Error(ages.error || "Could not load age groups");
-                if (!branchResponse.ok) throw new Error(branches.error || "Could not load branch locations");
-                if (!Array.isArray(ages)) throw new Error("Age groups request returned an invalid response");
-                if (!Array.isArray(branches)) throw new Error("Branch locations request returned an invalid response");
-
-                setAgeGroups(ages);
-                setBranchLocations(branches);
-                setOpenLogin(false);
+            setOpenLogin(false);
                 setOpenReg(true);
-            } catch (error) {
-                console.error(error);
-                setError(error?.message || "Failed to prepare registration form.");
-            }
         }
     }
     const handleSubmit = async (type, creds) => {
@@ -233,8 +211,6 @@ const PrimaryNav = ({
             <RegistrationModal
                 open={openReg}
                 onClose={() => setOpenReg(false)}
-                memberAges={ageGroups}
-                branchLocations={branchLocations}
                 onSubmit={async (creds) => handleSubmit("signup", creds)}
                 accountOnly={true}
                 switchToLogin={() => handleAuthSwitch("signup")}
