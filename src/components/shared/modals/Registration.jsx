@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { TextField, PhoneField, SingleSelect } from "../forms/FormFields";
 import { mailRegEx } from "@/data/InputValidation";
+import { Close } from "@/assets/icons/Icons";
 
 const defaultFormData = {
     view1: {
@@ -232,9 +233,9 @@ const RegistrationModal = ({
                         type="button"
                         aria-label="Close registration form"
                         onClick={handleClose}
-                        className="w-9 h-9 bg-(--bg-secondary) text-(--ink-soft) border border-(--line) hover:bg-(--ice) hover:text-(--ink) rounded-full cursor-pointer font-bold flex justify-center items-center transition-colors"
+                        className="w-9 h-9 text-(--bg) hover:text-(--blue) cursor-pointer flex justify-center items-center transition-colors"
                     >
-                        x
+                        <Close />
                     </button>
                 </div>
                 {/* Fields */}

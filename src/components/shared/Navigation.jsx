@@ -4,6 +4,7 @@ import { HeroNav } from "@/data/Navigation";
 import { GritLogo } from "./brand/GritLogo";
 import { Close, HamburgerMenu } from "@/assets/icons/Icons";
 import { useState } from "react";
+import { LoginModal } from "./modals/Login";
 
 
 const OverlayMenu = ({
@@ -83,7 +84,29 @@ const PrimaryNav = ({
     };
     const styles = themeStyles[theme] ?? themeStyles.light;
     const [openNavMenu, setOpenNavMenu] = useState(false);
+    const [openLogin, setOpenLogin] = useState(false);
+    const [openReg, setOpenReg] = useState(false);
     const [openAccountMenu, setOpenAccountMenu] = useState(false);
+
+    const handleLoginSubmit = async (creds) => {
+        try {
+            const response = await fetch(
+                "/api/auth/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(creds),
+                }
+            );
+            const res = await response.json();
+            if (!response.ok) throw new Error(res.error || "Login failed");
+            return res;
+        } catch (err) {
+            return err;
+        }
+    };
 
     const fullMenu = () => (
         <ul className="flex gap-4 sm:gap-[3vw] xl:gap-9 list-none">
@@ -127,8 +150,10 @@ const PrimaryNav = ({
     );
 
     const loginButton = () => {
+        const currentState = openLogin;
         return (
             <button
+                onClick={() => setOpenLogin(!currentState)}
                 className={`
                     py-1.5 px-4
                     text-lg font-semibold rounded-(--btn-radius)
@@ -162,6 +187,11 @@ const PrimaryNav = ({
             {openNavMenu &&
                 <OverlayMenu onClose={() => setOpenNavMenu(false)} />
             }
+            <LoginModal
+                open={openLogin}
+                onClose={() => setOpenLogin(false)}
+                onSubmit={handleLoginSubmit}
+            />
         </header>
     );
 }
