@@ -5,6 +5,7 @@ import { GritLogo } from "./brand/GritLogo";
 import { Close, HamburgerMenu } from "@/assets/icons/Icons";
 import { useState } from "react";
 import { LoginModal } from "./modals/Login";
+import { RegistrationModal } from "./modals/Registration";
 
 
 const OverlayMenu = ({
@@ -87,11 +88,49 @@ const PrimaryNav = ({
     const [openLogin, setOpenLogin] = useState(false);
     const [openReg, setOpenReg] = useState(false);
     const [openAccountMenu, setOpenAccountMenu] = useState(false);
+    const [ageGroups, setAgeGroups] = useState([]);
+    const [branchLocations, setBranchLocations] = useState([]);
 
-    const handleLoginSubmit = async (creds) => {
+    const handleAuthSwitch = async (currentType) => {
+        if (currentType === "signup") {
+            setOpenReg(false);
+            setOpenLogin(true);
+        } else if (currentType === "login") {
+            try {
+                const [ageResponse, branchResponse] = await Promise.all([
+                    fetch("/api/base/age-groups", { cache: "no-store" }),
+                    fetch("/api/base/branch-locations", { cache: "no-store" }),
+                ]);
+
+                const [ages, branches] = await Promise.all([
+                    ageResponse.json(),
+                    branchResponse.json(),
+                ]);
+
+                if (!ageResponse.ok) throw new Error(ages.error || "Could not load age groups");
+                if (!branchResponse.ok) throw new Error(branches.error || "Could not load branch locations");
+                if (!Array.isArray(ages)) throw new Error("Age groups request returned an invalid response");
+                if (!Array.isArray(branches)) throw new Error("Branch locations request returned an invalid response");
+
+                setAgeGroups(ages);
+                setBranchLocations(branches);
+                setOpenLogin(false);
+                setOpenReg(true);
+            } catch (error) {
+                console.error(error);
+                setError(error?.message || "Failed to prepare registration form.");
+            }
+        }
+    }
+    const handleSubmit = async (type, creds) => {
+        const apis = {
+            login: "/api/auth/login",
+            signup: "/api/auth/signup"
+        };
+        const api = apis[type];
         try {
             const response = await fetch(
-                "/api/auth/login",
+                api,
                 {
                     method: "POST",
                     headers: {
@@ -190,7 +229,17 @@ const PrimaryNav = ({
             <LoginModal
                 open={openLogin}
                 onClose={() => setOpenLogin(false)}
-                onSubmit={handleLoginSubmit}
+                onSubmit={async (creds) => handleSubmit("login", creds)}
+                switchToSignup={async () => handleAuthSwitch("login")}
+            />
+            <RegistrationModal
+                open={openReg}
+                onClose={() => setOpenReg(false)}
+                memberAges={ageGroups}
+                branchLocations={branchLocations}
+                onSubmit={async (creds) => handleSubmit("signup", creds)}
+                accountOnly={true}
+                switchToLogin={() => handleAuthSwitch("signup")}
             />
         </header>
     );
