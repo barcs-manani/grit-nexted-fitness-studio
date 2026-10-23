@@ -4,6 +4,8 @@ import { useState } from "react";
 import { LoginPassword, TextField } from "../forms/FormFields";
 import { mailRegEx } from "@/data/InputValidation";
 import { Close } from "@/assets/icons/C/icons";
+import Image from "next/image";
+import { gritLogo } from "@/assets/images";
 
 const defaultFormData = {
     emailAddress: "",
@@ -87,23 +89,44 @@ const LoginModal = ({
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="mem-reg-title"
-                className="relative z-(--z-modal) bg-(--bg) text-(--ink) border border-(--line) rounded-(--card-radius) shadow-2xl overflow-hidden flex flex-col w-full max-w-2xl max-h-[70dvh]"
+                className="
+                    relative z-(--z-modal) 
+                    bg-(--bg) text-(--ink) 
+                    border border-(--line) 
+                    rounded-(--card-radius) shadow-2xl 
+                    overflow-hidden flex flex-col 
+                    w-full md:max-w-lg lg:max-w-xl max-h-[80dvh]
+                "
             >
 
                 {/* Header */}
-                <div className="flex justify-between items-center p-4 border-b border-(--line)">
-                    <h2 id="mem-reg-title" className="text-2xl font-bold">
-                        Welcome back!
-                    </h2>
-
+                <div className="relative flex justify-center items-center border-b border-(--line)">
                     <button
                         type="button"
                         aria-label="Close registration form"
                         onClick={handleClose}
-                        className="w-9 h-9 text-(--bg) hover:text-(--blue) cursor-pointer flex justify-center items-center transition-colors"
+                        className="absolute top-2 right-2 w-9 h-9 text-(--bg) hover:text-(--blue) cursor-pointer flex justify-center items-center transition-colors"
                     >
                         <Close />
                     </button>
+                    <div className="w-full p-4 flex flex-col gap-2 items-center">
+                        <div
+                            className="
+                                flex justify-center items-center
+                                w-25 h-25 rounded-full
+                                bg-linear-to-b from-(--bg) to-(--violet)
+                            "
+                        >
+                            <Image
+                                alt="Grit logo"
+                                src={gritLogo}
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                        <h2 id="mem-reg-title" className="text-3xl font-bold">
+                            Welcome back!
+                        </h2>
+                    </div>
                 </div>
                 {/* Fields */}
                 <div className="overflow-y-auto flex-1 p-4 flex flex-col gap-4">

@@ -6,6 +6,8 @@ import { mailRegEx } from "@/data/InputValidation";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { Close } from "@/assets/icons/C/icons";
 import { SignupPassword } from "../forms/SignupPassword";
+import Image from "next/image";
+import { gritLogo } from "@/assets/images";
 
 const defaultFormData = {
     view1: {
@@ -251,26 +253,49 @@ const RegistrationModal = ({
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="mem-reg-title"
-                className="relative z-(--z-modal) bg-(--bg) text-(--ink) border border-(--line) rounded-(--card-radius) shadow-2xl overflow-hidden flex flex-col w-full max-w-2xl max-h-[90dvh]"
+                className="
+                    relative z-(--z-modal) 
+                    bg-(--bg) text-(--ink) 
+                    border border-(--line) 
+                    rounded-(--card-radius) shadow-2xl 
+                    overflow-hidden flex flex-col 
+                    w-full md:max-w-xl lg:max-w-2xl min-h-150 max-h-[90dvh]
+                "
             >
 
                 {/* Header */}
-                <div className="flex justify-between items-start p-4 border-b border-(--line)">
-                    <span>
-                        <h2 id="mem-reg-title" className="text-2xl font-bold">
-                            {membershipPlan?.name ?? "Welcome to GRIT"}
-                        </h2>
-                        <p>We&apos;re excited to have you join us in this extraordinary journey of physical and mental growth.</p>
-                    </span>
+                <div className="relative flex justify-center items-center border-b border-(--line)">
                     <button
                         type="button"
                         aria-label="Close registration form"
                         onClick={handleClose}
-                        className="w-9 h-9 text-(--bg) hover:text-(--blue) cursor-pointer flex justify-center items-center transition-colors"
+                        className="absolute top-2 right-2 w-9 h-9 text-(--bg) hover:text-(--blue) cursor-pointer flex justify-center items-center transition-colors"
                     >
                         <Close />
                     </button>
+                    <div className="w-full p-4 flex flex-col gap-1 items-center">
+                        <div
+                            className="
+                                flex justify-center items-center
+                                w-20 h-20 rounded-full
+                                bg-linear-to-b from-(--bg) to-(--violet)
+                            "
+                        >
+                            <Image
+                                alt="Grit logo"
+                                src={gritLogo}
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                        <span className="w-full flex flex-col items-center text-center">
+                            <h2 id="mem-reg-title" className="text-2xl font-bold">
+                                {membershipPlan?.name ?? "Welcome to GRIT"}
+                            </h2>
+                            <p>We&apos;re excited to have you join us in this extraordinary journey of physical and mental growth.</p>
+                        </span>
+                    </div>
                 </div>
+
                 {/* Fields */}
                 <div className="overflow-y-auto flex-1 p-4 flex flex-col gap-4">
                     {getView(currentView)}
@@ -287,7 +312,7 @@ const RegistrationModal = ({
                             disabled={!accountOnly}
                             className="text-(--blue)/80 cursor-pointer hover:text-(--blue-dark) disabled:cursor-not-allowed"
                         >
-                            Already have an account
+                            I already have an account?
                         </button>
                     )}
                     <div className="flex justify-between items-center">
@@ -307,7 +332,7 @@ const RegistrationModal = ({
                         >
                             Previous
                         </button>
-                        <span className="">{viewStates[String(currentView)].text}</span>
+                        <span className="text-sm">{viewStates[String(currentView)].text}</span>
                         <button
                             type="button"
                             onClick={async () => handleRegNavigation("next")}
