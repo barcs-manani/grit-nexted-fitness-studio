@@ -28,4 +28,59 @@ export async function GET() {
             { status: 500 }
         )
     }
+};
+
+export async function POST(request) {
+    let body;
+    try {
+        body = await request.json();
+    } catch (error) {
+        return NextResponse.json(
+            { error: "Invalid request body for age group addition request" },
+            { status: 400 }
+        );
+    }
+
+    const { type, group } = body;
+    if (
+        !type.trim() || typeof type !== "string" ||
+        !group.trim() || typeof group !== "string"
+    ) return NextResponse.json(
+        { error: "Invalid fields in body for age group addition request." },
+        { status: 400 }
+    );
+
+    const existingGroup = await prisma.memberAgeGroup.findUnique({
+        where: { type: type, group: group },
+        select: { type: true, group: true },
+    });
+    if (existingGroup) return NextResponse.json(
+        { error: "Age group with the type provided already exists." },
+        { status: 409 }
+    );
+
+    const ageGroup = await prisma.memberAgeGroup.create({
+        data: {
+            type: type,
+            group: group
+        },
+        select: {
+            id: true,
+            group: true
+        },
+    });
+
+    if (!ageGroup?.id) return NextResponse.json(
+        { error: "Invalid response returned from age group addition request" },
+        { status: 400 }
+    );
+
+    return NextResponse.json(
+        { message: "Age group created successfully!"},
+        { status: 201},
+        {
+            id: ageGroup.id.toString(),
+            group: ageGroup.group
+        }
+    )
 }
