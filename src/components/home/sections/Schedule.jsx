@@ -1,11 +1,11 @@
 "use client"
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Chevron } from "@/assets/icons/C/icons";
 import { scheduleImg } from "@/assets/images";
-import { ScheduleData } from "@/data/Schedule";
 import { Filters } from "@/components/shared/Filters";
 import Image from "next/image";
+import { useBaseData } from "@/contexts/BaseDataContext";
 
 
 const ScheduleCard = ({
@@ -50,7 +50,7 @@ const ScheduleCard = ({
                                     ))}
                                 </span>
                             </div>
-                            <p className="max-w-[60ch] text-(--ink-soft)">{s.note}</p>
+                            <p className="max-w-[60ch] text-(--ink-soft)">{s.description}</p>
                         </li>
                     ))}
                 </ul>
@@ -60,26 +60,54 @@ const ScheduleCard = ({
 );
 
 const Schedule = () => {
+    const { fitnessFields } = useBaseData();
+    const [schedules, setSchedules] = useState([]);
+    const [error, setError] = useState("");
     const [selectedFocus, setSelectedFocus] = useState([]);
     const [openPID, setOpenPID] = useState(null);
 
     const focusAreas = useMemo(() => {
-        const all = ScheduleData.flatMap((p) => p.times.flatMap((t) => t.focus || []));
+        const all = fitnessFields.flatMap((p) => p.name || []);
         return [...new Set(all)].sort((a, b) => a.localeCompare(b));
+    }, [fitnessFields]);
+
+    useEffect(() => {
+        const controller = new AbortController();
+
+        async function loadSchedules() {
+            try {
+                const response = await fetch(
+                    "/api/schedules",
+                    {
+                        signal: controller.signal,
+                        cache: "no-store",
+                    },
+                )
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || "Failed to load training schedules");
+                setSchedules(result);
+            } catch (err) {
+                if (err.name !== "AbortError") {
+                    console.error(err);
+                    setError(err.message || "Could not load training schedule");
+                }
+            }
+        };
+        loadSchedules();
+        return () => controller.abort();
     }, []);
 
     // Using memoization in this version to compare to trainers.jsx architecture for scalabilty
     const filteredSchedules = useMemo(() => {
-        return ScheduleData.map((p) => {
-            if (p.custom) return { ...p, slots: [] };
+        return (schedules || []).map((p) => {
             const slots = selectedFocus.length
                 ? p.times.filter((t) => (t.focus || []).some((f) => selectedFocus.includes(f)))
                 : p.times;
             return { ...p, slots };
-        }).filter((p) => p?.custom || p.slots.length)
-    }, [selectedFocus]);
+        }).filter((p) => p.slots.length)
+    }, [schedules, selectedFocus]);
 
-    const hasSessions = filteredSchedules.some((p) => !p.custom);
+    const hasSessions = filteredSchedules.some((p) => true);
 
     return (
         <div id="schedule" className="w-full flex justify-center py-(--section-gap)">
