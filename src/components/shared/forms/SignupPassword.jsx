@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { fieldClass } from "@/styles/FormStyles";
-import { passwordRules, isStrongPassword } from "@/data/InputValidation";
+import { passwordRules, isStrongPassword } from "@/lib/validation";
 
 const EyeIcon = ({ off }) => (
     <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

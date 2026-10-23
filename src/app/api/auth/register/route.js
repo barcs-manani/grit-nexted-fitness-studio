@@ -3,7 +3,7 @@ import "server-only"
 import * as argon2 from "argon2";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { mailRegEx } from "@/data/InputValidation";
+import { mailRegEx } from "@/lib/validation";
 import { createSession } from "@/lib/auth";
 
 export async function POST(request) {
