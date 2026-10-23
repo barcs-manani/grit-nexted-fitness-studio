@@ -1,65 +1,88 @@
 "use client"
 
-import { useState } from "react";
-import { TrainersData } from "@/data/Trainers";
+import { useState, useEffect, useMemo } from "react";
 import { Filters } from "@/components/shared/Filters";
-import { trainerMan, trainerWoman } from "@/assets/images";
 import Image from "next/image";
 import { useBaseData } from "@/contexts/BaseDataContext";
 
+const trainerMan = "https://res.cloudinary.com/pnpyoljr/image/upload/v1792782474/fitness-man-noID.png";
+const trainerWoman = "https://res.cloudinary.com/pnpyoljr/image/upload/v1792782475/fitness-woman-noID.png";
+
 function TrainerCard({ trainer }) {
-    const fallBackImgSrc = trainer?.gender === "male" ? trainerMan : trainerWoman;
-    const [useFallBackImgSrc, setUseFallBackImgSrc] = useState(false);
-    const imgSrc = useFallBackImgSrc ? fallBackImgSrc : trainer.img || fallBackImgSrc;
+    const fallBackImgURL = trainer?.gender === "male" ? trainerMan : trainerWoman;
+    const [useFallBackImgURL, setUseFallBackImgURL] = useState(false);
+    const imgURL = useFallBackImgURL ? fallBackImgURL : trainer.imageURL || fallBackImgURL;
     return (
         <div key={trainer.id} className="rounded-(--card-radius) overflow-hidden bg-white border border-(--line) transition-all duration-150 ease-in-out hover:-translate-y-1.5 hover:shadow-xl">
             <div className="bg-(--ice)">
                 <Image
                     className="block w-full aspect-4/5 object-cover"
-                    alt={`Portrait of ${trainer.name}`}
-                    src={imgSrc}
+                    alt={`Portrait of ${trainer.fullName}`}
+                    src={imgURL}
                     width={500}
                     height={625}
                     sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1280px) 25vw, 300px"
                     onError={() => {
-                        if (!useFallBackImgSrc) setUseFallBackImgSrc(true);
+                        if (!useFallBackImgURL) setUseFallBackImgURL(true);
                     }}
                 />
             </div>
             <div className="flex flex-col gap-0.5 pt-4 pb-5 px-4.5">
-                <span className="font-display text-[26px] font-bold leading-[1.1]">{trainer.name}</span>
-                <span className="text-[15px] text-(--ink-soft)">{trainer.fields.join(", ")}</span>
+                <span className="font-display text-[26px] font-bold leading-[1.1]">{trainer.fullName}</span>
+                <span className="text-[15px] text-(--ink-soft)">{trainer.fitnessFields.join(", ")}</span>
             </div>
         </div>
     );
 }
 
-const defField = { city: "all" };
-
 export const Trainers = () => {
     const { branchLocations } = useBaseData();
+    const [trainers, setTrainers] = useState([]);
+    const [error, setError] = useState("");
     const [selectedFilters, setSelectedFilters] = useState([]);
-    const [filteredTrainers, setFilteredTrainers] = useState(
-        Array.isArray(TrainersData)
-            ? TrainersData
-            : []
-    );
-    const filterFields = (
+    const filterFields = useMemo(() => ((
         Array.isArray(branchLocations)
-            ? [defField, ...branchLocations]
+            ? branchLocations
             : []
-    ).map((b) => b.city);
+    ).map((b) => b.city)
+    ), [branchLocations]);
 
-    const handleSelectFilterItem = (selected) => {
-        const trainers = Array.isArray(TrainersData)
-            ? TrainersData
-            : [];
-        const res = selected.includes(defField.city)
-            ? trainers
-            : TrainersData.filter((t) => selected.includes(t.location));
-        setSelectedFilters(selected);
-        setFilteredTrainers([...res]);
-    };
+    useEffect(() => {
+        const controller = new AbortController();
+
+        async function loadTrainers() {
+            try {
+                const response = await fetch(
+                    "/api/trainers",
+                    {
+                        signal: controller.signal,
+                        cache: "no-store",
+                    }
+                );
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || "Could not load trainers.");
+                setTrainers(result);
+            } catch (err) {
+                if (err.name !== "AbortError") {
+                    console.error(err);
+                    setError(err.message || "Could not load trainers.");
+                }
+            }
+        }
+        loadTrainers();
+        return () => controller.abort();
+    }, []);
+
+    const filteredTrainers = useMemo(() => {
+        return (trainers || []).filter((t) => (
+            selectedFilters.length
+                ? selectedFilters.includes(t.branch.city)
+                : true
+        ));
+    }, [trainers, selectedFilters]);
+
+    const hasTrainers = filteredTrainers.length > 0;
+
     return (
         <div id="trainers" className="w-full flex justify-center py-(--section-gap) bg-(--bg-secondary)">
             <div className="w-full flex flex-col items-start gap-4 max-w-(--max-w) px-(--gutter)">
@@ -71,13 +94,23 @@ export const Trainers = () => {
                 <Filters
                     selected={selectedFilters}
                     fields={filterFields}
-                    setSelected={handleSelectFilterItem}
+                    setSelected={setSelectedFilters}
                     xPosition="right"
                 />
                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5.5">
+                    {error && (
+                        <div className="col-span-1 sm:col-span-2 md:col-span-4 w-full flex flex-col items-center justify-center h-40 gap-3 p-2">
+                            {error}. Try again later.
+                        </div>
+                    )}
                     {filteredTrainers.map((t) => (
                         <TrainerCard key={t.id} trainer={t} />
                     ))}
+                    {!hasTrainers && (
+                        <p className="text-(--ink-soft) col-span-1 sm:col-span-2 md:col-span-4 w-full flex justify-center">
+                            No trainers match those locations. Clear a filter.
+                        </p>
+                    )}
                 </div>
             </div>
         </div>

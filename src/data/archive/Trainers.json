@@ -1,0 +1,82 @@
+[
+    {
+        "fullName": "James Peck",
+        "emailAddress": "james.p@gritmail.com",
+        "fitnessFieldIds": ["2", "1"],
+        "branchId": "1",
+        "gender": "male",
+        "imageURL": "https://res.cloudinary.com/pnpyoljr/image/upload/v1792779086/gym-man.png"
+    },
+    {
+        "fullName": "Winnie Bend",
+        "emailAddress": "winnie.b@gritmail.com",
+        "fitnessFieldIds": ["1", "7"],
+        "branchId": "2",
+        "gender": "female",
+        "imageURL": "https://res.cloudinary.com/pnpyoljr/image/upload/v1792779954/gym-man-05.png"
+    },
+    {
+        "fullName": "John Strong",
+        "emailAddress": "john.s@gritmail.com",
+        "fitnessFieldIds": ["3", "1"],
+        "branchId": "3",
+        "gender": "male",
+        "imageURL": "https://res.cloudinary.com/pnpyoljr/image/upload/v1792779954/gym-man-03.png"
+    },
+    {
+        "fullName": "Andrew Fit",
+        "emailAddress": "andy.f@gritmail.com",
+        "fitnessFieldIds": ["5", "4", "6"],
+        "branchId": "1",
+        "gender": "male",
+        "imageURL": "https://res.cloudinary.com/pnpyoljr/image/upload/v1792779954/gym-man-04.png"
+    },
+    {
+        "fullName": "Maya Power",
+        "emailAddress": "mayas.p@gritmail.com",
+        "fitnessFieldIds": ["2", "4"],
+        "branchId": "2",
+        "gender": "female",
+        "imageURL": "https://res.cloudinary.com/pnpyoljr/image/upload/v1792779954/gym-man-06.png"
+    },
+    {
+        "fullName": "Leo Forge",
+        "emailAddress": "leo.f@gritmail.com",
+        "fitnessFieldIds": ["1", "6"],
+        "branchId": "3",
+        "gender": "male",
+        "imageURL": "https://res.cloudinary.com/pnpyoljr/image/upload/v1792779958/gym-man-07.png"
+    },
+    {
+        "fullName": "Sofia Blaze",
+        "emailAddress": "sofia.b@gritmail.com",
+        "fitnessFieldIds": ["5", "7"],
+        "branchId": "1",
+        "gender": "female",
+        "imageURL": "https://res.cloudinary.com/pnpyoljr/image/upload/v1792779954/gym-man-02.png"
+    },
+    {
+        "fullName": "Marcus Flex",
+        "emailAddress": "marco.f@gritmail.com",
+        "fitnessFieldIds": ["3", "2"],
+        "branchId": "2",
+        "gender": "male",
+        "imageURL": null
+    },
+    {
+        "fullName": "Elena Strike",
+        "emailAddress": "elena.s@gritmail.com",
+        "fitnessFieldIds": ["3", "4"],
+        "branchId": "3",
+        "gender": "female",
+        "imageURL": null
+    },
+    {
+        "fullName": "Noah Pulse",
+        "emailAddress": "arkbuilder.p@gritmail.com",
+        "fitnessFieldIds": ["6", "7"],
+        "branchId": "1",
+        "gender": "male",
+        "imageURL": null
+    }
+]
