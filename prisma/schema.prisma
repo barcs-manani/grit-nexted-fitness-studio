@@ -71,6 +71,7 @@ model FitnessField {
   trainers      Trainer[]
   scheduleTimes ScheduleTime[]
 
+  @@unique([name])
   @@map("fitness_fields")
 }
 
@@ -150,7 +151,7 @@ model ScheduleTime {
   time        String         @db.VarChar(300)
   description String         @db.Text
   focusArea   FitnessField[]
-  schedule    Schedule       @relation(fields: [scheduleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  schedule    Schedule       @relation(fields: [scheduleId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@map("schedule_times")
 }
