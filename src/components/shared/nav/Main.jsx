@@ -2,7 +2,6 @@
 
 import { AccountOptions, HeroNav } from "@/data/Navigation";
 import { GritLogo } from "../brand/GritLogo";
-import { Close } from "@/assets/icons/C/icons";
 import { HamburgerMenu } from "@/assets/icons/H/icons";
 import { useState } from "react";
 import { LoginModal } from "../modals/Login";

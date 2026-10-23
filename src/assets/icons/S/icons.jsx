@@ -1,7 +1,7 @@
 /*----------------S---------------*/
 const Schedule = (props) => (
     <svg
-        fill="none"
+        fill="currentColor"
         id="XMLID_209_"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
