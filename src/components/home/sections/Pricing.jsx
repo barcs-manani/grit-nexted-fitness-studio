@@ -93,7 +93,7 @@ export const Pricing = () => {
                     <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mt-3 items-stretch">
                         {error && (
                             <div className="col-span-1 md:col-span-2 w-full flex flex-col items-center justify-center h-40 gap-3 p-2">
-                                <span>There was an issue loading membership plans. Try again later</span>
+                                <span>{error}. Try again later</span>
                             </div>
                         )}
                         {!membershipPlans.length && (

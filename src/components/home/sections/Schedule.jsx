@@ -6,6 +6,7 @@ import { scheduleImg } from "@/assets/images";
 import { Filters } from "@/components/shared/Filters";
 import Image from "next/image";
 import { useBaseData } from "@/contexts/BaseDataContext";
+import { toTitleCase } from "@/lib/formatters";
 
 
 const ScheduleCard = ({
@@ -43,9 +44,9 @@ const ScheduleCard = ({
                             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-1.5">
                                 <span className="font-semibold text-(--ink)">{s.time}</span>
                                 <span className="flex flex-wrap gap-1.5">
-                                    {s.focus.map((f) => (
-                                        <span key={f} className="text-sm font-medium text-(--ink-soft) border border-(--line) bg-(--bg) rounded-(--btn-radius) px-2.5 py-0.5">
-                                            {f}
+                                    {s.focusAreas.map((f) => (
+                                        <span key={f.name} className="text-sm font-medium text-(--ink-soft) border border-(--line) bg-(--bg) rounded-(--btn-radius) px-2.5 py-0.5">
+                                            {f.name}
                                         </span>
                                     ))}
                                 </span>
@@ -67,7 +68,7 @@ const Schedule = () => {
     const [openPID, setOpenPID] = useState(null);
 
     const focusAreas = useMemo(() => {
-        const all = fitnessFields.flatMap((p) => p.name || []);
+        const all = fitnessFields.flatMap((p) => toTitleCase(p.name) || []);
         return [...new Set(all)].sort((a, b) => a.localeCompare(b));
     }, [fitnessFields]);
 
@@ -101,13 +102,13 @@ const Schedule = () => {
     const filteredSchedules = useMemo(() => {
         return (schedules || []).map((p) => {
             const slots = selectedFocus.length
-                ? p.times.filter((t) => (t.focus || []).some((f) => selectedFocus.includes(f)))
+                ? p.times.filter((t) => (t.focusAreas || []).some(({ name }) => selectedFocus.includes(toTitleCase(name))))
                 : p.times;
             return { ...p, slots };
         }).filter((p) => p.slots.length)
     }, [schedules, selectedFocus]);
 
-    const hasSessions = filteredSchedules.some((p) => true);
+    const hasSessions = filteredSchedules.length > 0;
 
     return (
         <div id="schedule" className="w-full flex justify-center py-(--section-gap)">
@@ -128,24 +129,21 @@ const Schedule = () => {
                             />
                         </div>
                         <div className="w-full flex flex-col gap-3.5">
-                            {filteredSchedules.map((p) =>
-                                p.custom
-                                    ? (
-                                        <div key={p.id} className="rounded-br-(--card-radius) rounded-tr-(--card-radius) rounded-bl-sm rounded-tl-sm py-4.5 px-5.5 bg-(--bg-secondary) border-l-4 border-l-(--blue)">
-                                            <h3 className="mb-2 text-[26px] font-bold text-(--violet)">{p.period}</h3>
-                                            <p className="font-semibold text-(--ink-soft)">{p.description}</p>
-                                        </div>
-                                    )
-                                    : (
-                                        <ScheduleCard
-                                            key={p.id}
-                                            id={`schedule-${p.id}`}
-                                            period={p.period}
-                                            slots={p.slots}
-                                            open={openPID === p.id}
-                                            onToggle={() => setOpenPID(openPID === p.id ? null : p.id)}
-                                        />
-                                    ))}
+                            {error && (
+                                <div className="w-full flex flex-col items-center justify-center h-40 gap-3 p-2">
+                                    {error}. Try again later.
+                                </div>
+                            )}
+                            {filteredSchedules.map((p) => (
+                                <ScheduleCard
+                                    key={p.id}
+                                    id={`schedule-${p.id}`}
+                                    period={p.period}
+                                    slots={p.slots}
+                                    open={openPID === p.id}
+                                    onToggle={() => setOpenPID(openPID === p.id ? null : p.id)}
+                                />
+                            ))}
                             {!hasSessions && (
                                 <p className="text-(--ink-soft)">
                                     No fixed sessions match those focus areas. Clear a filter, or ask for a custom schedule.

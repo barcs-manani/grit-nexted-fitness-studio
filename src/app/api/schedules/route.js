@@ -32,9 +32,7 @@ export async function GET() {
             times: sch.times.map((time) => (
                 {
                     ...time,
-                    id: String(time.id),
-                    focus: time.focusAreas.map((f) => (f.name))
-                }
+                    id: String(time.id),                }
             )),
         }));
 

@@ -1,7 +1,6 @@
 import "server-only"
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { toTitleCase } from "@/lib/formatters";
 
 export async function GET() {
     try {
@@ -17,7 +16,7 @@ export async function GET() {
 
         const result = fields.map((field) => ({
             id: String(field.id),
-            name: toTitleCase(field.name)
+            name: field.name
         }));
 
         return NextResponse.json(result, { headers: { "Cache-Control": "no-store" } });
