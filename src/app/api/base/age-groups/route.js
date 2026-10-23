@@ -51,7 +51,12 @@ export async function POST(request) {
     );
 
     const existingGroup = await prisma.memberAgeGroup.findUnique({
-        where: { type: type, group: group },
+        where: { 
+            type_group: {
+                type: type.trim(),
+                group: group.trim(),
+            },
+         },
         select: { type: true, group: true },
     });
     if (existingGroup) return NextResponse.json(
