@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Filters } from "@/components/shared/Filters";
 import Image from "next/image";
 import { useBaseData } from "@/contexts/BaseDataContext";
+import { toTitleCase } from "@/lib/formatters";
 
 const trainerMan = "https://res.cloudinary.com/pnpyoljr/image/upload/v1792782474/fitness-man-noID.png";
 const trainerWoman = "https://res.cloudinary.com/pnpyoljr/image/upload/v1792782475/fitness-woman-noID.png";
@@ -12,6 +13,7 @@ function TrainerCard({ trainer }) {
     const fallBackImgURL = trainer?.gender === "male" ? trainerMan : trainerWoman;
     const [useFallBackImgURL, setUseFallBackImgURL] = useState(false);
     const imgURL = useFallBackImgURL ? fallBackImgURL : trainer.imageURL || fallBackImgURL;
+    const fitnessFields = trainer.fitnessFields.map((field) => toTitleCase(field.name));
     return (
         <div key={trainer.id} className="rounded-(--card-radius) overflow-hidden bg-white border border-(--line) transition-all duration-150 ease-in-out hover:-translate-y-1.5 hover:shadow-xl">
             <div className="bg-(--ice)">
@@ -29,7 +31,7 @@ function TrainerCard({ trainer }) {
             </div>
             <div className="flex flex-col gap-0.5 pt-4 pb-5 px-4.5">
                 <span className="font-display text-[26px] font-bold leading-[1.1]">{trainer.fullName}</span>
-                <span className="text-[15px] text-(--ink-soft)">{trainer.fitnessFields.join(", ")}</span>
+                <span className="text-[15px] text-(--ink-soft)">{fitnessFields.join(", ")}</span>
             </div>
         </div>
     );
