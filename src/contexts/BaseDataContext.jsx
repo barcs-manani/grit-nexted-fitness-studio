@@ -15,6 +15,11 @@ export function BaseDataProvider({ children }) {
     const [loadingAgeGroups, setLoadingAgeGroups] = useState(true);
     const [ageGroupError, setAgeGroupError] = useState("");
 
+    // Fitness fields
+    const [fitnessFields, setFitnessFields] = useState([]);
+    const [loadingFitnessFields, setLoadingFitnessFields] = useState(true);
+    const [fitnessFieldError, setFitnessFieldError] = useState("");
+
     const loadBranches = useCallback(async () => {
         try {
             const response = await fetch(
@@ -53,8 +58,27 @@ export function BaseDataProvider({ children }) {
         }
     }, []);
 
+    const loadFitnessFields = useCallback(async () => {
+        try {
+            const response = await fetch(
+                "/api/base/fitness-fields",
+                { cache: "no-store" }
+            );
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.error || "Failed to load fitness fields.");
+            setFitnessFields(result);
+            setFitnessFieldError("");
+            return result;
+        } catch (err) {
+            setFitnessFieldError(err.message || "Failed to load fitness fields");
+            throw err;
+        } finally {
+            setLoadingFitnessFields(false);
+        }
+    }, []);
+
     useEffect(() => {
-        // Always make sure loadAgeGroups has no dependency
+        // Always make sure loadBranches has no dependency
         //eslint-disable-next-line
         loadBranches().catch(() => {});
     }, [loadBranches]);
@@ -64,6 +88,12 @@ export function BaseDataProvider({ children }) {
         //eslint-disable-next-line
         loadAgeGroups().catch(() => {});
     }, [loadAgeGroups]);
+
+    useEffect(() => {
+        // Always make sure loadFitnessFields has no dependency
+        //eslint-disable-next-line
+        loadFitnessFields().catch(() => {});
+    }, [loadFitnessFields]);
 
     const refreshBranches = useCallback(() => {
         setLoadingBranches(true);
@@ -75,11 +105,17 @@ export function BaseDataProvider({ children }) {
         return loadAgeGroups();
     }, [loadAgeGroups]);
 
+    const refreshFitnessFields = useCallback(() => {
+        setLoadingFitnessFields(true);
+        return loadFitnessFields();
+    }, [loadFitnessFields]);
+
     return (
         <BaseDataContext.Provider
             value={{
                 branchLocations, loadingBranches, branchError, refreshBranches,
                 ageGroups, loadingAgeGroups, ageGroupError, refreshAgeGroups,
+                fitnessFields, loadingFitnessFields, fitnessFieldError, refreshFitnessFields
             }}
         >
         {children}
