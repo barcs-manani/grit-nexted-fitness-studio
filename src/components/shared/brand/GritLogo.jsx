@@ -1,4 +1,4 @@
-import { gritLogoDark, gritLogoWhite } from "@/assets/images";
+import { gritIconDark, gritIconWhite } from "@/assets/images";
 import Image from "next/image";
 
 const themeStyles = {
@@ -12,8 +12,8 @@ const themeStyles = {
     }
 }
 const themeLogos = {
-    dark: gritLogoWhite,
-    light: gritLogoDark
+    dark: gritIconWhite,
+    light: gritIconDark
 }
 
 const GritLogo = ({
@@ -21,7 +21,7 @@ const GritLogo = ({
     link = "#hero"
 }) => {
     const styles = themeStyles[theme] ?? themeStyles.light;
-    const imgSrc = themeLogos[theme] ?? gritLogoDark;
+    const imgSrc = themeLogos[theme] ?? gritIconDark;
     return (
         <a href={link}>
             <span className="grid grid-cols-2 gap-0.5 items-end">
