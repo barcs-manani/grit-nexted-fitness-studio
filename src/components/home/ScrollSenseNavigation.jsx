@@ -4,11 +4,12 @@ import { useScrollDetect } from "@/hooks/useScrollDetect";
 import { useEffect, useState } from "react";
 import { MainNav } from "../shared/nav/Main";
 import { useScreenDetect } from "@/hooks/useScreenDetect";
+import { Spinner } from "../shared/animations/Spinner";
 
 export function ScrollSenseNavigation({
     accountInfo
 }) {
-    const { isTablet, isMobile } = useScreenDetect();
+    const { isTablet, isMobile, isLoading } = useScreenDetect();
     const isScrolled = useScrollDetect({ threshold: 0 });
     const [navTheme, setNavTheme] = useState("dark");
 
@@ -26,6 +27,13 @@ export function ScrollSenseNavigation({
     }, []);
     // console.log("Nav theme: ", navTheme);
 
+    if (isLoading) return (
+        <div className="fixed inset-x-0 top-0 z-(--z-nav-bar)">
+            <Spinner
+                position="center"
+            />
+        </div>
+    );
     return (
         <MainNav
             theme={navTheme}
