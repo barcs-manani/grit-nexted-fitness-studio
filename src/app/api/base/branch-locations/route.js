@@ -51,7 +51,12 @@ export async function POST(request) {
     );
 
     const existingBranch = await prisma.branchLocation.findUnique({
-        where: { city: city, country: country },
+        where: {
+            country_city: {
+                city: city,
+                country: country,
+            },
+        },
         select: { city: true, country: true },
     });
     if (existingBranch) return NextResponse.json(
@@ -77,8 +82,8 @@ export async function POST(request) {
     );
 
     return NextResponse.json(
-        { message: "Branch location created successfully!"},
-        { status: 201},
+        { message: "Branch location created successfully!" },
+        { status: 201 },
         {
             id: branch.id.toString(),
             country: branch.country,
