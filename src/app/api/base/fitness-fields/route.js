@@ -41,22 +41,26 @@ export async function POST(request) {
     }
 
     const { name } = body;
-    if (!name.trim() || typeof name !== "string") return NextResponse.json(
-        { error: "Invalid fields in body for fitness field addition request." },
-        { status: 400 }
-    );
+    if (!name.trim() || typeof name !== "string") {
+        return NextResponse.json(
+            { error: "Invalid fields in body for fitness field addition request." },
+            { status: 400 }
+        );
+    }
 
     const existingField = await prisma.fitnessField.findUnique({
-        where: { name: name },
+        where: { name: name.trim().toLowerCase() },
         select: { name: true },
     });
-    if (existingField) return NextResponse.json(
-        { error: "Field name provided already exists." },
-        { status: 409 }
-    );
+    if (existingField) {
+        return NextResponse.json(
+            { error: "Field name provided already exists." },
+            { status: 409 }
+        );
+    }
 
     const fitnessField = await prisma.fitnessField.create({
-        data: { name: name, },
+        data: { name: name.trim().toLowerCase(), },
         select: {
             id: true,
             name: true,
