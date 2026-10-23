@@ -1,0 +1,47 @@
+[
+    {
+        "period": "Weekdays",
+        "times": [
+            {
+                "time": "6:00 AM to 8:00 AM",
+                "description": "Start your day strong with an energizing morning workout. Enjoy a quieter gym environment with easier access to equipment before the workday begins.",
+                "focusAreaIds": ["1", "2"]
+            },
+            {
+                "time": "5:00 PM to 7:00 PM",
+                "description": "Make the most of your evening with high-energy workouts and group training sessions. This is a popular time, so book ahead to secure your spot.",
+                "focusAreaIds": ["4", "6", "3"]
+            }
+        ]
+    },
+    {
+        "period": "Weekends & Public Holidays",
+        "times": [
+            {
+                "time": "6:00 AM to 8:00 AM",
+                "description": "Get an early start with focused conditioning sessions designed to build endurance, improve fitness, and set a positive tone for the day.",
+                "focusAreaIds": ["6", "4"]
+            },
+            {
+                "time": "10:00 AM to 12:00 PM",
+                "description": "Take a balanced approach to fitness with guided mobility exercises and movement-focused classes in a more relaxed training environment.",
+                "focusAreaIds": ["5", "7"]
+            },
+            {
+                "time": "3:00 PM to 7:00 PM",
+                "description": "Push your limits with dynamic, high-intensity workouts and more opportunities to get guidance from our trainers.",
+                "focusAreaIds": ["3", "1", "2"]
+            }
+        ]
+    },
+    {
+        "period": "Custom",
+        "times": [
+            {
+                "time": "Flexible — By Arrangement",
+                "description": "Train on a schedule that fits your lifestyle. Work with your trainer to create a personalized plan around your goals, availability, and preferred training activities.",
+                "focusAreaIds": ["1", "2", "3", "4", "5", "6", "7"]
+            }
+        ]
+    }
+]

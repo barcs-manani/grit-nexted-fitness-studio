@@ -1,4 +1,4 @@
-const fullJs = [
+[
     {
         "country": "Germany",
         "city": "Berlin"
@@ -11,4 +11,4 @@ const fullJs = [
         "country": "United State of America",
         "city": "New York"
     }
-];
+]
