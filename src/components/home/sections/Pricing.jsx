@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import { RegistrationModal } from "@/components/shared/modals/Registration";
 import { PromoBadge01 } from "@/components/shared/Badges";
 import { formatCurrency } from "@/lib/formatters";
+import { useBaseData } from "@/contexts/BaseDataContext";
 
 export const Pricing = () => {
+    const { ageGroups, branchLocations, branchError, ageGroupError } = useBaseData();
     const [membershipPlans, setMembershipPlans] = useState([]);
     const [selectedTier, setSelectedTier] = useState(null);
     const [openRegForm, setOpenRegForm] = useState(false);
-    const [ageGroups, setAgeGroups] = useState([]);
-    const [branchLocations, setBranchLocations] = useState([]);
     const [loadingPlans, setLoadingPlans] = useState(true);
     const [error, setError] = useState("");
 
@@ -44,30 +44,12 @@ export const Pricing = () => {
     }, []);
 
     const handleClickReg = async (tier) => {
-        try {
-            const [ageResponse, branchResponse] = await Promise.all([
-                fetch("/api/base/age-groups", { cache: "no-store" }),
-                fetch("/api/base/branch-locations", { cache: "no-store" }),
-            ]);
-
-            const [ages, branches] = await Promise.all([
-                ageResponse.json(),
-                branchResponse.json(),
-            ]);
-
-            if (!ageResponse.ok) throw new Error(ages.error || "Could not load age groups");
-            if (!branchResponse.ok) throw new Error(branches.error || "Could not load branch locations");
-            if (!Array.isArray(ages)) throw new Error("Age groups request returned an invalid response");
-            if (!Array.isArray(branches)) throw new Error("Branch locations request returned an invalid response");
-
-            setAgeGroups(ages);
-            setBranchLocations(branches);
-            setSelectedTier(tier);
-            setOpenRegForm(true);
-        } catch (error) {
-            console.error(error);
-            setError(error?.message || "Failed to prepare registration form.");
+        if (ageGroupError || branchError) {
+            setError(ageGroupError + ", " + branchError);
+            return;
         }
+        setSelectedTier(tier);
+        setOpenRegForm(true);
     };
     const handleCloseReg = () => {
         setOpenRegForm(false);

@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react";
-import { BranchLocations } from "@/data/Locations";
 import { TrainersData } from "@/data/Trainers";
 import { Filters } from "@/components/shared/Filters";
 import { trainerMan, trainerWoman } from "@/assets/images";
 import Image from "next/image";
+import { useBaseData } from "@/contexts/BaseDataContext";
 
 function TrainerCard({ trainer }) {
     const fallBackImgSrc = trainer?.gender === "male" ? trainerMan : trainerWoman;
@@ -37,6 +37,7 @@ function TrainerCard({ trainer }) {
 const defField = { city: "all" };
 
 export const Trainers = () => {
+    const { branchLocations } = useBaseData();
     const [selectedFilters, setSelectedFilters] = useState([]);
     const [filteredTrainers, setFilteredTrainers] = useState(
         Array.isArray(TrainersData)
@@ -44,8 +45,8 @@ export const Trainers = () => {
             : []
     );
     const filterFields = (
-        Array.isArray(BranchLocations)
-            ? [defField, ...BranchLocations]
+        Array.isArray(branchLocations)
+            ? [defField, ...branchLocations]
             : []
     ).map((b) => b.city);
 

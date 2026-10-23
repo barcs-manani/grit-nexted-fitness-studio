@@ -4,6 +4,7 @@ import { Pricing } from "@/components/home/sections/Pricing";
 import { Schedule } from "@/components/home/sections/Schedule";
 import { Trainers } from "@/components/home/sections/Trainers";
 import { Footer } from "@/components/shared/Footer";
+import { BaseDataProvider } from "@/contexts/BaseDataContext";
 import { getCurrentUser } from "@/lib/auth";
 
 export default async function Home() {
@@ -12,12 +13,14 @@ export default async function Home() {
     <>
       <ScrollSenseNavigation accountInfo={accountInfo} />
       <Hero />
-      <main className="w-full">
-        <Schedule />
-        <Trainers />
-        <Pricing />
-      </main>
-      <Footer />
+      <BaseDataProvider>
+        <main className="w-full">
+          <Schedule />
+          <Trainers />
+          <Pricing />
+        </main>
+        <Footer />
+      </BaseDataProvider>
     </>
   );
 }

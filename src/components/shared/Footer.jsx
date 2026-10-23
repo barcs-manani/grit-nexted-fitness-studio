@@ -1,8 +1,11 @@
-import { BranchLocations } from "@/data/Locations";
+"use client"
+
+import { useBaseData } from "@/contexts/BaseDataContext";
 import { SocialLinks } from "@/data/SocialLinks";
 
 
 export const Footer = () => {
+    const { branchLocations } = useBaseData();
     return (
         <div id="footer" className="w-full mt-(--section-gap) flex justify-center pt-14 pb-7 px-(--gutter) bg-(--ink) text-white opacity-85">
             <div className="w-full max-w-(--max-w) flex flex-col gap-10">
@@ -14,7 +17,7 @@ export const Footer = () => {
                     <div className="footer-branches">
                         <h2 className="mb-3.5 text-[30px] text-white">Where to Find Us</h2>
                         <ul className="list-none flex flex-col gap-1.5">
-                            {BranchLocations.map((b, idx) => (
+                            {(branchLocations || []).map((b, idx) => (
                                 <li key={idx}>- {b.city}, {b.country}</li>
                             ))}
                         </ul>
