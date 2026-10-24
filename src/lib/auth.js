@@ -5,7 +5,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { cookies } from "next/headers";
 import { prisma } from "./prisma";
 
-export const SESSION_COOKIE = "grit_session";
+export const SESSION_COOKIE = process.env.SESSION_COOKIE;
 
 export function hashSessionToken(token) {
     return createHash("sha256").update(token).digest("hex");
