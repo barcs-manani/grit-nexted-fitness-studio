@@ -76,21 +76,19 @@ export const Pricing = ({
         try {
             // console.log("Registration payload: ", JSON.stringify(submitData));
             const response = await fetch(
-                "/api/auth/register",
+                "/api/checkout",
                 {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
+                    headers: { "Content-Type": "application/json", },
+                    credentials: "same-origin",
                     body: JSON.stringify(submitData),
                 }
             );
             const result = await response.json();
 
-            if (!response.ok) {
-                throw new Error(result.error || "Registration failed please try again.")
-            }
-
+            if (!response.ok) throw new Error(result.error || "Checkout start failed, please try again.");
+            
+            window.open(result.checkoutURL);
             return result;
         } catch (error) {
             return error;
