@@ -55,18 +55,24 @@ const AuthParent = ({
         }
     };
 
+    const handleClose=(type)=> {
+        if (type === "login") setOpenLogin(false);
+        else setOpenReg(false);
+        onClose();
+    };
+
     if (!isOpen) return null;
     return (
         <>
             <LoginModal
                 open={openLogin}
-                onClose={() => setOpenLogin(false)}
+                onClose={() => handleClose("login")}
                 onSubmit={async (creds) => handleAuth("login", creds)}
                 switchToSignup={async () => handleAuthSwitch("login")}
             />
             <RegistrationModal
                 open={openReg}
-                onClose={() => setOpenReg(false)}
+                onClose={() => handleClose("signup")}
                 onSubmit={async (creds) => handleAuth("signup", creds)}
                 switchToLogin={() => handleAuthSwitch("signup")}
             />
