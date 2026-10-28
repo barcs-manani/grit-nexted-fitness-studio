@@ -1,4 +1,5 @@
 const mailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const digitStrRegEx = /^\d+$/;
 
 // Single source of truth for what "strong" means.
 // Edit here and the checklist, meter and validation all follow.
@@ -12,4 +13,4 @@ const passwordRules = [
 
 function isStrongPassword(p) { return passwordRules.every((r) => r.test(p)); }
 
-export { mailRegEx, passwordRules, isStrongPassword }
+export { mailRegEx, digitStrRegEx, passwordRules, isStrongPassword }
