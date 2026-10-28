@@ -17,7 +17,7 @@ export default async function Home() {
         <main className="w-full">
           <Schedule />
           <Trainers />
-          <Pricing />
+          <Pricing accountInfo={accountInfo} />
         </main>
         <Footer />
       </BaseDataProvider>

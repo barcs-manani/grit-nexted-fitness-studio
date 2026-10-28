@@ -6,7 +6,9 @@ import { RegistrationModal } from "./Registration";
 
 const AuthParent = ({
     isOpen,
-    onClose
+    onClose,
+    onAuthSuccess,
+    onAuthFailure
 }) => {
     const [openLogin, setOpenLogin] = useState(isOpen);
     const [openReg, setOpenReg] = useState(false);
@@ -49,8 +51,10 @@ const AuthParent = ({
             if (!response.ok) throw new Error(res.error || `${type.toUpperCase()} request failed!`);
             // if (type === "logout" || res?.account?.id) router.refresh();
             router.refresh();
+            if (typeof onAuthSuccess === "function") onAuthSuccess();
             return res;
         } catch (err) {
+            if (typeof onAuthFailure === "function") onAuthFailure();
             return err;
         }
     };

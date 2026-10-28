@@ -1,15 +1,19 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { RegistrationModal } from "@/components/shared/modals/Registration";
 import { PromoBadge01 } from "@/components/shared/Badges";
 import { formatCurrency } from "@/lib/formatters";
 import { useBaseData } from "@/contexts/BaseDataContext";
+import { AddMembershipModal } from "@/components/shared/modals/AddMembership";
+import { AuthParent } from "@/components/shared/modals/auth/Main";
 
-export const Pricing = () => {
+export const Pricing = ({
+    accountInfo
+}) => {
     const { ageGroups, branchLocations, branchError, ageGroupError } = useBaseData();
     const [membershipPlans, setMembershipPlans] = useState([]);
     const [selectedTier, setSelectedTier] = useState(null);
+    const [openAuth, setOpenAuth] = useState(false);
     const [openRegForm, setOpenRegForm] = useState(false);
     const [loadingPlans, setLoadingPlans] = useState(true);
     const [error, setError] = useState("");
@@ -48,9 +52,21 @@ export const Pricing = () => {
             setError(ageGroupError + ", " + branchError);
             return;
         }
+        if (accountInfo?.id) {
+            setSelectedTier(tier);
+            setOpenRegForm(true);
+            return;
+        }
         setSelectedTier(tier);
-        setOpenRegForm(true);
+        setOpenAuth(true);
     };
+
+    const handleAuthSuccess = () => {
+        if (selectedTier) {
+            setOpenRegForm(true);
+        }
+    };
+
     const handleCloseReg = () => {
         setOpenRegForm(false);
         setSelectedTier(null);
@@ -146,13 +162,18 @@ export const Pricing = () => {
                     </div>
                 </div>
             </section>
-            <RegistrationModal
+            <AddMembershipModal
                 open={openRegForm}
                 onClose={handleCloseReg}
                 membershipPlan={selectedTier}
                 memberAges={ageGroups}
                 branchLocations={branchLocations}
                 onSubmit={handleSubmit}
+            />
+            <AuthParent
+                isOpen={openAuth}
+                onClose={() => setOpenAuth(false)}
+                onAuthSuccess={handleAuthSuccess}
             />
         </>
     );
