@@ -11,13 +11,16 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.1",
     "@prisma/client": "^7.10.1",
+    "@stripe/react-stripe-js": "^7.0.1",
+    "@stripe/stripe-js": "^10.2.0",
     "argon2": "^0.45.1",
     "dotenv": "^18.0.8",
     "next": "16.4.2",
     "pg": "^8.23.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "react-phone-number-input": "^3.4.18"
+    "react-phone-number-input": "^3.4.18",
+    "stripe": "^23.0.1"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
