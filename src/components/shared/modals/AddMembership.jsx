@@ -82,15 +82,11 @@ const AddMembershipModal = ({
     ), [showErrors, currentView, formData]);
 
     const ageOptions = useMemo(() => {
-        return (memberAges || []).filter((af) => (
-            !membershipPlan?.type || membershipPlan.type === "custom"
-                ? true
-                : af.type === membershipPlan.type
-        )).map((a) => ({
+        return (memberAges || []).map((a) => ({
             value: String(a.id),
             display: a.group
         }))
-    }, [membershipPlan, memberAges]);
+    }, [memberAges]);
 
     const branchOptions = useMemo(() => {
         return (branchLocations || []).map((b) => ({
@@ -206,7 +202,11 @@ const AddMembershipModal = ({
         </>
     );
 
-    const paymentCheckoutView = () => { };
+    const paymentCheckoutView = () => (
+        <div>
+            <p>Proceed to payment page</p>
+        </div>
+    );
 
     const getView = (num) => {
         switch (num) {

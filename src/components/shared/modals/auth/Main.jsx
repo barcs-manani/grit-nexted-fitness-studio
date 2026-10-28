@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { LoginModal } from "./Login";
 import { RegistrationModal } from "./Registration";
+import { useRouter } from "next/navigation";
 
 const AuthParent = ({
     isOpen,
@@ -10,6 +11,7 @@ const AuthParent = ({
     onAuthSuccess,
     onAuthFailure
 }) => {
+    const router = useRouter();
     const [openLogin, setOpenLogin] = useState(isOpen);
     const [openReg, setOpenReg] = useState(false);
 
