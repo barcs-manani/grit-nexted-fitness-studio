@@ -4,10 +4,11 @@ import { AccountOptions, HeroNav } from "@/data/Navigation";
 import { GritLogo } from "../brand/GritLogo";
 import { HamburgerMenu } from "@/assets/icons/H/icons";
 import { useState } from "react";
-import { LoginModal } from "../modals/Login";
-import { RegistrationModal } from "../modals/Registration";
+import { LoginModal } from "../modals/auth/Login";
+import { RegistrationModal } from "../modals/auth/Registration";
 import { useRouter } from "next/navigation";
 import { Drawer, DrawerItem } from "./NavDrawer";
+import { AuthParent } from "../modals/auth/Main";
 
 const MainNav = ({
     theme = "dark", // dark, light
@@ -36,48 +37,31 @@ const MainNav = ({
         }
     };
     const styles = themeStyles[theme] ?? themeStyles.light;
+    const [openAuth, setOpenAuth] = useState(false);
     const [openNavMenu, setOpenNavMenu] = useState(false);
-    const [openLogin, setOpenLogin] = useState(false);
-    const [openReg, setOpenReg] = useState(false);
     const [openAccountMenu, setOpenAccountMenu] = useState(false);
 
-    const handleAuthSwitch = async (currentType) => {
-        if (currentType === "signup") {
-            setOpenReg(false);
-            setOpenLogin(true);
-        } else if (currentType === "login") {
-            setOpenLogin(false);
-            setOpenReg(true);
-        }
-    }
-    const handleAuth = async (type, creds) => {
-        const apis = {
-            login: "/api/auth/login",
-            signup: "/api/auth/signup",
-            logout: "/api/auth/logout"
-        };
-        const api = apis[type];
+    const handleAccountOption= async (opt)=> {
+        setOpenAccountMenu(false);
+        if (opt.to === "logout") await handleLogout();
+    };
+
+    const handleLogout = async () => {
         try {
             const response = await fetch(
-                api,
+                "/api/auth/logout",
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: type !== "logout" ? JSON.stringify(creds) : null,
                 }
             );
             const res = await response.json();
-            if (!response.ok) throw new Error(res.error || `${type.toUpperCase()} request failed!`);
-            if (type === "logout" || res?.account?.id) router.refresh();
+            if (!response.ok) throw new Error(res.error || "Logout request failed!");
+            router.refresh();
             return res;
         } catch (err) {
             return err;
         }
-    };
-
-    const handleAccountOption= async (opt)=> {
-        setOpenAccountMenu(false);
-        if (opt.to === "logout") await handleAuth("logout", null);
     };
 
     const fullMenu = () => (
@@ -122,10 +106,10 @@ const MainNav = ({
     );
 
     const loginButton = () => {
-        const currentState = openLogin;
+        const currentState = openAuth;
         return (
             <button
-                onClick={() => setOpenLogin(!currentState)}
+                onClick={() => setOpenAuth(!currentState)}
                 className={`
                     py-1.5 px-4
                     text-lg font-semibold rounded-(--btn-radius)
@@ -211,18 +195,9 @@ const MainNav = ({
                     </ul>
                 </Drawer>
             )}
-
-            <LoginModal
-                open={openLogin}
-                onClose={() => setOpenLogin(false)}
-                onSubmit={async (creds) => handleAuth("login", creds)}
-                switchToSignup={async () => handleAuthSwitch("login")}
-            />
-            <RegistrationModal
-                open={openReg}
-                onClose={() => setOpenReg(false)}
-                onSubmit={async (creds) => handleAuth("signup", creds)}
-                switchToLogin={() => handleAuthSwitch("signup")}
+            <AuthParent
+                isOpen={openAuth}
+                onClose={() => setOpenAuth(false)}
             />
         </>
     );

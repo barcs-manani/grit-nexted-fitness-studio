@@ -1,11 +1,11 @@
 "use client"
 
 import { useMemo, useState } from "react";
-import { TextField, PhoneField, SingleSelect } from "../forms/FormFields";
+import { TextField, PhoneField, SingleSelect } from "../../forms/FormFields";
 import { mailRegEx } from "@/lib/validation";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { Close } from "@/assets/icons/C/icons";
-import { SignupPassword } from "../forms/SignupPassword";
+import { SignupPassword } from "../../forms/SignupPassword";
 import Image from "next/image";
 import { gritLogo } from "@/assets/images";
 

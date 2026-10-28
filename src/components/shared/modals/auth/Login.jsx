@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { LoginPassword, TextField } from "../forms/FormFields";
+import { LoginPassword, TextField } from "../../forms/FormFields";
 import { mailRegEx } from "@/lib/validation";
 import { Close } from "@/assets/icons/C/icons";
 import Image from "next/image";
