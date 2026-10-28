@@ -116,8 +116,8 @@ export async function POST(request) {
                         popular: popular ?? false,
                         pricing: {
                             create: pricing.map(({ period, currency, amount }) => ({
-                                period,
-                                currency,
+                                period: period.trim(),
+                                currency: currency.trim(),
                                 amount, // Send a decimal string eg "15.00"
                             }))
                         },
