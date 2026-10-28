@@ -17,10 +17,6 @@ const defaultFormData = {
     },
     view2: {
         password: "",
-    },
-    view3: {
-        age: "",
-        branch: ""
     }
 };
 const fieldNames = {
@@ -28,9 +24,7 @@ const fieldNames = {
     emailAddress: "email address",
     phoneNumber: "phone number",
     password: "password",
-    confirmPassword: "confirm password",
-    age: "age",
-    branch: "location"
+    confirmPassword: "confirm password"
 };
 
 const viewStates = {
@@ -41,14 +35,6 @@ const viewStates = {
     "2": {
         tag: "password",
         text: "Please setup a strong, long password"
-    },
-    "3": {
-        tag: "primary-member",
-        text: "Please add a few more details for your membership"
-    },
-    "4": {
-        tag: "payment",
-        text: "Complete payment to finalize member registration"
     }
 };
 
@@ -77,14 +63,10 @@ const validate = (raw) => {
 const RegistrationModal = ({
     open,
     onClose,
-    membershipPlan,
-    memberAges = [],
-    branchLocations = [],
     onSubmit,
-    accountOnly = false, // Not for membership registration
     switchToLogin,
 }) => {
-    const maxViews = accountOnly ? 2 : 4;
+    const maxViews = 2;
     const [formData, setFormData] = useState(defaultFormData);
     const [currentView, setCurrentView] = useState(1);
     const [showErrors, setShowErrors] = useState(false);
@@ -92,24 +74,6 @@ const RegistrationModal = ({
     const errors = useMemo(() => (
         showErrors ? validate(formData[`view${currentView}`]) : []
     ), [showErrors, currentView, formData]);
-
-    const ageOptions = useMemo(() => {
-        return (memberAges || []).filter((af) => (
-            !membershipPlan?.type || membershipPlan.type === "custom"
-                ? true
-                : af.type === membershipPlan.type
-        )).map((a) => ({
-            value: String(a.id),
-            display: a.group
-        }))
-    }, [membershipPlan, memberAges]);
-
-    const branchOptions = useMemo(() => {
-        return (branchLocations || []).map((b) => ({
-            value: String(b.id),
-            display: `${b.city}, ${b.country}`
-        }))
-    }, [branchLocations]);
 
     const handleChange = (view, name, value) => {
         setFormData((prev) => {
@@ -130,20 +94,11 @@ const RegistrationModal = ({
     }
 
     const handleSubmit = async () => {
-        const member = !accountOnly && membershipPlan
-            ? {
-                primaryAccount: true,
-                ageGroupId: Number(formData.view3.age),
-                branchId: Number(formData.view3.branch),
-                membershipPlanId: membershipPlan.id
-            }
-            : null;
         const submitData = {
             fullName: formData.view1.fullName.trim(),
             emailAddress: formData.view1.emailAddress.trim(),
             phoneNumber: formData.view1.phoneNumber,
-            password: formData.view2.password,
-            member
+            password: formData.view2.password
         }
         if (typeof onSubmit === "function") {
             const res = await onSubmit(submitData);
@@ -190,14 +145,14 @@ const RegistrationModal = ({
             <TextField
                 isEmail={true}
                 name="emailAddress"
-                label={membershipPlan?.type === "child" ? "Guardian's Email Address" : "Email Address"}
+                label="Email Address"
                 placeHolder="spiderman@mail.com"
                 value={formData.view1.emailAddress}
                 onChange={(e) => { handleChange("view1", "emailAddress", e.target.value) }}
             />
             <PhoneField
                 name="phoneNumber"
-                label={membershipPlan?.type === "child" ? "Guardian's Phone Number" : "Phone Number"}
+                label="Phone Number"
                 value={formData.view1.phoneNumber}
                 onChange={(fullNum) => { handleChange("view1", "phoneNumber", fullNum) }}
             />
@@ -211,35 +166,12 @@ const RegistrationModal = ({
         />
     );
 
-    const primaryMemberView = () => (
-        <>
-            <SingleSelect
-                name="age"
-                label="Age Group"
-                options={ageOptions}
-                value={formData.view3.age}
-                placeHolder="Select the member's age"
-                onChange={(e) => handleChange("view3", "age", e.target.value)}
-            />
-            <SingleSelect
-                name="branch"
-                label="Branch Location"
-                options={branchOptions}
-                value={formData.view3.branch}
-                placeHolder="Select the member's location"
-                onChange={(e) => handleChange("view3", "branch", e.target.value)}
-            />
-        </>
-    );
-
     const getView = (num) => {
         switch (num) {
             case 1:
                 return userAccountView();
             case 2:
                 return passwordView();
-            case 3:
-                return primaryMemberView();
             default:
                 break;
         }
@@ -289,7 +221,7 @@ const RegistrationModal = ({
                         </div>
                         <span className="w-full flex flex-col items-center text-center">
                             <h2 id="mem-reg-title" className="text-2xl font-bold">
-                                {membershipPlan?.name ?? "Welcome to GRIT"}
+                                Welcome to GRIT
                             </h2>
                             <p>We&apos;re excited to have you join us in this extraordinary journey of physical and mental growth.</p>
                         </span>
@@ -305,16 +237,13 @@ const RegistrationModal = ({
                 </div>
                 {/* Footer */}
                 <div className="p-4 border-t border-(--line) flex flex-col gap-2">
-                    {accountOnly && (
-                        <button
-                            type="button"
-                            onClick={handleSwitchToLogin}
-                            disabled={!accountOnly}
-                            className="text-(--blue)/80 cursor-pointer hover:text-(--blue-dark) disabled:cursor-not-allowed"
-                        >
-                            I already have an account?
-                        </button>
-                    )}
+                    <button
+                        type="button"
+                        onClick={handleSwitchToLogin}
+                        className="text-(--blue)/80 cursor-pointer hover:text-(--blue-dark) disabled:cursor-not-allowed"
+                    >
+                        I already have an account?
+                    </button>
                     <div className="flex justify-between items-center">
                         <button
                             type="button"
@@ -347,7 +276,7 @@ const RegistrationModal = ({
                             focus-visible:outline-2 focus-visible:outline-offset-2 
                         `}
                         >
-                            {currentView === maxViews ? 'Finish' : 'Next'}
+                            {currentView === maxViews ? 'Register' : 'Next'}
                         </button>
                     </div>
                 </div>

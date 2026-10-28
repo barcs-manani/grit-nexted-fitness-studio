@@ -222,7 +222,6 @@ const MainNav = ({
                 open={openReg}
                 onClose={() => setOpenReg(false)}
                 onSubmit={async (creds) => handleAuth("signup", creds)}
-                accountOnly={true}
                 switchToLogin={() => handleAuthSwitch("signup")}
             />
         </>
