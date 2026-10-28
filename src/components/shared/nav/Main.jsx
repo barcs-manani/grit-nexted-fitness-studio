@@ -115,7 +115,8 @@ const MainNav = ({
                     text-lg font-semibold rounded-(--btn-radius)
                     ${styles.lv7}
                     focus-visible:outline-(--blue) focus-visible:outline-2 focus-visible:outline-offset-2 
-                    transition-colors
+                    cursor-pointer
+                    transition-all
                 `}
             >
                 Signin
