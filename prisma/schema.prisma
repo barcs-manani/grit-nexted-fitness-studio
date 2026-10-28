@@ -9,15 +9,17 @@ datasource db {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model MembershipPlan {
-  id          Int               @id @default(autoincrement())
-  type        String            @unique @db.VarChar(30)
-  name        String            @db.VarChar(100)
-  description String            @db.Text
-  createdAt   DateTime          @default(now()) @db.Timestamptz(6)
-  pricing     MembershipPrice[]
-  perks       MembershipPerk[]
-  popular     Boolean           @default(false) @db.Boolean
-  members     Member[]
+  id                 Int                 @id @default(autoincrement())
+  type               String              @unique @db.VarChar(30)
+  name               String              @db.VarChar(100)
+  description        String              @db.Text
+  createdAt          DateTime            @default(now()) @db.Timestamptz(6)
+  pricing            MembershipPrice[]
+  perks              MembershipPerk[]
+  popular            Boolean             @default(false) @db.Boolean
+  members            Member[]
+  orderItems         OrderItem[]
+  pendingMemberships PendingMembership[]
 
   @@map("membership_plans")
 }
@@ -29,6 +31,7 @@ model MembershipPrice {
   currency         String         @db.VarChar(5)
   amount           Decimal        @db.Decimal(10, 2)
   membershipPlan   MembershipPlan @relation(fields: [membershipPlanId], references: [id])
+  orderItems       OrderItem[]
 
   @@unique([membershipPlanId, period, currency])
   @@map("membership_prices")
@@ -45,21 +48,23 @@ model MembershipPerk {
 }
 
 model MemberAgeGroup {
-  id      Int      @id @default(autoincrement())
-  type    String   @db.VarChar(20)
-  group   String   @db.VarChar(30)
-  members Member[]
+  id                 Int                 @id @default(autoincrement())
+  type               String              @db.VarChar(20)
+  group              String              @db.VarChar(30)
+  members            Member[]
+  pendingMemberships PendingMembership[]
 
   @@unique([type, group])
   @@map("member_age_groups")
 }
 
 model BranchLocation {
-  id       Int       @id @default(autoincrement())
-  country  String    @db.VarChar(150)
-  city     String    @db.VarChar(150)
-  trainers Trainer[]
-  members  Member[]
+  id                 Int                 @id @default(autoincrement())
+  country            String              @db.VarChar(150)
+  city               String              @db.VarChar(150)
+  trainers           Trainer[]
+  members            Member[]
+  pendingMemberships PendingMembership[]
 
   @@unique([country, city])
   @@map("branch_locations")
@@ -100,6 +105,7 @@ model UserAccount {
   updatedAt    DateTime      @updatedAt @db.Timestamptz(6)
   members      Member[]
   userSessions UserSession[]
+  orders       Order[]
 
   @@unique([emailAddress])
   @@map("user_accounts")
@@ -128,6 +134,7 @@ model Member {
   ageGroupId       Int
   branchId         Int
   membershipPlanId Int
+  isActive         Boolean        @default(false) @db.Boolean
   createdAt        DateTime       @default(now()) @db.Timestamptz(6)
   account          UserAccount?   @relation(fields: [accountId], references: [id])
   branchLocation   BranchLocation @relation(fields: [branchId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -137,6 +144,56 @@ model Member {
   @@unique([emailAddress])
   @@index([accountId])
   @@map("members")
+}
+
+model Order {
+  id                 BigInt              @id @default(autoincrement())
+  accountId          BigInt
+  paymentState       String              @db.VarChar(50)
+  createdAt          DateTime            @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime            @updatedAt @db.Timestamptz(6)
+  account            UserAccount         @relation(fields: [accountId], references: [id])
+  orderItems         OrderItem[]
+  pendingMemberships PendingMembership[]
+
+  @@index([accountId])
+  @@map("orders")
+}
+
+model OrderItem {
+  id                BigInt          @id @default(autoincrement())
+  orderId           BigInt
+  membershipPlanId  Int
+  membershipPriceId Int
+  itemAmount        Decimal         @db.Decimal(10, 2)
+  totalPaid         Decimal?        @db.Decimal(10, 2)
+  currency          String          @db.VarChar(5)
+  order             Order           @relation(fields: [orderId], references: [id])
+  membershipPlan    MembershipPlan  @relation(fields: [membershipPlanId], references: [id])
+  membershipPrice   MembershipPrice @relation(fields: [membershipPriceId], references: [id])
+
+  @@index([orderId])
+  @@map("order_items")
+}
+
+model PendingMembership {
+  id               BigInt  @id @default(autoincrement())
+  orderId          BigInt
+  primaryAccount   Boolean @db.Boolean
+  fullName         String  @db.VarChar(150)
+  emailAddress     String  @db.VarChar(254)
+  phoneNumber      String  @db.VarChar(30)
+  isProcessed      Boolean @default(false) @db.Boolean
+  ageGroupId       Int
+  branchId         Int
+  membershipPlanId Int
+
+  order          Order          @relation(fields: [orderId], references: [id])
+  branchLocation BranchLocation @relation(fields: [branchId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ageGroup       MemberAgeGroup @relation(fields: [ageGroupId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  membershipPlan MembershipPlan @relation(fields: [membershipPlanId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("pending_memberships")
 }
 
 model Schedule {
