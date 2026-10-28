@@ -166,8 +166,8 @@ export async function POST(request) {
                     quantity: 1,
                 },
             ],
-            success_url: `${appURL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${appURL}/payment/cancelled`,
+            success_url: `${appURL}/payments/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${appURL}/payments/cancelled`,
         });
 
         if (!session) {
