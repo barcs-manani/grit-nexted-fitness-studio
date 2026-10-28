@@ -70,6 +70,7 @@ const AddMembershipModal = ({
     membershipPlan,
     memberAges = [],
     branchLocations = [],
+    accountInfo,
     onSubmit
 }) => {
     const maxViews = 3;
@@ -120,12 +121,15 @@ const AddMembershipModal = ({
     }
 
     const handleSubmit = async () => {
+        const emailFmt = formData.view2.emailAddress.trim();
+        if (!accountInfo) throw new Error("Missing user account information.");
+        const primaryAccount = emailFmt === accountInfo.emailAddress;
         const submitData = {
-            primaryAccount: true, // check if account email matches to set true
+            primaryAccount: primaryAccount, // check if account email matches to set true
             ageGroupId: Number(formData.view1.age),
             branchId: Number(formData.view1.branch),
             fullName: formData.view2.fullName.trim(),
-            emailAddress: formData.view2.emailAddress.trim(),
+            emailAddress: emailFmt,
             phoneNumber: formData.view2.phoneNumber,
             membershipPlanId: membershipPlan.id
         }
@@ -222,7 +226,7 @@ const AddMembershipModal = ({
         }
     }
 
-    if (!open || !membershipPlan?.id) return null;
+    if (!open || !membershipPlan?.id || !accountInfo) return null;
     return (
         <div className="fixed inset-0 z-(--z-modal-backdrop) bg-(--ink)/75 flex justify-center items-center p-3 sm:p-6">
             {/* Modal panel */}

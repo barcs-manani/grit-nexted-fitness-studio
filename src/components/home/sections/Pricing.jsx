@@ -166,6 +166,7 @@ export const Pricing = ({
                 membershipPlan={selectedTier}
                 memberAges={ageGroups}
                 branchLocations={branchLocations}
+                accountInfo={accountInfo}
                 onSubmit={handleSubmit}
             />
             <AuthParent
