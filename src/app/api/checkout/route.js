@@ -86,6 +86,7 @@ export async function POST(request) {
         }
         const { id, amount, currency, period } = plan.pricing[0];
         const amountFmt = Math.round(Number(amount) * 100);
+        const periodFmt = period.slice(0, -2);
         if (!Number.isSafeInteger(amountFmt) || amountFmt <= 0) {
             return NextResponse.json(
                 { error: "Invalid membership plan price" },
@@ -159,7 +160,7 @@ export async function POST(request) {
                         },
                         unit_amount: amountFmt,
                         recurring: {
-                            interval: period
+                            interval: periodFmt
                         }
                     },
                     quantity: 1,
@@ -177,7 +178,7 @@ export async function POST(request) {
         }
 
         return NextResponse.json(
-            { checkoutURL: session.url, orderId: order.id },
+            { checkoutURL: session.url, orderId: order.id.toString() },
         );
     } catch (err) {
         console.error("Checkout session failed: ", err);

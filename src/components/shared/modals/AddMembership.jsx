@@ -97,8 +97,9 @@ const AddMembershipModal = ({
 
     const selectedAgeGroup = useMemo(() => {
         const selectedAgeId = formData.view1?.age.trim();
-        return (memberAges || []).filter((age) => age.id === selectedAgeId)
+        return (memberAges || []).find((age) => age.id === selectedAgeId)
     }, [formData.view1.age, memberAges]);
+    console.log(selectedAgeGroup)
 
     const handleChange = (view, name, value) => {
         setFormData((prev) => {
@@ -131,7 +132,7 @@ const AddMembershipModal = ({
         if (typeof onSubmit === "function") {
             const res = await onSubmit(submitData);
             // console.log("onSubmit response: ", res);
-            if (!res?.account?.id) console.error(res);
+            if (!res?.orderId) console.error(res);
             else {
                 setFormData(defaultFormData);
                 handleClose();
