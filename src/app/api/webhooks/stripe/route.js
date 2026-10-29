@@ -43,25 +43,26 @@ export async function POST(request) {
             const orderIntID = BigInt(orderId);
 
             // For delayed payment methods, completed does not always mean the funds have arrived
-            if (session.payment_status === "paid") {
-                await prisma.$transaction(
-                    async (tx) => {
-                        const order = await tx.order.findUnique({
-                            where: { id: orderIntID },
-                            include: {
-                                orderItems: true,
-                                pendingMemberships: true,
-                            },
-                        });
-                        if (!order) {
-                            return NextResponse.json(
-                                { error: "Order not found!" },
-                                { status: 404 }
-                            );
-                        }
+            await prisma.$transaction(
+                async (tx) => {
+                    const order = await tx.order.findUnique({
+                        where: { id: orderIntID },
+                        include: {
+                            orderItems: true,
+                            pendingMemberships: true,
+                        },
+                    });
+                    if (!order) {
+                        return NextResponse.json(
+                            { error: "Order not found!" },
+                            { status: 404 }
+                        );
+                    }
 
-                        // VALIDATE/CHANGE paymentState of order to paid
-                        if (order.paymentState === "PAID") return order;
+                    // VALIDATE/CHANGE paymentState of order to paid
+                    if (order.paymentState === "PAID") return order;
+
+                    if (session.payment_status === "paid") {
 
                         await tx.order.update({
                             where: { id: order.id },
@@ -104,41 +105,22 @@ export async function POST(request) {
                                 },
                             });
                         }
+
+                        return order;
+                    } else {
+                        await tx.order.update({
+                            where: { id: order.id },
+                            data: {
+                                paymentState: session.payment_status.toUpperCase()
+                            },
+                        });
                         return order;
                     }
-                );
-                return NextResponse.json({ received: true });
-            }
-            await prisma.$transaction(
-                async (tx) => {
-                    const order = await tx.order.findUnique({
-                        where: { id: orderIntID },
-                        include: {
-                            orderItems: true,
-                            pendingMemberships: true,
-                        },
-                    });
-                    if (!order) {
-                        return NextResponse.json(
-                            { error: "Order not found!" },
-                            { status: 404 }
-                        );
-                    }
-
-                    if (order.paymentState === "PAID") return order;
-
-                    await tx.order.update({
-                        where: { id: order.id },
-                        data: {
-                            paymentState: session.payment_status.toUpperCase()
-                        },
-                    });
-
-                    return order;
                 }
-            )
-            return NextResponse.json({ received: false });
+            );
+            return NextResponse.json({ received: session.payment_status === "paid" });
         }
+        return NextResponse.json({ received: false });
     } catch (err) {
         console.error("Webhook processing failed: ", err);
         return NextResponse.json(
