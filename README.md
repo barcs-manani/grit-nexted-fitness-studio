@@ -3,7 +3,14 @@ Mayerfeld Practicum Team 2 assignment upgraded:
 HTML5 + CSS3 (No Framework) -> ReactJS + Vite + TailwindCSS -> ReactJS + NextJS + PostgreSQL
 
 ## Version
--v2.1.0
+-v2.2.0
+
+### Release upgrades
+- Stripe integration: Redirect on member registration and payment confirmed using test
+- Orders tracked during checkout session
+- Navigation code cleanup
+- Registration separated from auth workflow
+- Auth (login & signup) unified into semicontrolled component
 
 ## Tech Stack
 - React JS
