@@ -52,12 +52,7 @@ export async function POST(request) {
                             pendingMemberships: true,
                         },
                     });
-                    if (!order) {
-                        return NextResponse.json(
-                            { error: "Order not found!" },
-                            { status: 404 }
-                        );
-                    }
+                    if (!order) throw new Error("ORDER_404");
 
                     // VALIDATE/CHANGE paymentState of order to paid
                     if (order.paymentState === "PAID") return order;
@@ -70,41 +65,46 @@ export async function POST(request) {
                                 paymentState: "PAID"
                             },
                         });
+                        await Promise.all(
+                            order.orderItems.map((orderItem) =>
+                                tx.orderItem.update({
+                                    where: { id: orderItem.id },
+                                    data: {
+                                        totalPaid: orderItem.itemAmount,
+                                    },
+                                })
+                            )
+                        );
 
-                        for (const orderItem of order.orderItems) {
-                            await tx.orderItem.update({
-                                where: { id: orderItem.id },
-                                data: {
-                                    totalPaid: orderItem.itemAmount,
-                                },
-                            });
-                        }
-
-                        for (const pendingMem of order.pendingMemberships) {
-                            await tx.pendingMembership.update({
-                                where: { id: pendingMem.id },
-                                data: {
-                                    isProcessed: true,
-                                },
-                            });
-                        }
+                        await Promise.all(
+                            order.pendingMemberships.map((pendingMem) =>
+                                tx.pendingMembership.update({
+                                    where: { id: pendingMem.id },
+                                    data: {
+                                        isProcessed: true,
+                                    },
+                                })
+                            )
+                        );
 
                         // Add new members
-                        for (const pendingMem of order.pendingMemberships) {
-                            await tx.member.create({
-                                data: {
-                                    accountId: order.accountId,
-                                    primaryAccount: pendingMem.primaryAccount,
-                                    fullName: pendingMem.fullName,
-                                    emailAddress: pendingMem.emailAddress,
-                                    phoneNumber: pendingMem.phoneNumber,
-                                    ageGroupId: pendingMem.ageGroupId,
-                                    branchId: pendingMem.branchId,
-                                    membershipPlanId: pendingMem.membershipPlanId,
-                                    isActive: true,
-                                },
-                            });
-                        }
+                        await Promise.all(
+                            order.pendingMemberships.map((pendingMem) =>
+                                tx.member.create({
+                                    data: {
+                                        accountId: order.accountId,
+                                        primaryAccount: pendingMem.primaryAccount,
+                                        fullName: pendingMem.fullName,
+                                        emailAddress: pendingMem.emailAddress,
+                                        phoneNumber: pendingMem.phoneNumber,
+                                        ageGroupId: pendingMem.ageGroupId,
+                                        branchId: pendingMem.branchId,
+                                        membershipPlanId: pendingMem.membershipPlanId,
+                                        isActive: true,
+                                    },
+                                })
+                            )
+                        );
 
                         return order;
                     } else {
@@ -122,6 +122,12 @@ export async function POST(request) {
         }
         return NextResponse.json({ received: false });
     } catch (err) {
+        if (err.message === "ORDER_404") {
+            return NextResponse.json(
+                { error: "Order not found!" },
+                { status: 404 }
+            );
+        }
         console.error("Webhook processing failed: ", err);
         return NextResponse.json(
             { error: "Webhook processing failed: " },
