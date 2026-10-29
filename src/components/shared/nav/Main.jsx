@@ -64,8 +64,8 @@ const MainNav = ({
 
     const fullMenu = () => (
         <ul className="flex gap-4 sm:gap-[3vw] xl:gap-9 list-none">
-            {HeroNav.map((nv, idx) => (
-                <li key={idx} className={styles.lv5}>
+            {HeroNav.map((nv) => (
+                <li key={nv.id} className={styles.lv5}>
                     <a
                         href={nv.link}
                         className={`

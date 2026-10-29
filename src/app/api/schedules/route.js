@@ -81,13 +81,10 @@ export async function POST(request) {
     );
 
     // Check for "custom" entry
-    let hasTimes = false;
-    if (times?.[0] && times[0]?.time) {
-        hasTimes = true;
-        for (let t = 0; t < times.length; t++) {
-            if (!times?.[t]) continue;
-
-            const { time, description, focusAreaIds } = times[t];
+    const hasTimes = times?.length && times.length > 0;
+    if (hasTimes) {
+        for (const t of times) {
+            const { time, description, focusAreaIds } = t;
             if (
                 typeof time !== "string" || !time.trim() ||
                 typeof description !== "string" || !description.trim() ||

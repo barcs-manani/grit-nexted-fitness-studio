@@ -21,13 +21,6 @@ const defaultFormData = {
         phoneNumber: "",
     }
 };
-const fieldNames = {
-    age: "age",
-    branch: "location",
-    fullName: "full name",
-    emailAddress: "email address",
-    phoneNumber: "phone number"
-};
 
 const viewStates = {
     "1": {
@@ -103,6 +96,7 @@ const AddMembershipModal = ({
     const [currentView, setCurrentView] = useState(1);
     const [showErrors, setShowErrors] = useState(false);
     const [submitting, setSubmitting] = useState(false);
+    const btnLabel = currentView === maxViews ? 'Proceed to Stripe' : 'Next';
 
     const errors = useMemo(() => (
         showErrors ? validateFormInput(formData[`view${currentView}`]) : []
@@ -363,9 +357,7 @@ const AddMembershipModal = ({
                         >
                             {submitting ?
                                 <Spinner size={24} variant="current" />
-                                : currentView === maxViews
-                                    ? 'Proceed to Stripe'
-                                    : 'Next'
+                                : btnLabel
                             }
                         </button>
                     </div>

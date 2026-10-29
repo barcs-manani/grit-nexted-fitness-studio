@@ -49,10 +49,14 @@ const RegistrationModal = ({
     const [currentView, setCurrentView] = useState(1);
     const [showErrors, setShowErrors] = useState(false);
     const [submitting, setSubmitting] = useState(false);
+    const btnLabel = currentView === maxViews ? 'Register' : 'Next';
 
     const errors = useMemo(() => (
         showErrors ? validateFormInput(formData[`view${currentView}`]) : []
     ), [showErrors, currentView, formData]);
+    const pluralize = (count) => {
+        return count > 1 ? 's' : '';
+    };
 
     const handleChange = (view, name, value) => {
         setFormData((prev) => {
@@ -165,8 +169,7 @@ const RegistrationModal = ({
     return (
         <div className="fixed inset-0 z-(--z-modal-backdrop) bg-(--ink)/75 flex justify-center items-center p-3 sm:p-6">
             {/* Modal panel */}
-            <div
-                role="dialog"
+            <dialog
                 aria-modal="true"
                 aria-labelledby="mem-reg-title"
                 className="
@@ -216,7 +219,7 @@ const RegistrationModal = ({
                 <div className="overflow-y-auto flex-1 p-4 flex flex-col gap-4">
                     {getView(currentView)}
                     <span className="w-full text-red-600 font-semibold text-md px-2">
-                        {errors.length ? `Please fill the ${errors.join(", ")} field${errors.length > 1 ? 's' : ''}` : ''}
+                        {errors.length ? `Please fill the ${errors.join(", ")} field${pluralize(errors.length)}` : ''}
                     </span>
                 </div>
                 {/* Footer */}
@@ -263,14 +266,12 @@ const RegistrationModal = ({
                         >
                             {submitting
                                 ? <Spinner size={24} variant="center" />
-                                : currentView === maxViews
-                                    ? 'Register'
-                                    : 'Next'
+                                : btnLabel
                             }
                         </button>
                     </div>
                 </div>
-            </div>
+            </dialog>
         </div>
     );
 };

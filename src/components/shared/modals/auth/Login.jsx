@@ -12,11 +12,6 @@ const defaultFormData = {
     password: ""
 };
 
-const fieldNames = {
-    emailAddress: "email address",
-    password: "password",
-};
-
 const LoginModal = ({
     open,
     onClose,
@@ -26,6 +21,9 @@ const LoginModal = ({
     const [formData, setFormData] = useState(defaultFormData);
     const [errors, setErrors] = useState([]);
     const [submitting, setSubmitting] = useState(false);
+    const pluralize = (count) => {
+        return count > 1 ? 's' : '';
+    };
 
     const handleChange = (name, value) => {
         setFormData((prev) => {
@@ -74,8 +72,7 @@ const LoginModal = ({
     return (
         <div className="fixed inset-0 z-(--z-modal-backdrop) bg-(--ink)/75 flex justify-center items-center p-3 sm:p-6">
             {/* Modal panel */}
-            <div
-                role="dialog"
+            <dialog
                 aria-modal="true"
                 aria-labelledby="mem-reg-title"
                 className="
@@ -134,7 +131,7 @@ const LoginModal = ({
                         onChange={(e) => { handleChange("password", e.target.value) }}
                     />
                     <span className="w-full text-red-600 font-semibold text-md px-2">
-                        {errors.length ? `Please fill the ${errors.join(", ")} field${errors.length > 1 ? 's' : ''}` : ''}
+                        {errors.length ? `Please fill the ${errors.join(", ")} field${pluralize(errors.length)}` : ''}
                     </span>
                 </div>
                 {/* Footer */}
@@ -168,7 +165,7 @@ const LoginModal = ({
                         </button>
                     </div>
                 </div>
-            </div>
+            </dialog>
         </div>
     );
 };

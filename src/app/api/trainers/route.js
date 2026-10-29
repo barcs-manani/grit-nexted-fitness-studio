@@ -109,7 +109,7 @@ export async function POST(request) {
 
     // Validate fitnessFieldIds
     const fieldIds = [...new Set(
-        fitnessFieldIds.map((f) => Number(f))
+        fitnessFieldIds.map(Number)
     )];
 
     if (fieldIds.some((id) => !Number.isSafeInteger(id) || id < 0)) {
