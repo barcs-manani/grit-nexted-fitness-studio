@@ -36,7 +36,7 @@ const AccountOptions = [
     {
         id: 1,
         type: "link",
-        to: "#",
+        to: "/account/settings/dashboard",
         text: "Account Settings",
         icon: Settings
     },
