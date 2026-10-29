@@ -15,3 +15,13 @@ export function toTitleCase(value) {
         .toLowerCase()
         .replace(/\b([a-z])/g, (match) => match.toUpperCase());
 }
+
+export function formatPeriod(value) {
+    const periodKeys = {
+        "yearly": "year",
+        "monthly": "month",
+        "weekly": "week",
+        "daily": "day",
+    };
+    return periodKeys[value] ?? "None";
+}

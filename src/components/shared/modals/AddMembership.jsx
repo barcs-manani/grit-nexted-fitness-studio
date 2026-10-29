@@ -7,6 +7,8 @@ import { isValidPhoneNumber } from "react-phone-number-input";
 import { Close } from "@/assets/icons/C/icons";
 import Image from "next/image";
 import { gritLogo } from "@/assets/images";
+import { LockIcon } from "@/assets/icons/L/icons";
+import { formatPeriod } from "@/lib/formatters";
 
 const defaultFormData = {
     view1: {
@@ -64,6 +66,51 @@ const validate = (raw) => {
     return newErrors;
 };
 
+const PaymentSummary = ({
+    details = [],
+    total,
+    provider = "Stripe"
+}) => {
+    const rows = details.filter((d) => d.value);
+
+    return (
+        <div className="flex flex-col gap-4">
+            <div>
+                <h3 className="text-xl font-bold text-(--ink)">Review your order</h3>
+                <p className="text-(--ink-soft)">
+                    Check the details below, then continue to {provider} to pay.
+                </p>
+            </div>
+
+            <dl className="rounded-(--card-radius) border border-(--line) bg-(--bg-secondary) divide-y divide-(--line) overflow-hidden">
+                {rows.map((d) => (
+                    <div key={d.label} className="flex justify-between gap-4 px-4 py-3">
+                        <dt className="text-(--ink-soft)">{d.label}</dt>
+                        <dd className="font-semibold text-right wrap-anywhere">{d.value}</dd>
+                    </div>
+                ))}
+                {total && (
+                    <div className="flex justify-between gap-4 px-4 py-3 bg-(--bg)">
+                        <dt className="font-bold">Total</dt>
+                        <dd className="font-bold text-lg">{total}</dd>
+                    </div>
+                )}
+            </dl>
+
+            <div className="flex items-start gap-3 rounded-(--card-radius) border border-(--ice) bg-(--ice)/30 px-4 py-3">
+                <span className="mt-0.5 shrink-0 text-(--blue-dark)">
+                    <LockIcon />
+                </span>
+                <p className="text-sm text-(--ink-soft)">
+                    <span className="font-semibold text-(--ink)">You&apos;ll be taken to {provider}&apos;s secure checkout.</span>{" "}
+                    Your card details are entered on their page and never reach our servers.
+                    Need to change something? Use Previous before you continue.
+                </p>
+            </div>
+        </div>
+    );
+};
+
 const AddMembershipModal = ({
     open,
     onClose,
@@ -100,7 +147,7 @@ const AddMembershipModal = ({
         const selectedAgeId = formData.view1?.age.trim();
         return (memberAges || []).find((age) => age.id === selectedAgeId)
     }, [formData.view1.age, memberAges]);
-    console.log(selectedAgeGroup)
+    const selectedBranch = branchOptions.find((b) => b.value === formData.view1.branch);
 
     const handleChange = (view, name, value) => {
         setFormData((prev) => {
@@ -207,11 +254,22 @@ const AddMembershipModal = ({
         </>
     );
 
-    const paymentCheckoutView = () => (
-        <div>
-            <p>Proceed to payment page</p>
-        </div>
-    );
+    const paymentCheckoutView = () => {
+        const getTotal = (price) => {
+            const periodFmt = formatPeriod(price.period);
+            return `${price.currency} ${price.amount}/${periodFmt}`;
+        };
+        return (
+        <PaymentSummary
+            details={[
+                { label: "Member", value: formData.view2.fullName.trim() },
+                { label: "Age group", value: selectedAgeGroup?.group },
+                { label: "Location", value: selectedBranch?.display },
+                { label: "Email", value: formData.view2.emailAddress.trim() },
+            ]}
+            total={getTotal(membershipPlan.pricing[0])}
+        />
+    );}
 
     const getView = (num) => {
         switch (num) {
@@ -270,7 +328,7 @@ const AddMembershipModal = ({
                         </div>
                         <span className="w-full flex flex-col items-center text-center">
                             <h2 id="mem-reg-title" className="text-2xl font-bold">
-                                {membershipPlan.name}
+                                {membershipPlan.name} Membership Plan
                             </h2>
                             <p>We&apos;re thrilled to see you fully commit to this growth journey.</p>
                         </span>
@@ -278,7 +336,7 @@ const AddMembershipModal = ({
                 </div>
 
                 {/* Fields */}
-                <div className="overflow-y-auto flex-1 p-4 flex flex-col gap-4">
+                <div className="overflow-y-auto flex-1 p-4 flex flex-col gap-4 justify-around">
                     {getView(currentView)}
                     <span className="w-full text-red-600 font-semibold text-md px-2">
                         {errors.length ? `Please fill the ${errors.join(", ")} field${errors.length > 1 ? 's' : ''}` : ''}
@@ -318,7 +376,7 @@ const AddMembershipModal = ({
                             focus-visible:outline-2 focus-visible:outline-offset-2 
                         `}
                         >
-                            {currentView === maxViews ? 'Finish' : 'Next'}
+                            {currentView === maxViews ? 'Proceed to Stripe' : 'Next'}
                         </button>
                     </div>
                 </div>

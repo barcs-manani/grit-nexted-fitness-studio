@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
+import { formatPeriod } from "@/lib/formatters";
 
 export const runtime = "nodejs";
 
@@ -86,7 +87,7 @@ export async function POST(request) {
         }
         const { id, amount, currency, period } = plan.pricing[0];
         const amountFmt = Math.round(Number(amount) * 100);
-        const periodFmt = period.slice(0, -2);
+        const periodFmt = formatPeriod(period);
         if (!Number.isSafeInteger(amountFmt) || amountFmt <= 0) {
             return NextResponse.json(
                 { error: "Invalid membership plan price" },
