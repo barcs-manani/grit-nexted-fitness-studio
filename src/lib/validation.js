@@ -13,4 +13,26 @@ const passwordRules = [
 
 function isStrongPassword(p) { return passwordRules.every((r) => r.test(p)); }
 
-export { mailRegEx, digitStrRegEx, passwordRules, isStrongPassword }
+function validateFormInput(raw) {
+    const newErrors = [];
+    for (const k in raw) {
+        const val = raw[k];
+        if (
+            val == null ||
+            (typeof val === "string" && !val.trim())
+        ) newErrors.push(fieldNames[k]);
+    }
+    if (
+        raw?.emailAddress?.trim() &&
+        !mailRegEx.test(raw.emailAddress.trim())
+    ) newErrors.push("valid email address");
+
+    if (
+        raw?.phoneNumber &&
+        !isValidPhoneNumber(raw.phoneNumber)
+    ) newErrors.push("valid phone number");
+
+    return newErrors;
+}
+
+export { mailRegEx, digitStrRegEx, passwordRules, isStrongPassword, validateFormInput }
