@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { TextField, PhoneField, SingleSelect } from "../../forms/FormFields";
-import { mailRegEx } from "@/lib/validation";
+import { mailRegEx, validateFormInput } from "@/lib/validation";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { Close } from "@/assets/icons/C/icons";
 import { SignupPassword } from "../../forms/SignupPassword";
@@ -39,28 +39,6 @@ const viewStates = {
     }
 };
 
-const validate = (raw) => {
-    const newErrors = [];
-    for (const k in raw) {
-        const val = raw[k];
-        if (
-            val == null ||
-            (typeof val === "string" && !val.trim())
-        ) newErrors.push(fieldNames[k]);
-    }
-    if (
-        raw?.emailAddress?.trim() &&
-        !mailRegEx.test(raw.emailAddress.trim())
-    ) newErrors.push("valid email address");
-
-    if (
-        raw?.phoneNumber &&
-        !isValidPhoneNumber(raw.phoneNumber)
-    ) newErrors.push("valid phone number");
-
-    return newErrors;
-};
-
 const RegistrationModal = ({
     open,
     onClose,
@@ -74,7 +52,7 @@ const RegistrationModal = ({
     const [submitting, setSubmitting] = useState(false);
 
     const errors = useMemo(() => (
-        showErrors ? validate(formData[`view${currentView}`]) : []
+        showErrors ? validateFormInput(formData[`view${currentView}`]) : []
     ), [showErrors, currentView, formData]);
 
     const handleChange = (view, name, value) => {
@@ -124,7 +102,7 @@ const RegistrationModal = ({
             setCurrentView((v) => v - 1);
             return;
         }
-        if (validate(formData[`view${currentView}`]).length > 0) {
+        if (validateFormInput(formData[`view${currentView}`]).length > 0) {
             setShowErrors(true);
             return;
         }
