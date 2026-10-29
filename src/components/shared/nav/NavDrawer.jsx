@@ -1,19 +1,22 @@
 "use client"
 
 import { Close } from "@/assets/icons/C/icons";
+import { useClickOutside } from "@/hooks/useClickOutside";
+import { useRef } from "react";
 
 /* ---------- Drawer: one panel used by both menus ---------- */
 const Drawer = ({ open, onClose, title, children }) => {
+    const dialogRef = useRef(null);
+    useClickOutside(dialogRef, () => onClose()); // Clicking backdrop closes the drawer.
+
     if (!open) return null;
     return (
-        // Dark backdrop. Clicking it closes the drawer.
-        <div
-            onClick={onClose}
-            className="fixed inset-0 z-(--z-modal-backdrop) bg-(--ink)/60 flex justify-end"
-        >
+        // Dark backdrop.
+        <div className="fixed inset-0 z-(--z-modal-backdrop) bg-(--ink)/60 flex justify-end">
             {/* White panel. stopPropagation stops clicks inside it from reaching the backdrop. */}
             <div
                 role="dialog"
+                ref={dialogRef}
                 aria-modal="true"
                 aria-label={title}
                 onClick={(e) => e.stopPropagation()}
