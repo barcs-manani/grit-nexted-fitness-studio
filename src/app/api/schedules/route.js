@@ -85,10 +85,9 @@ export async function POST(request) {
     if (times?.[0] && times[0]?.time) {
         hasTimes = true;
         for (let t = 0; t < times.length; t++) {
-            if (!times?.[t] || !times[t]?.time) continue;
+            if (!times?.[t]) continue;
 
-            const scheduleTime = times[t];
-            const { time, description, focusAreaIds } = scheduleTime;
+            const { time, description, focusAreaIds } = times[t];
             if (
                 typeof time !== "string" || !time.trim() ||
                 typeof description !== "string" || !description.trim() ||
@@ -127,14 +126,14 @@ export async function POST(request) {
         async (tx) => {
             const createdSchedule = await tx.schedule.create({
                 data: {
-                    period: period,
+                    period: period.trim(),
                     times: hasTimes ? {
                         create: times.map(({ time, description, focusAreaIds }) => (
                             {
-                                time,
-                                description,
+                                time: time.trim(),
+                                description: description.trim(),
                                 focusAreas: {
-                                    connect: focusAreaIds.map((id) => ({ id: Number(id) })),
+                                    connect: focusAreaIds.map((id) => ({ id: Number(id.trim()) })),
                                 },
                             }
                         )),
