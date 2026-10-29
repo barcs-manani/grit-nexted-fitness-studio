@@ -32,17 +32,18 @@ export async function POST(request) {
         if (event.type === "checkout.session.completed") {
             const session = event.data.object;
 
+            const orderId = session.metadata?.orderId;
+
+            if (!orderId || !digitStrRegEx.test(orderId)) {
+                return NextResponse.json(
+                    { error: "Missing or Invalid orderId in Stripe session." },
+                    { status: 400 }
+                );
+            }
+            const orderIntID = BigInt(orderId);
+
             // For delayed payment methods, completed does not always mean the funds have arrived
             if (session.payment_status === "paid") {
-                const orderId = session.metadata?.orderId;
-
-                if (!orderId || !digitStrRegEx.test(orderId)) {
-                    return NextResponse.json(
-                        { error: "Missing or Invalid orderId in Stripe session." },
-                        { status: 400 }
-                    );
-                }
-                const orderIntID = BigInt(orderId);
                 await prisma.$transaction(
                     async (tx) => {
                         const order = await tx.order.findUnique({
@@ -108,6 +109,34 @@ export async function POST(request) {
                 );
                 return NextResponse.json({ received: true });
             }
+            await prisma.$transaction(
+                async (tx) => {
+                    const order = await tx.order.findUnique({
+                        where: { id: orderIntID },
+                        include: {
+                            orderItems: true,
+                            pendingMemberships: true,
+                        },
+                    });
+                    if (!order) {
+                        return NextResponse.json(
+                            { error: "Order not found!" },
+                            { status: 404 }
+                        );
+                    }
+
+                    if (order.paymentState === "PAID") return order;
+
+                    await tx.order.update({
+                        where: { id: order.id },
+                        data: {
+                            paymentState: session.payment_status.toUpperCase()
+                        },
+                    });
+
+                    return order;
+                }
+            )
             return NextResponse.json({ received: false });
         }
     } catch (err) {
