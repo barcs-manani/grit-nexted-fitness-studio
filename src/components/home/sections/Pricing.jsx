@@ -43,7 +43,7 @@ export const Pricing = ({
                 if (!controller.signal.aborted) setLoadingPlans(false);
             }
         };
-        loadPlans();
+        loadPlans().catch(() => {});
         return () => controller.abort();
     }, []);
 

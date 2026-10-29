@@ -71,7 +71,7 @@ export const Trainers = () => {
                 }
             }
         }
-        loadTrainers();
+        loadTrainers().catch(() => {});
         return () => controller.abort();
     }, []);
 

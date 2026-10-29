@@ -94,7 +94,7 @@ const Schedule = () => {
                 }
             }
         };
-        loadSchedules();
+        loadSchedules().catch(() => {});
         return () => controller.abort();
     }, []);
 

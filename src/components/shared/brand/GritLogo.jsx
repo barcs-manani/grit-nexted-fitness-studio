@@ -18,7 +18,7 @@ const themeLogos = {
 
 const GritLogo = ({
     bgTheme = "dark",
-    link = "#hero"
+    link = "/#hero"
 }) => {
     const styles = bgThemeStyles[bgTheme] ?? bgThemeStyles.light;
     const imgSrc = themeLogos[bgTheme] ?? gritIconDark;

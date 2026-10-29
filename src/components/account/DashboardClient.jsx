@@ -46,7 +46,7 @@ const DashboardClient = ({
                 if (!controller.signal.aborted) setLoading(false);
             }
         };
-        loadMembers();
+        loadMembers().catch(() => {});
         return () => controller.abort();
     }, [reloadKey]);
 
