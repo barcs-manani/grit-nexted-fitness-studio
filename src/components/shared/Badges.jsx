@@ -55,4 +55,15 @@ const PromoBadge01 = ({
     );
 };
 
-export { PromoBadge01 }
+const DataBadge = ({ children, active = false }) => (
+    <span
+        className={`inline-block rounded-(--btn-radius) px-2.5 py-0.5 text-sm font-semibold ${active
+            ? "bg-(--ice)/60 text-(--blue-dark)"
+            : "border border-(--line) text-(--ink-soft)"
+            }`}
+    >
+        {children}
+    </span>
+);
+
+export { DataBadge, PromoBadge01 }

@@ -1,7 +1,7 @@
 import { gritIconDark, gritIconWhite } from "@/assets/images";
 import Image from "next/image";
 
-const themeStyles = {
+const bgThemeStyles = {
     dark: {
         lv1: "text-white",
         lv2: "text-(--ice)"
@@ -17,11 +17,11 @@ const themeLogos = {
 }
 
 const GritLogo = ({
-    theme = "dark",
+    bgTheme = "dark",
     link = "#hero"
 }) => {
-    const styles = themeStyles[theme] ?? themeStyles.light;
-    const imgSrc = themeLogos[theme] ?? gritIconDark;
+    const styles = bgThemeStyles[bgTheme] ?? bgThemeStyles.light;
+    const imgSrc = themeLogos[bgTheme] ?? gritIconDark;
     return (
         <a href={link}>
             <span className="grid grid-cols-2 gap-0.5 items-end">
@@ -30,7 +30,7 @@ const GritLogo = ({
                     <span>
                         <Image
                             src={imgSrc}
-                            alt={`GRIT icon for ${theme}`}
+                            alt={`GRIT icon for ${bgTheme}`}
                             className="w-10.5 h-10.5 object-cover"
                             loading="eager"
                         />

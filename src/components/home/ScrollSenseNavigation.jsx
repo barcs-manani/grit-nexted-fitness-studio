@@ -36,7 +36,7 @@ export function ScrollSenseNavigation({
     );
     return (
         <MainNav
-            theme={navTheme}
+            bgTheme={navTheme}
             isScrolled={isScrolled}
             menu={isTablet || isMobile ? "mini" : "full"}
             accountInfo={accountInfo}

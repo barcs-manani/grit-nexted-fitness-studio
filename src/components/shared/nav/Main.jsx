@@ -11,7 +11,7 @@ import { Drawer, DrawerItem } from "./NavDrawer";
 import { AuthParent } from "../modals/auth/Main";
 
 const MainNav = ({
-    theme = "dark", // dark, light
+    bgTheme = "dark", // dark, light
     isScrolled = false,
     menu = "full", // full, mini
     accountInfo = null,
@@ -36,7 +36,7 @@ const MainNav = ({
             lv7_2: "text-(--blue)"
         }
     };
-    const styles = themeStyles[theme] ?? themeStyles.light;
+    const styles = themeStyles[bgTheme] ?? themeStyles.light;
     const [openAuth, setOpenAuth] = useState(false);
     const [openNavMenu, setOpenNavMenu] = useState(false);
     const [openAccountMenu, setOpenAccountMenu] = useState(false);
@@ -147,7 +147,7 @@ const MainNav = ({
         <>
             <header className={`fixed inset-x-0 top-0 z-(--z-nav-bar) px-(--gutter) py-3 transition-colors ${styles.lv1}`}>
                 <nav id="hero-nav" className="relative mx-auto w-full max-w-(--max-w) flex justify-between items-center xl:px-(--gutter) gap-4">
-                    <GritLogo theme={theme} />
+                    <GritLogo bgTheme={bgTheme} />
                     <div className="flex gap-4 sm:gap-[3vw] xl:gap-9 items-center">
                         {menu === "full"
                             ? fullMenu()
