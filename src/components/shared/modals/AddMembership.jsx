@@ -9,6 +9,7 @@ import Image from "next/image";
 import { gritLogo } from "@/assets/images";
 import { LockIcon } from "@/assets/icons/L/icons";
 import { formatPeriod } from "@/lib/formatters";
+import { Spinner } from "../animations/Spinner";
 
 const defaultFormData = {
     view1: {
@@ -124,6 +125,7 @@ const AddMembershipModal = ({
     const [formData, setFormData] = useState(defaultFormData);
     const [currentView, setCurrentView] = useState(1);
     const [showErrors, setShowErrors] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
 
     const errors = useMemo(() => (
         showErrors ? validate(formData[`view${currentView}`]) : []
@@ -168,26 +170,31 @@ const AddMembershipModal = ({
     }
 
     const handleSubmit = async () => {
-        const emailFmt = formData.view2.emailAddress.trim();
-        if (!accountInfo) throw new Error("Missing user account information.");
-        const primaryAccount = emailFmt === accountInfo.emailAddress;
-        const submitData = {
-            primaryAccount: primaryAccount, // check if account email matches to set true
-            ageGroupId: Number(formData.view1.age),
-            branchId: Number(formData.view1.branch),
-            fullName: formData.view2.fullName.trim(),
-            emailAddress: emailFmt,
-            phoneNumber: formData.view2.phoneNumber,
-            membershipPlanId: membershipPlan.id
-        }
-        if (typeof onSubmit === "function") {
-            const res = await onSubmit(submitData);
-            // console.log("onSubmit response: ", res);
-            if (!res?.orderId) console.error(res);
-            else {
-                setFormData(defaultFormData);
-                handleClose();
+        setSubmitting(true);
+        try {
+            const emailFmt = formData.view2.emailAddress.trim();
+            if (!accountInfo) throw new Error("Missing user account information.");
+            const primaryAccount = emailFmt === accountInfo.emailAddress;
+            const submitData = {
+                primaryAccount: primaryAccount, // check if account email matches to set true
+                ageGroupId: Number(formData.view1.age),
+                branchId: Number(formData.view1.branch),
+                fullName: formData.view2.fullName.trim(),
+                emailAddress: emailFmt,
+                phoneNumber: formData.view2.phoneNumber,
+                membershipPlanId: membershipPlan.id
             }
+            if (typeof onSubmit === "function") {
+                const res = await onSubmit(submitData);
+                // console.log("onSubmit response: ", res);
+                if (!res?.orderId) console.error(res);
+                else {
+                    setFormData(defaultFormData);
+                    handleClose();
+                }
+            }
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -260,16 +267,17 @@ const AddMembershipModal = ({
             return `${price.currency} ${price.amount}/${periodFmt}`;
         };
         return (
-        <PaymentSummary
-            details={[
-                { label: "Member", value: formData.view2.fullName.trim() },
-                { label: "Age group", value: selectedAgeGroup?.group },
-                { label: "Location", value: selectedBranch?.display },
-                { label: "Email", value: formData.view2.emailAddress.trim() },
-            ]}
-            total={getTotal(membershipPlan.pricing[0])}
-        />
-    );}
+            <PaymentSummary
+                details={[
+                    { label: "Member", value: formData.view2.fullName.trim() },
+                    { label: "Age group", value: selectedAgeGroup?.group },
+                    { label: "Location", value: selectedBranch?.display },
+                    { label: "Email", value: formData.view2.emailAddress.trim() },
+                ]}
+                total={getTotal(membershipPlan.pricing[0])}
+            />
+        );
+    }
 
     const getView = (num) => {
         switch (num) {
@@ -328,9 +336,9 @@ const AddMembershipModal = ({
                         </div>
                         <span className="w-full flex flex-col items-center text-center">
                             <h2 id="mem-reg-title" className="text-2xl font-bold">
-                                {membershipPlan.name} Membership Plan
+                                Join {membershipPlan.name} Plan
                             </h2>
-                            <p>We&apos;re thrilled to see you fully commit to this growth journey.</p>
+                            <p>{viewStates[String(currentView)].text}</p>
                         </span>
                     </div>
                 </div>
@@ -348,7 +356,7 @@ const AddMembershipModal = ({
                         <button
                             type="button"
                             onClick={async () => handleRegNavigation("prev")}
-                            disabled={currentView < 2}
+                            disabled={currentView < 2 || submitting}
                             className={`
                             py-2.5 px-6 
                             ${currentView < 2
@@ -361,11 +369,10 @@ const AddMembershipModal = ({
                         >
                             Previous
                         </button>
-                        <span className="text-sm">{viewStates[String(currentView)].text}</span>
                         <button
                             type="button"
                             onClick={async () => handleRegNavigation("next")}
-                            disabled={errors.length > 0}
+                            disabled={errors.length > 0 || submitting}
                             className={`
                             py-2.5 px-6 
                             ${errors.length
@@ -376,7 +383,12 @@ const AddMembershipModal = ({
                             focus-visible:outline-2 focus-visible:outline-offset-2 
                         `}
                         >
-                            {currentView === maxViews ? 'Proceed to Stripe' : 'Next'}
+                            {submitting ?
+                                <Spinner size={8} variant="current" />
+                                : currentView === maxViews
+                                    ? 'Proceed to Stripe'
+                                    : 'Next'
+                            }
                         </button>
                     </div>
                 </div>
