@@ -32,6 +32,7 @@ const GritLogo = ({
                             src={imgSrc}
                             alt={`GRIT icon for ${theme}`}
                             className="w-10.5 h-10.5 object-cover"
+                            loading="eager"
                         />
                     </span>R<span className={styles.lv2}>I</span>T
                 </span>

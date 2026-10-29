@@ -156,6 +156,7 @@ const Schedule = () => {
                             src={scheduleImg}
                             alt="person with phone checking calendar"
                             className="block w-full h-[60vh] sm:h-auto rounded-[20px]"
+                            loading="eager"
                             sizes="(max-width: 768px) 100vw, 40vw"
                         />
                     </div>
