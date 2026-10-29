@@ -168,7 +168,7 @@ model OrderItem {
   itemAmount        Decimal         @db.Decimal(10, 2)
   totalPaid         Decimal?        @db.Decimal(10, 2)
   currency          String          @db.VarChar(5)
-  order             Order           @relation(fields: [orderId], references: [id])
+  order             Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
   membershipPlan    MembershipPlan  @relation(fields: [membershipPlanId], references: [id])
   membershipPrice   MembershipPrice @relation(fields: [membershipPriceId], references: [id])
 
