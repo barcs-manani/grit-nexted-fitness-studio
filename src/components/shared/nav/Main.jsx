@@ -4,8 +4,6 @@ import { AccountOptions, HeroNav } from "@/data/Navigation";
 import { GritLogo } from "../brand/GritLogo";
 import { HamburgerMenu } from "@/assets/icons/H/icons";
 import { useState } from "react";
-import { LoginModal } from "../modals/auth/Login";
-import { RegistrationModal } from "../modals/auth/Registration";
 import { useRouter } from "next/navigation";
 import { Drawer, DrawerItem } from "./NavDrawer";
 import { AuthParent } from "../modals/auth/Main";

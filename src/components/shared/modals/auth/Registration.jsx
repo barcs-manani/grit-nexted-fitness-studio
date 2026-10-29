@@ -1,9 +1,8 @@
 "use client"
 
 import { useMemo, useState } from "react";
-import { TextField, PhoneField, SingleSelect } from "../../forms/FormFields";
-import { mailRegEx, validateFormInput } from "@/lib/validation";
-import { isValidPhoneNumber } from "react-phone-number-input";
+import { TextField, PhoneField } from "../../forms/FormFields";
+import { validateFormInput } from "@/lib/validation";
 import { Close } from "@/assets/icons/C/icons";
 import { SignupPassword } from "../../forms/SignupPassword";
 import Image from "next/image";

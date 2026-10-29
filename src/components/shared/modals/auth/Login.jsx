@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { LoginPassword, TextField } from "../../forms/FormFields";
-import { mailRegEx } from "@/lib/validation";
 import { Close } from "@/assets/icons/C/icons";
 import Image from "next/image";
 import { gritLogo } from "@/assets/images";
@@ -42,23 +41,6 @@ const LoginModal = ({
         setErrors([]);
         onClose?.();
     }
-
-    const validate = (raw) => {
-        const newErrors = [];
-        for (const k in raw) {
-            const val = raw[k];
-            if (
-                val == null ||
-                (typeof val === "string" && !val.trim())
-            ) newErrors.push(fieldNames[k]);
-        }
-        if (
-            raw.emailAddress.trim() &&
-            !mailRegEx.test(raw.emailAddress.trim())
-        ) newErrors.push("valid email address");
-
-        return newErrors;
-    };
 
     const handleSubmit = async () => {
         setSubmitting(true);
