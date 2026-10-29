@@ -19,7 +19,6 @@ const Drawer = ({ open, onClose, title, children }) => {
                 ref={dialogRef}
                 aria-modal="true"
                 aria-label={title}
-                onClick={(e) => e.stopPropagation()}
                 className="w-80 max-w-[85vw] h-full flex flex-col bg-(--bg) shadow-2xl"
             >
                 <div className="flex items-center justify-between px-5 py-4 border-b border-(--line)">
