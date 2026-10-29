@@ -78,20 +78,17 @@ export function BaseDataProvider({ children }) {
     }, []);
 
     useEffect(() => {
-        // Always make sure loadBranches has no dependency
-        //eslint-disable-next-line
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         loadBranches().catch(() => {});
     }, [loadBranches]);
 
     useEffect(() => {
-        // Always make sure loadAgeGroups has no dependency
-        //eslint-disable-next-line
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         loadAgeGroups().catch(() => {});
     }, [loadAgeGroups]);
 
     useEffect(() => {
-        // Always make sure loadFitnessFields has no dependency
-        //eslint-disable-next-line
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         loadFitnessFields().catch(() => {});
     }, [loadFitnessFields]);
 

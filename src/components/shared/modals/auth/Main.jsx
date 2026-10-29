@@ -18,7 +18,7 @@ const AuthParent = ({
     // One-time external interaction based on open button.
     useEffect(() =>{
         if (!isOpen) return;
-        //eslint-disable-next-line
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setOpenLogin(isOpen);
     }, [isOpen]);
 
