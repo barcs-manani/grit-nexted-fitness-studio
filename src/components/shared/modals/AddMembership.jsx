@@ -375,6 +375,7 @@ const AddMembershipModal = ({
                             disabled={errors.length > 0 || submitting}
                             className={`
                             py-2.5 px-6 
+                            flex items-center justify-center
                             ${errors.length
                                     ? 'bg-(--bg) text-(--ink-soft)/50 cursor-not-allowed'
                                     : 'bg-(--blue) text-white cursor-pointer hover:bg-(--blue-dark) focus-visible:outline-(--blue)'
@@ -384,7 +385,7 @@ const AddMembershipModal = ({
                         `}
                         >
                             {submitting ?
-                                <Spinner size={8} variant="current" />
+                                <Spinner size={24} variant="current" />
                                 : currentView === maxViews
                                     ? 'Proceed to Stripe'
                                     : 'Next'

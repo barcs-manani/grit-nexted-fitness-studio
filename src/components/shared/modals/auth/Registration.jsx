@@ -8,6 +8,7 @@ import { Close } from "@/assets/icons/C/icons";
 import { SignupPassword } from "../../forms/SignupPassword";
 import Image from "next/image";
 import { gritLogo } from "@/assets/images";
+import { Spinner } from "../../animations/Spinner";
 
 const defaultFormData = {
     view1: {
@@ -70,6 +71,7 @@ const RegistrationModal = ({
     const [formData, setFormData] = useState(defaultFormData);
     const [currentView, setCurrentView] = useState(1);
     const [showErrors, setShowErrors] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
 
     const errors = useMemo(() => (
         showErrors ? validate(formData[`view${currentView}`]) : []
@@ -94,20 +96,25 @@ const RegistrationModal = ({
     }
 
     const handleSubmit = async () => {
-        const submitData = {
-            fullName: formData.view1.fullName.trim(),
-            emailAddress: formData.view1.emailAddress.trim(),
-            phoneNumber: formData.view1.phoneNumber,
-            password: formData.view2.password
-        }
-        if (typeof onSubmit === "function") {
-            const res = await onSubmit(submitData);
-            // console.log("onSubmit response: ", res);
-            if (!res?.account?.id) console.error(res);
-            else {
-                setFormData(defaultFormData);
-                handleClose();
+        setSubmitting(true);
+        try {
+            const submitData = {
+                fullName: formData.view1.fullName.trim(),
+                emailAddress: formData.view1.emailAddress.trim(),
+                phoneNumber: formData.view1.phoneNumber,
+                password: formData.view2.password
             }
+            if (typeof onSubmit === "function") {
+                const res = await onSubmit(submitData);
+                // console.log("onSubmit response: ", res);
+                if (!res?.account?.id) console.error(res);
+                else {
+                    setFormData(defaultFormData);
+                    handleClose();
+                }
+            }
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -248,7 +255,7 @@ const RegistrationModal = ({
                         <button
                             type="button"
                             onClick={async () => handleRegNavigation("prev")}
-                            disabled={currentView < 2}
+                            disabled={currentView < 2 || submitting}
                             className={`
                             py-2.5 px-6 
                             ${currentView < 2
@@ -265,9 +272,10 @@ const RegistrationModal = ({
                         <button
                             type="button"
                             onClick={async () => handleRegNavigation("next")}
-                            disabled={errors.length > 0}
+                            disabled={errors.length > 0 || submitting}
                             className={`
                             py-2.5 px-6 
+                            flex items-center justify-center
                             ${errors.length
                                     ? 'bg-(--bg) text-(--ink-soft)/50 cursor-not-allowed'
                                     : 'bg-(--blue) text-white cursor-pointer hover:bg-(--blue-dark) focus-visible:outline-(--blue)'
@@ -276,7 +284,12 @@ const RegistrationModal = ({
                             focus-visible:outline-2 focus-visible:outline-offset-2 
                         `}
                         >
-                            {currentView === maxViews ? 'Register' : 'Next'}
+                            {submitting
+                                ? <Spinner size={24} variant="center" />
+                                : currentView === maxViews
+                                    ? 'Register'
+                                    : 'Next'
+                            }
                         </button>
                     </div>
                 </div>

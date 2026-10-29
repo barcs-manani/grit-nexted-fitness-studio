@@ -6,6 +6,7 @@ import { mailRegEx } from "@/lib/validation";
 import { Close } from "@/assets/icons/C/icons";
 import Image from "next/image";
 import { gritLogo } from "@/assets/images";
+import { Spinner } from "../../animations/Spinner";
 
 const defaultFormData = {
     emailAddress: "",
@@ -25,6 +26,7 @@ const LoginModal = ({
 }) => {
     const [formData, setFormData] = useState(defaultFormData);
     const [errors, setErrors] = useState([]);
+    const [submitting, setSubmitting] = useState(false);
 
     const handleChange = (name, value) => {
         setFormData((prev) => {
@@ -59,18 +61,23 @@ const LoginModal = ({
     };
 
     const handleSubmit = async () => {
-        const submitData = {
-            password: formData.password,
-            emailAddress: formData.emailAddress.trim(),
-        }
-        if (typeof onSubmit === "function") {
-            const res = await onSubmit(submitData);
-            // console.log("onSubmit response: ", res);
-            if (!res?.account?.id) console.error(res);
-            else {
-                setFormData(defaultFormData);
-                handleClose();
+        setSubmitting(true);
+        try {
+            const submitData = {
+                password: formData.password,
+                emailAddress: formData.emailAddress.trim(),
             }
+            if (typeof onSubmit === "function") {
+                const res = await onSubmit(submitData);
+                // console.log("onSubmit response: ", res);
+                if (!res?.account?.id) console.error(res);
+                else {
+                    setFormData(defaultFormData);
+                    handleClose();
+                }
+            }
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -161,8 +168,10 @@ const LoginModal = ({
                         <button
                             type="button"
                             onClick={handleSubmit}
+                            disabled={submitting}
                             className={`
                             py-2.5 px-6 
+                            flex items-center justify-center
                             ${errors.length
                                     ? 'bg-(--bg) text-(--ink-soft)/50 cursor-not-allowed'
                                     : 'bg-(--blue) text-white cursor-pointer hover:bg-(--blue-dark) focus-visible:outline-(--blue)'
@@ -171,7 +180,9 @@ const LoginModal = ({
                             focus-visible:outline-2 focus-visible:outline-offset-2 
                         `}
                         >
-                            Submit
+                            {submitting
+                                ? <Spinner size={24} variant="center" />
+                                : 'Submit'}
                         </button>
                     </div>
                 </div>
