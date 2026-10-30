@@ -14,7 +14,8 @@ const Drawer = ({ open, onClose, title, children }) => {
         // Dark backdrop.
         <div className="fixed inset-0 z-(--z-modal-backdrop) bg-(--ink)/60 flex justify-end">
             {/* White panel. stopPropagation stops clicks inside it from reaching the backdrop. */}
-            <dialog
+            <div
+                role="dialog"
                 ref={dialogRef}
                 aria-modal="true"
                 aria-label={title}
@@ -34,7 +35,7 @@ const Drawer = ({ open, onClose, title, children }) => {
                 <div className="flex-1 overflow-y-auto p-3">
                     {children}
                 </div>
-            </dialog>
+            </div>
         </div>
     );
 };
