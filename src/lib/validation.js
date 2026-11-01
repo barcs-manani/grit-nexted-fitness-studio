@@ -1,3 +1,5 @@
+import { isValidPhoneNumber } from "react-phone-number-input";
+
 const mailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const digitStrRegEx = /^\d+$/;
 
